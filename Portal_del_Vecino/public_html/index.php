@@ -1,3 +1,30 @@
+<?php
+    require_once 'validaciones/conexion_bd.php';
+
+    SESSION_START();
+    SESSION_UNSET();
+    SESSION_DESTROY();
+
+    if($user->is_loggedin()!="")
+    {
+        $user->redirect('home.html');
+    }
+    
+    if(isset($_POST['login-submit']))
+    {
+        $umail = $_POST['login-user'];
+        $upass = $_POST['login-pswd'];
+        
+        if($user->login($umail,$upass))
+        {
+            $user->redirect('home.html');
+        }
+        else
+        {
+            echo "Datos equivocados!";
+        } 
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,18 +41,18 @@
 			<div class="col-sm-2">
 	    		<img class="img-responsive" src="imagenes/home.jpg" width="130" height="130">
 	    	</div>
-	    	<form>
+                <form method="POST">
 	    	<br><div class="row">
 			    	<div class="col-sm-3 col-sm-push-2">
-			    		<label for="usr"><span class="fa fa-user-circle-o"></span> Usuario:</label>
-			    		<input type="text" class="form-control" id="usr" placeholder="Correo" autofocus>
+			    		<label for="login-user"><span class="fa fa-user-circle-o"></span> Usuario:</label>
+			    		<input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus>
 			    	</div>
 			    	<div class="col-sm-3 col-sm-push-2">
-			    		<label for="pas"><span class="fa fa-lock"></span> Contraseña:</label>
-			    		<input type="password" class="form-control" id="pas" placeholder="Contraseña">
+			    		<label for="login-pswd"><span class="fa fa-lock"></span> Contraseña:</label>
+			    		<input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña">
 			    	</div>
 			    	<div class="col-sm-3 col-sm-push-2">
-			    		<br><a type="button" class="btn btn-primary ingreso" href="home.html">Ingresar <span class="fa fa-sign-in"></span></a>
+                                    <br><button type="submit" id="login-submit" class="btn btn-primary ingreso" name="login-submit">Ingresar <span class="fa fa-sign-in"></span></button>
 			    	</div>
 			    	<div class="col-sm-3 col-sm-push-7">
 			    		<br><a href="#">¿Olvido su Contraseña <span class="fa fa-unlock-alt"></span> ?</a>

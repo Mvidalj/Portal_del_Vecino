@@ -30,18 +30,18 @@
          }    
       }
    
-      public function login($uname,$umail,$upass)
+      public function login($umail,$upass)
       {
          try
          {
-            $stmt = $this->db->prepare("SELECT * FROM users WHERE user_name=:uname OR user_email=:umail LIMIT 1");
-            $stmt->execute(array(':uname'=>$uname, ':umail'=>$umail));
+            $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE CORREO=:umail LIMIT 1");
+            $stmt->execute(array(':umail'=>$umail));
             $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
             if($stmt->rowCount() > 0)
             {
-               if(password_verify($upass, $userRow['user_pass']))
+               if(password_verify($upass, $userRow['TELEFONO']))
                {
-                  $_SESSION['user_session'] = $userRow['user_id'];
+                  $_SESSION['user_session'] = $userRow['CORREO'];
                   return true;
                }
                else
@@ -71,8 +71,8 @@
    
      public function logout()
      {
-          session_destroy();
-          unset($_SESSION['user_session']);
+          SESSION_DESTROY();
+          UNSET($_SESSION['user_session']);
           return true;
      }
   }

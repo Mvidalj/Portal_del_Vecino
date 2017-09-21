@@ -34,12 +34,13 @@
       {
          try
          {
-            $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE CORREO=:umail LIMIT 1");
+            $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE CORREO = :umail LIMIT 1");
             $stmt->execute(array(':umail'=>$umail));
+            $hash = '$2y$07$BCryptRequires22Chrcte/VlQH0piJtjXl.0t1XkA8pw9dMXTpOq';
             $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
             if($stmt->rowCount() > 0)
             {
-               if(password_verify($upass, $userRow['TELEFONO']))
+               if(password_verify($upass, $hash))
                {
                   $_SESSION['user_session'] = $userRow['CORREO'];
                   return true;

@@ -2,6 +2,8 @@
     require_once 'validaciones/conexion_bd.php';
 
     SESSION_START();
+    SESSION_UNSET();
+    SESSION_DESTROY();
 
     if($user->is_loggedin()!="")
     {
@@ -12,14 +14,14 @@
     {
         $umail = $_POST['login-user'];
         $upass = $_POST['login-pswd'];
-  
+        
         if($user->login($umail,$upass))
         {
             $user->redirect('home.html');
         }
         else
         {
-            $error = "Datos equivocados!";
+            echo "Datos equivocados!";
         } 
     }
 ?>

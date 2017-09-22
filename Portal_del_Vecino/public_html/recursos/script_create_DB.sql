@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-09-2017 a las 20:43:16
+-- Tiempo de generación: 22-09-2017 a las 15:50:12
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -497,7 +497,7 @@ ALTER TABLE `tesoreria`
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`),
   ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`ID_ROL`) REFERENCES `roles` (`ID_ROL`),
-  ADD CONSTRAINT `usuarios_ibfk_3` FOREIGN KEY (`ID_COMUNA`) REFERENCES `organizaciones` (`ID_ORGANIZACION`);
+  ADD CONSTRAINT `usuarios_ibfk_3` FOREIGN KEY (`ID_COMUNA`) REFERENCES `comuna` (`ID_COMUNA`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

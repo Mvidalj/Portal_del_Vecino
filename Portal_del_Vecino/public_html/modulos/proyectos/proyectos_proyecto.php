@@ -1,3 +1,30 @@
+<?php
+    require_once '../../validaciones/conexion_bd.php';
+
+    SESSION_START();
+    SESSION_UNSET();
+    SESSION_DESTROY();
+
+    if($user->is_loggedin()!="")
+    {
+        $user->redirect('home.html');
+    }
+    
+    if(isset($_POST['login-submit']))
+    {
+        $umail = $_POST['login-user'];
+        $upass = $_POST['login-pswd'];
+        
+        if($user->login($umail,$upass))
+        {
+            $user->redirect('home.html');
+        }
+        else
+        {
+            echo "Datos equivocados!";
+        } 
+    }
+?>
 <html>
 <head>
 	<title>Portal del Vecino</title>
@@ -94,24 +121,23 @@
 				      	</tr>
 				    </thead>
 				    <tbody>
-				      	<tr>
-				        	<td class="text-center">01</td>
-				       	 	<td>Lorem ipsum dolor sit amet</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				      	</tr>
-				      	<tr>
-				        	<td class="text-center">02</td>
-				        	<td>LNisi cupiditate tenetur reiciendis</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				      	</tr>
-				      	<tr>
-				        	<td class="text-center">03</td>
-				        	<td>Debitis, rerum delectus cupiditate</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				      	</tr>
+					<?php
+						try {
+							$sql = $conn->prepare("SELECT * FROM proyectos");
+							$sql->execute();
+							while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+							echo "<tr>
+									<td class='text-center'>".$result['ID_PROYECTO']."</td>
+									<td>".$result['NOMBRE']."</td>
+									<td class='text-center'>".$result['FECHA_INICIO']."</td>
+									<td class='text-center'>".$result['FECHA_TERMINO']."</td>
+								 </tr>";
+								}
+							} 
+							catch (Exception $e) {
+								echo "Error: " . $e->getMessage();
+							}
+					?>
 				    </tbody>
 				</table>
 			</div>

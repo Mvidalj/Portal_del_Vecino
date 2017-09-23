@@ -1,58 +1,59 @@
 <!DOCTYPE html>
 <html>
     <head>
-	<title>Administrar recursos</title>
+	<title>Añadir balances</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../css/bootstrap.css">
 	<link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
-	<script src="../../librerias/jquery-3.2.1.js"></script>s
+	<script src="../../librerias/jquery-3.2.1.js"></script>
 	<script src="../../librerias/bootstrap.js"></script>
 	<script src="../../librerias/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" language="javascript" class="init">
+        
+        <!-- Configuración de lenguaje de DataTable -->
+	<script type="text/javascript">
 	$(document).ready(function() {
-		$('#example').DataTable( {
-        "language": {
-            "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
-            "zeroRecords"   :   "Lo sentimos, no hay información",
-            "info"          :   "Mostrando _PAGE_ de _PAGES_",
-            "search"        :   "Buscar:",
-            "infoEmpty"     :   "Lo sentimos, no hay información",
-            "infoFiltered"  :   "(filtered from _MAX_ total records)",
-		    "paginate"      : {
-		        "first"     :   "Primero",
-		        "last"      :   "Último",
-		        "next"      :   "Siguiente",
-		        "previous"  :   "Anterior"
-		    }
-        }
-    	} );
+            $('#example').DataTable( {
+                "language": {
+                    "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
+                    "zeroRecords"   :   "Lo sentimos, no hay información",
+                    "info"          :   "Mostrando _PAGE_ de _PAGES_",
+                    "search"        :   "Buscar:",
+                    "infoEmpty"     :   "Lo sentimos, no hay información",
+                    "infoFiltered"  :   "(filtered from _MAX_ total records)",
+                    "paginate": {
+                            "first"     :   "Primero",
+                            "last"      :   "Último",
+                            "next"      :   "Siguiente",
+                            "previous"  :   "Anterior"
+                        }
+                }
+            } );
 	} );
 	</script>
-	
     </head>
     <body>
         <div class="container">
             <div class="jumbotron">
                 <div class="row">
                     <div class="col-sm-2">
-                    <img class="img-responsive" src="../../imagenes/home.jpg" width="130" height="130">
+                    <img class="img-responsive" src="../../imagenes/home.jpg" width="130" height="130" alt="Icono de pagina">
                 </div>
                 <div class="col-sm-10">
                     <div class="row">
                         <div class="col-sm-3 col-sm-push-9">
-                            <br><a type="button" class="btn btn-danger conf" href="../../index.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
+                            <br><a class="btn btn-danger conf" href="../../index.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-sm-push-9">
-                            <br><a type="button" class="btn btn-primary conf" href="../../config.html" rel>Configuración <span class="fa fa-cog"></span></a>
+                            <br><a class="btn btn-primary conf" href="../../config.html" rel>Configuración <span class="fa fa-cog"></span></a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-sm-push-9">
-                            <br><a type="button" class="btn btn-success conf" href="../../home.html" rel>Aceptar Miembros (*) <span class="fa fa-user-plus"></span></a>
+                            <br><a class="btn btn-success conf" href="../../home.html" rel>Aceptar Miembros (*) <span class="fa fa-user-plus"></span></a>
                         </div>
                     </div>
                 </div>

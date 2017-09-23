@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-09-2017 a las 15:50:12
+-- Tiempo de generación: 23-09-2017 a las 22:16:45
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -64,6 +64,13 @@ CREATE TABLE `comuna` (
   `COMUNA` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `comuna`
+--
+
+INSERT INTO `comuna` (`ID_COMUNA`, `ID_REGION`, `COMUNA`) VALUES
+(1, 1, 'Temuco');
+
 -- --------------------------------------------------------
 
 --
@@ -84,8 +91,15 @@ CREATE TABLE `foro` (
 CREATE TABLE `login` (
   `ID` int(3) NOT NULL,
   `ID_USUARIO` int(3) NOT NULL,
-  `PASSWORD` varchar(30) NOT NULL
+  `PASSWORD` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `login`
+--
+
+INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`) VALUES
+(1, 1, '$2y$10$lnqRMpFTXmSCZn8L7cVBSuEyo8SDzjge1PGH1T05B2MXLsxEOhjnq');
 
 -- --------------------------------------------------------
 
@@ -98,6 +112,13 @@ CREATE TABLE `organizaciones` (
   `ID_COMUNA` int(3) NOT NULL,
   `NOMBRE` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `organizaciones`
+--
+
+INSERT INTO `organizaciones` (`ID_ORGANIZACION`, `ID_COMUNA`, `NOMBRE`) VALUES
+(1, 1, 'Junta de vecinos de prueba');
 
 -- --------------------------------------------------------
 
@@ -155,6 +176,13 @@ CREATE TABLE `regiones` (
   `REGION` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `regiones`
+--
+
+INSERT INTO `regiones` (`ID_REGION`, `REGION`) VALUES
+(1, 'Araucania');
+
 -- --------------------------------------------------------
 
 --
@@ -178,6 +206,13 @@ CREATE TABLE `roles` (
   `ID_ROL` int(3) NOT NULL,
   `ROL` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`ID_ROL`, `ROL`) VALUES
+(1, 'Rol de pruebas');
 
 -- --------------------------------------------------------
 
@@ -225,6 +260,13 @@ CREATE TABLE `usuarios` (
   `DIRECCION` varchar(70) NOT NULL,
   `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`ID_USUARIO`, `ID_ORGANIZACION`, `NOMBRE`, `APELLIDO`, `CORREO`, `TELEFONO`, `ID_ROL`, `ID_COMUNA`, `DIRECCION`, `ELIMINADO`) VALUES
+(1, 1, 'Invitado', 'Maestro', 'invitado@uct.cl', '+56912345678', 1, 1, 'Rudencindo Ortega #0000', 0);
 
 --
 -- Índices para tablas volcadas
@@ -356,7 +398,7 @@ ALTER TABLE `comentarios`
 -- AUTO_INCREMENT de la tabla `comuna`
 --
 ALTER TABLE `comuna`
-  MODIFY `ID_COMUNA` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_COMUNA` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `foro`
 --
@@ -366,7 +408,7 @@ ALTER TABLE `foro`
 -- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
-  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
@@ -386,7 +428,7 @@ ALTER TABLE `recursos`
 -- AUTO_INCREMENT de la tabla `regiones`
 --
 ALTER TABLE `regiones`
-  MODIFY `ID_REGION` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_REGION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `reuniones`
 --
@@ -396,7 +438,7 @@ ALTER TABLE `reuniones`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `ID_ROL` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_ROL` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `temas`
 --
@@ -411,7 +453,7 @@ ALTER TABLE `tesoreria`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Restricciones para tablas volcadas
 --

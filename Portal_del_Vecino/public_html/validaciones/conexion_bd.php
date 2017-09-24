@@ -1,5 +1,5 @@
 <?php
-	
+
     $servername = "localhost";
     $dbname     = "vecino";
     $username   = "root";

@@ -5,23 +5,22 @@
     SESSION_UNSET();
     SESSION_DESTROY();
 
-    if($user->is_loggedin()!="")
+    if($user->Is_Loggedin()!="")
     {
-        $user->redirect('home.html');
+        $user->Redirect('home.html');
     }
     
     if(isset($_POST['login-submit']))
     {
         $umail = $_POST['login-user'];
         $upass = $_POST['login-pswd'];
-        
-        if($user->login($umail,$upass))
+        if($user->LoginUser(($user->GetUserId($umail)),$upass))
         {
-            $user->redirect('home.html');
+            $user->Redirect('home.html');
         }
         else
         {
-            echo "Datos equivocados!";
+            echo "<script>alert('Contraseña incorrecta')</script>";
         } 
     }
 ?>

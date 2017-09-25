@@ -10,7 +10,8 @@
         
         //  Función para registro de usuarios
         //  IMPORTANTE MODIFICAR PARA QUE SEA FUNCIONAL RESPECTO A BD Y CAMPOS
-        
+          
+        // Función para Encriptar la contraseña
         public function EncryptPass($id,$pass){
             try{
                 
@@ -27,6 +28,7 @@
                 echo $e->getMessage();
             }
         }
+        // Función para guardar datos de un nuevo usuario
         public function RegisterUser($fname,$lname,$umail,$phone,$dir){
             try
             {   

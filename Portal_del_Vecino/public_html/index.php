@@ -20,7 +20,7 @@
         }
         else
         {
-            echo "<script>alert('Contraseña incorrecta')</script>";
+            echo "<script>confirm('Contraseña incorrecta')</script>";
         } 
     }
     if(isset($_POST['register-submit'])){

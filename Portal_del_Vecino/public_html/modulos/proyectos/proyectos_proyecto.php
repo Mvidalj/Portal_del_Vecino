@@ -9,61 +9,45 @@
     {
         $user->redirect('home.html');
     }
-    
-    if(isset($_POST['login-submit']))
-    {
-        $umail = $_POST['login-user'];
-        $upass = $_POST['login-pswd'];
-        
-        if($user->login($umail,$upass))
-        {
-            $user->redirect('home.html');
-        }
-        else
-        {
-            echo "Datos equivocados!";
-        } 
-    }
 ?>
 <html>
 <head>
-	<title>Portal del Vecino</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="../../css/bootstrap.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <title>Portal del Vecino</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 <div class="container">
-	<div class="jumbotron">
-		<div class="row">
-			<div class="col-sm-2">
-	    		<img class="img-responsive" src="../../imagenes/home.jpg" width="130" height="130">
-	    	</div>
-	    	<div class="col-sm-10">
-	    		<div class="row">
-			    	<div class="col-sm-3 col-sm-push-9">
-			    		<br><a type="button" class="btn btn-danger conf" href="../../index.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
-			    	</div>
-			    </div>
-			    <div class="row">
-			    	<div class="col-sm-3 col-sm-push-9">
-			    		<br><a type="button" class="btn btn-primary conf" href="../../config.html" rel>Configuración <span class="fa fa-cog"></span></a>
-			    	</div>
-			    </div>
-			    <div class="row">
-			    	<div class="col-sm-3 col-sm-push-9">
-			    		<br><a type="button" class="btn btn-success conf" href="../../home.html" rel>Aceptar Miembros (*) <span class="fa fa-user-plus"></span></a>
-			    	</div>
-			    </div>
-			</div>
-	    </div>
-	</div>
-
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-sm-2">
+            <img class="img-responsive" src="../../imagenes/home.jpg" width="130" height="130">
+        </div>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-3 col-sm-push-9">
+                        <br><a type="button" class="btn btn-danger conf" href="../../index.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-sm-push-9">
+                        <br><a type="button" class="btn btn-primary conf" href="../../config.html" rel>Configuración <span class="fa fa-cog"></span></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-sm-push-9">
+                        <br><a type="button" class="btn btn-success conf" href="../../home.html" rel>Aceptar Miembros (*) <span class="fa fa-user-plus"></span></a>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
   	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
@@ -105,42 +89,41 @@
 	    </div>
 	  </div>
 	</nav>
-
 	<div class="row">
-		<div class="col-sm-12">
-			<h1>Proyectos<small> (Vigentes)</small></h1>
-			<hr>
-			<div class="table-responsive">
-				<table id="example" class="table table-striped cell-border">
-				    <thead>
-				     	<tr>
-				        	<th class="col-sm-2 text-center">N°</th>
-				        	<th class="col-sm-4">Nombre</th>
-				        	<th class="col-sm-3 ">Fecha Inicio</th>
-				        	<th class="col-sm-3">Fecha Termino</th>
-				      	</tr>
-				    </thead>
-				    <tbody>
-					<?php
-						try {
-							$sql = $conn->prepare("SELECT * FROM proyectos");
-							$sql->execute();
-							while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
-							echo "<tr>
-									<td class='text-center'>".$result['ID_PROYECTO']."</td>
-									<td>".$result['NOMBRE']."</td>
-									<td class='text-center'>".$result['FECHA_INICIO']."</td>
-									<td class='text-center'>".$result['FECHA_TERMINO']."</td>
-								 </tr>";
-								}
-							} 
-							catch (Exception $e) {
-								echo "Error: " . $e->getMessage();
-							}
-					?>
-				    </tbody>
-				</table>
-			</div>
+            <div class="col-sm-12">
+                <h1>Proyectos<small> (Vigentes)</small></h1>
+                <hr>
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped cell-border">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-2 text-center">N°</th>
+                                <th class="col-sm-4">Nombre</th>
+                                <th class="col-sm-3 ">Fecha Inicio</th>
+                                <th class="col-sm-3">Fecha Termino</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                <?php
+                                    try {
+                                        $sql = $conn->prepare("SELECT * FROM proyectos");#se prepara la consulta
+                                        $sql->execute();                                 #se ejecuta la consulta
+                                        while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                                        echo "<tr>                                       
+                                              <td class='text-center'>".$result['ID_PROYECTO']."</td>
+                                              <td>".$result['NOMBRE']."</td>
+                                              <td class='text-center'>".$result['FECHA_INICIO']."</td>
+                                              <td class='text-center'>".$result['FECHA_TERMINO']."</td>
+                                              </tr>";
+                                        } # por cada dato crea una columna
+                                    } 
+                                    catch (Exception $e) {
+                                        echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
 		</div>
 	</div>
 <br><br><br>

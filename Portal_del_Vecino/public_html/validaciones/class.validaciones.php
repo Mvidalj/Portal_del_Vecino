@@ -10,22 +10,46 @@
         
         //  Función para registro de usuarios
         //  IMPORTANTE MODIFICAR PARA QUE SEA FUNCIONAL RESPECTO A BD Y CAMPOS
-        public function RegisterUser($fname,$lname,$uname,$umail,$upass){
-            try
-            {
-                $new_password = password_hash($upass, PASSWORD_DEFAULT);
-
-                $stmt = $this->db->prepare("INSERT INTO users(user_name,user_email,user_pass) VALUES(:uname, :umail, :upass)");
-
-                $stmt->bindparam(":uname", $uname);
-                $stmt->bindparam(":umail", $umail);
-                $stmt->bindparam(":upass", $new_password);
+        
+        public function EncryptPass($id,$pass){
+            try{
+                
+                $stmt = $this->db->prepare("INSERT INTO login(ID_USUARIO,PASSWORD)"
+                        . "VALUES(:id, :pass)");
+                $epass = password_hash($pass,PASSWORD_DEFAULT);
+                echo $epass;
+                $stmt->bindparam(":id", $id);
+                $stmt->bindparam(":pass", $epass);
                 $stmt->execute();
-                return $stmt; 
-            }
-            catch(PDOException $e)
-            {
+                return $stmt;
+
+            } catch (Exception $e) {
                 echo $e->getMessage();
+            }
+        }
+        public function RegisterUser($fname,$lname,$umail,$phone,$dir){
+            try
+            {   
+                $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE CORREO = :umail LIMIT 1");
+                $stmt->execute(array(':umail'=>$umail));
+                $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+                if($stmt->rowCount() > 0){
+                    return false;
+                }
+
+                $stmt = $this->db->prepare("INSERT INTO usuarios(ID_ORGANIZACION,NOMBRE,APELLIDO,CORREO,TELEFONO,ID_ROL,ID_COMUNA,DIRECCION,ELIMINADO)"
+                        . "VALUES(1, :fname, :lname, :umail, :phone, 1, 1, :dir, 0)");
+
+                $stmt->bindparam(":fname", $fname);
+                $stmt->bindparam(":lname", $lname);
+                $stmt->bindparam(":umail", $umail);
+                $stmt->bindparam(":phone", $phone);
+                $stmt->bindparam(":dir", $dir);
+                $stmt->execute();
+                return true; 
+                
+            }catch(PDOException $e){
+                return $e->getMessage();
             }    
         }
         

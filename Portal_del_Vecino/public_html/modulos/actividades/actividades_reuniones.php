@@ -61,8 +61,8 @@
 	        <li class="dropdown active">
 	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Actividades <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a href="actividades_reuniones.html">Reuniones</a></li>
-	            <li class="active"><a href="actividades_historial.html">Historial de Actividades</a></li>
+	            <li class="active"><a href="actividades_reuniones.php">Reuniones</a></li>
+	            <li><a href="actividades_historial.php">Historial de Actividades</a></li>
 	            <li><a href="actividades_add_reuniones.html">Añadir Reuniones (*)</a></li>
                     <li><a href="actividades_add_actividades.html">Añadir Actividades (*)</a></li>
 	          </ul>
@@ -74,44 +74,44 @@
 	            <li><a href="../proyectos/proyectos_add_proyectos.html">Añadir Proyectos (*)</a></li>
 	          </ul>
 	        </li>
-	        <li><a href="#">Foro</a></li>
+	        <li><a href="../foro/foro.html">Foro</a></li>
 	    </div>
 	  </div>
 	</nav>
 
 	<div class="row">
 		<div class="col-sm-12">
-			<h1>Historial <small>(actividades)</small></h1>
+			<h1>Reuniones:</h1>
 			<hr>
 			<div class="table-responsive">
 				<table id="example" class="table table-striped cell-border">
 				    <thead>
 				     	<tr>
-				        	<th class="col-sm-2 text-center">N°</th>
-				        	<th class="col-sm-4">Nombre</th>
-				        	<th class="col-sm-3 ">Fecha Inicio</th>
-				        	<th class="col-sm-3">Fecha Termino</th>
+				        	<th class="col-sm-1 text-center">N°</th>
+				        	<th class="col-sm-7">Descripcion</th>
+				        	<th class="col-sm-2 ">Fecha</th>
+				        	<th class="col-sm-2">Estado</th>
 				      	</tr>
 				    </thead>
 				    <tbody>
-				      	<tr>
-				        	<td class="text-center">01</td>
-				       	 	<td>Lorem ipsum dolor sit amet</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				      	</tr>
-				      	<tr>
-				        	<td class="text-center">02</td>
-				        	<td>Consectetur adipisicing elit. Qui molestias</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				      	</tr>
-				      	<tr>
-				        	<td class="text-center">03</td>
-				        	<td>Debitis, rerum delectus cupiditate dignissimos </td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				      	</tr>
+                                        <?php
+                                            require_once '../../validaciones/conexion_bd.php';
+                                            try {
+							$sql = $conn->prepare("SELECT * FROM reuniones");
+							$sql->execute();
+							while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+							echo "<tr>
+									<td class='text-center'>".$result['ID_REUNION']."</td>
+									<td>".$result['DESCRIPCION']."</td>
+									<td class='text-center'>".$result['FECHA_REUNION']."</td>
+									<td class='text-center'>".$result['ESTADO']."</td>
+                                                              </tr>";
+							}
+                                                } 
+                                                catch (Exception $e) {
+                                                        echo "Error: " . $e->getMessage();
+                                                }
+                                        ?>
 				    </tbody>
 				</table>
 			</div>

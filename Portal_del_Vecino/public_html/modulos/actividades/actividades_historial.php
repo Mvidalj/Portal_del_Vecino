@@ -61,8 +61,8 @@
 	        <li class="dropdown active">
 	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Actividades <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li class="active"><a href="actividades_reuniones.html">Reuniones</a></li>
-	            <li><a href="actividades_historial.html">Historial de Actividades</a></li>
+	            <li><a href="actividades_reuniones.php">Reuniones</a></li>
+	            <li class="active"><a href="actividades_historial.php">Historial de Actividades</a></li>
 	            <li><a href="actividades_add_reuniones.html">Añadir Reuniones (*)</a></li>
                     <li><a href="actividades_add_actividades.html">Añadir Actividades (*)</a></li>
 	          </ul>
@@ -74,46 +74,46 @@
 	            <li><a href="../proyectos/proyectos_add_proyectos.html">Añadir Proyectos (*)</a></li>
 	          </ul>
 	        </li>
-	        <li><a href="#">Foro</a></li>
+	        <li><a href="../foro/foro.html">Foro</a></li>
 	    </div>
 	  </div>
 	</nav>
 
 	<div class="row">
 		<div class="col-sm-12">
-			<h1>Reuniones:</h1>
+			<h1>Historial <small>(actividades)</small></h1>
 			<hr>
 			<div class="table-responsive">
-				<table id="example" class="table table-striped cell-border">
+                            <table id="example" class="table table-striped cell-border">
 				    <thead>
 				     	<tr>
-				        	<th class="col-sm-1 text-center">N°</th>
-				        	<th class="col-sm-7">Descripcion</th>
-				        	<th class="col-sm-2 ">Fecha</th>
-				        	<th class="col-sm-2">Estado</th>
+				        	<th class="col-sm-2 text-center">N°</th>
+				        	<th class="col-sm-4">Nombre</th>
+				        	<th class="col-sm-3 ">Fecha Inicio</th>
+				        	<th class="col-sm-3">Fecha Termino</th>
 				      	</tr>
 				    </thead>
 				    <tbody>
-				      	<tr>
-				        	<td class="text-center">01</td>
-				       	 	<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere ea, ut voluptas alias aperiam nemo commodi deleniti facilis, impedit error vitae dolorum molestias. Officia libero nihil tenetur ullam voluptate cum.</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">PENDIENTE</td>
-				      	</tr>
-				      	<tr>
-				        	<td class="text-center">02</td>
-				        	<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui molestias possimus aut hic excepturi atque corporis cum! Autem laboriosam dolores non facere, accusantium ut unde, magnam cum. Assumenda, quibusdam, reprehenderit.</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">REALIZADO</td>
-				      	</tr>
-				      	<tr>
-				        	<td class="text-center">03</td>
-				        	<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, rerum delectus cupiditate dignissimos voluptatibus optio beatae unde illum quam perferendis veritatis ipsam commodi at. Nesciunt quisquam quos asperiores! Magnam, maiores?</td>
-				        	<td class="text-center">dd/mm/yyyy</td>
-				        	<td class="text-center">CANCELADO</td>
-				      	</tr>
+                                        <?php
+                                            require_once '../../validaciones/conexion_bd.php';
+                                            try {
+							$sql = $conn->prepare("SELECT * FROM actividades");
+							$sql->execute();
+							while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+							echo "<tr>
+									<td class='text-center'>".$result['ID_ACTIVIDAD']."</td>
+									<td>".$result['NOMBRE']."</td>
+									<td class='text-center'>".$result['FECHA_INICIO']."</td>
+									<td class='text-center'>".$result['FECHA_TERMINO']."</td>
+                                                              </tr>";
+							}
+                                                } 
+                                                catch (Exception $e) {
+                                                        echo "Error: " . $e->getMessage();
+                                                }
+                                        ?>
 				    </tbody>
-				</table>
+                            </table>
 			</div>
 		</div>
 	</div>

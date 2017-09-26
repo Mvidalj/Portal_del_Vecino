@@ -82,7 +82,7 @@
 	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Proyectos <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li class="active"><a href="proyectos_proyecto.php">Proyectos</a></li>
-	            <li><a href="proyectos_add_proyectos.html">Añadir Proyectos (*)</a></li>
+	            <li><a href="proyectos_add_proyectos.php">Añadir Proyectos (*)</a></li>
 	          </ul>
 	        </li>
 	        <li><a href="../foro/foro.html">Foro</a></li>

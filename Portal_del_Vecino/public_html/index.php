@@ -32,7 +32,7 @@
         $phone = $_POST['register-phone'];
         if($user->RegisterUser($fname, $lname, $mail, $phone, $dir)){
             $user->EncryptPass(($user->GetUserId($mail)),$pass);
-            $user->Redirect('home.html');
+            $user->Redirect('index.php');
         }else{
             echo "<script>alert('Este correo ya esta en uso')</script>";
         }

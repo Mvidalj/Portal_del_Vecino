@@ -42,11 +42,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Portal del Vecino</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
+    <title>Portal del Vecino</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="js/validate-user-register.js"></script>
 </head>
 <body>
 <div class="container">
@@ -84,7 +85,7 @@
             <div class="row">
                 <div class="col-sm-3 col-sm-push-3">
                     <label for="fname">Nombre:</label>
-                    <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required>
+                    <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')">
                 </div>
                 <div class="col-sm-3 col-sm-push-3">
                     <label for="lname">Apellido:</label>
@@ -94,11 +95,11 @@
             <div class="row">
                 <div class="col-sm-3 col-sm-push-3">
                     <label for="pass">Contraseña:</label>
-                    <input type="password" class="form-control" name="register-pass" id="pass" placeholder="Contraseña" required>
+                    <input type="password" class="form-control" name="register-pass" id="pass" placeholder="Contraseña" required onchange="validatePassword()">
                 </div>
                 <div class="col-sm-3 col-sm-push-3">
                     <label for="cpass">Confirmar Contraseña:</label>
-                    <input type="password" class="form-control" id="cpass" placeholder="Confirmar Contraseña" required>
+                    <input type="password" class="form-control" id="cpass" placeholder="Confirmar Contraseña" required onkeyup="validatePassword()">
                 </div>
             </div><br><br>
             <div class="row">

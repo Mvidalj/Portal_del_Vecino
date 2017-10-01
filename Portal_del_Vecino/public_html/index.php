@@ -3,7 +3,7 @@
 
     if($user->Is_Loggedin()!="")
     {
-        $user->Redirect('home.html');
+        $user->Redirect('home.php');
     }
     
     if(isset($_POST['login-submit']))
@@ -12,11 +12,11 @@
         $upass = $_POST['login-pswd'];
         if($user->LoginUser(($user->GetUserId($umail)),$upass))
         {
-            $user->Redirect('home.html');
+            $user->Redirect('home.php');
         }
         else
         {
-            echo "<script>confirm('Contraseña incorrecta')</script>";
+            echo "<script>alert('Contraseña incorrecta')</script>";
         } 
     }
     if(isset($_POST['register-submit'])){
@@ -28,11 +28,11 @@
         $phone = $_POST['register-phone'];
         if($user->RegisterUser($fname, $lname, $mail, $phone, $dir)){
             $user->EncryptPass(($user->GetUserId($mail)),$pass);
+            echo "<script>alert('Registrado Correctamente')</script>";
             $user->Redirect('index.php');
         }else{
             echo "<script>alert('Este correo ya esta en uso')</script>";
         }
-        
     }
 ?>
 <!DOCTYPE html>

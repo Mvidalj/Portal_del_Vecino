@@ -3,7 +3,7 @@
 
     if($user->Is_Loggedin()=="")
     {
-        echo $_SESSION['id_usuario'];
+        $user->Redirect('home.html');
     } else {
         if($_SESSION['rol_usuario'] == "1"){
 ?>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-sm-push-9">
-                            <br><a class="btn btn-success conf" href="../../home.html" rel>Aceptar Miembros (*) <span class="fa fa-user-plus"></span></a>
+                            <br><a class="btn btn-success conf" href="../../home.php" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
                         </div>
                     </div>
                 </div>
@@ -78,17 +78,17 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>                        
                         </button>
-                        <a class="navbar-brand" href="../../home.html">Inicio</a>
+                        <a class="navbar-brand" href="../../home.php">Inicio</a>
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
                             <li class="dropdown active">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li class="active"><a href="tesoreria_balances.html">Ver Balances</a></li>
-                                    <li><a href="tesoreria_recursos.html">Solicitar Recursos</a></li>
-                                    <li><a href="tesoreria_add_balances.html">Añadir balances (*)</a></li>
-                                    <li><a href="tesoreria_admin_recursos.html">Administrar Recursos (*)</a></li>
+                                    <li class="active"><a href="tesoreria_balances.php">Ver Balances</a></li>
+                                    <li><a href="tesoreria_recursos.php">Solicitar Recursos</a></li>
+                                    <li><a href="tesoreria_add_balances.php">Añadir balances</a></li>
+                                    <li><a href="tesoreria_admin_recursos.php">Administrar Recursos</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -96,15 +96,15 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
                                     <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
-                                    <li><a href="../actividades/actividades_add_reuniones.html">Añadir Reuniones (*)</a></li>
-                                    <li><a href="../actividades/actividades_add_actividades.html">Añadir Actividades (*)</a></li>
+                                    <li><a href="../actividades/actividades_add_reuniones.html">Añadir Reuniones</a></li>
+                                    <li><a href="../actividades/actividades_add_actividades.html">Añadir Actividades</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Proyectos <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="../proyectos/proyectos_proyecto.php">Proyectos</a></li>
-                                    <li><a href="../proyectos/proyectos_add_proyectos.php">Añadir Proyectos (*)</a></li>
+                                    <li><a href="../proyectos/proyectos_add_proyectos.php">Añadir Proyectos</a></li>
                                 </ul>
                             </li>
                             <li><a href="../foro/foro.html">Foro</a></li>
@@ -212,15 +212,15 @@
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>                        
                                     </button>
-                                    <a class="navbar-brand" href="../../home.html">Inicio</a>
+                                    <a class="navbar-brand" href="../../home.php">Inicio</a>
                                 </div>
                                 <div class="collapse navbar-collapse" id="myNavbar">
                                     <ul class="nav navbar-nav">
                                         <li class="dropdown active">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <li class="active"><a href="tesoreria_balances.html">Ver Balances</a></li>
-                                                <li><a href="tesoreria_recursos.html">Solicitar Recursos</a></li>
+                                                <li class="active"><a href="tesoreria_balances.php">Ver Balances</a></li>
+                                                <li><a href="tesoreria_recursos.php">Solicitar Recursos</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">

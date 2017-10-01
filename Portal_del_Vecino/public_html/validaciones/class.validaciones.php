@@ -1,5 +1,5 @@
 <?php
-    
+    SESSION_START();
     class USER {
 
         private $db;
@@ -79,6 +79,7 @@
                 if($stmt->rowCount() > 0){
                     if(password_verify($upass, $userRow['PASSWORD'])){
                         $_SESSION['id_usuario'] = $userRow['ID_USUARIO'];
+                        $_SESSION['rol_usuario'] = $userRow['ID_ROL'];
                         return true;
                     } else {return false;}
                 }
@@ -99,8 +100,8 @@
         
         //  Función para cerrar sesión
         public function Logout(){
+            SESSION_UNSET();
             SESSION_DESTROY();
-            UNSET($_SESSION['id_usuario']);
             return true;
         }
     }

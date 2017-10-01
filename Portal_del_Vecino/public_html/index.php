@@ -1,10 +1,6 @@
 <?php
     require_once 'validaciones/conexion_bd.php';
 
-    SESSION_START();
-    SESSION_UNSET();
-    SESSION_DESTROY();
-
     if($user->Is_Loggedin()!="")
     {
         $user->Redirect('home.html');

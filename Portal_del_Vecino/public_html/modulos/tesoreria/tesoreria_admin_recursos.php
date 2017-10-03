@@ -6,14 +6,14 @@
         $user->Redirect('../../index.php');
     } else {
         if($_SESSION['id_rol'] != "1"){
-            
+            $user->Redirect('../../index.php');
         }
     }
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-	<title>Añadir balances</title>
+	<title>Administración de recursos</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="../../css/font-awesome.min.css">
@@ -89,7 +89,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="tesoreria_balances.php">Ver Balances</a></li>
                                     <li><a href="tesoreria_recursos.php">Solicitar Recursos</a></li>
-                                    <li><a href="tesoreria_admin_balances.php">Añadir balances</a></li>
+                                    <li><a href="tesoreria_admin_balances.php">Administrar balances</a></li>
                                     <li class="active"><a href="tesoreria_admin_recursos.php">Administrar Recursos</a></li>
                                 </ul>
                             </li>

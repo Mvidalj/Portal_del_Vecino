@@ -59,8 +59,8 @@
 	          <ul class="dropdown-menu">
 	            <li><a href="modulos/tesoreria/tesoreria_balances.php">Ver Balances</a></li>
 	            <li><a href="modulos/tesoreria/tesoreria_recursos.php">Solicitar Recursos</a></li>
-	            <li><a href="modulos/tesoreria/tesoreria_add_balances.php">Añadir balances (*)</a></li>
-	            <li><a href="modulos/tesoreria/tesoreria_admin_recursos.php">Administrar Recursos (*)</a></li>
+	            <li><a href="modulos/tesoreria/tesoreria_admin_balances.php">Administrar balances</a></li>
+	            <li><a href="modulos/tesoreria/tesoreria_admin_recursos.php">Administrar Recursos</a></li>
 	          </ul>
 	        </li>
 	        <li class="dropdown">

@@ -1,14 +1,11 @@
 <?php
     require_once '../../validaciones/conexion_bd.php';
-
-    SESSION_START();
-    SESSION_UNSET();
-    SESSION_DESTROY();
-
-    if($user->is_loggedin()!="")
+ 
+    if($user->Is_Loggedin() != true)
     {
-        $user->redirect('home.html');
+        $user->Redirect('../../index.php');
     }
+    
 ?>
 <html>
 <head>
@@ -40,9 +37,14 @@
                         <br><a type="button" class="btn btn-primary conf" href="../../config.html" rel>Configuración <span class="fa fa-cog"></span></a>
                     </div>
                 </div>
-                <div class="row">
+
+    <?php
+    if($_SESSION['id_rol'] == "1")
+        {
+        echo 
+        '                <div class="row">
                     <div class="col-sm-3 col-sm-push-9">
-                        <br><a type="button" class="btn btn-success conf" href="../../home.html" rel>Aceptar Miembros (*) <span class="fa fa-user-plus"></span></a>
+                        <br><a type="button" class="btn btn-success conf" href="../../home.php" rel>Aceptar Miembros (*) <span class="fa fa-user-plus"></span></a>
                     </div>
                 </div>
         </div>
@@ -56,17 +58,17 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>                        
 	      </button>
-	      <a class="navbar-brand" href="../../home.html">Inicio</a>
+	      <a class="navbar-brand" href="../../home.php">Inicio</a>
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav">
 	        <li class="dropdown">
 	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a href="../tesoreria/tesoreria_balances.html">Ver Balances</a></li>
-	            <li><a href="../tesoreria/tesoreria_recursos.html">Solicitar Recursos</a></li>
-	            <li><a href="../tesoreria/tesoreria_add_balances.html">Añadir balances (*)</a></li>
-	            <li><a href="../tesoreria/tesoreria_admin_recursos.html">Administrar Recursos (*)</a></li>
+	            <li><a href="../tesoreria/tesoreria_balances.php">Ver Balances</a></li>
+	            <li><a href="../tesoreria/tesoreria_recursos.php">Solicitar Recursos</a></li>
+	            <li><a href="../tesoreria/tesoreria_add_balances.php">Añadir balances (*)</a></li>
+	            <li><a href="../tesoreria/tesoreria_admin_recursos.php">Administrar Recursos (*)</a></li>
 	          </ul>
 	        </li>
 	        <li class="dropdown">
@@ -74,8 +76,8 @@
 	          <ul class="dropdown-menu">
 	            <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
 	            <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
-	            <li><a href="../actividades/actividades_add_reuniones.html">Añadir Reuniones (*)</a></li>
-                    <li><a href="../actividades/actividades_add_actividades.html">Añadir Actividades (*)</a></li>
+	            <li><a href="../actividades/actividades_add_reuniones.php">Añadir Reuniones (*)</a></li>
+                    <li><a href="../actividades/actividades_add_actividades.php">Añadir Actividades (*)</a></li>
 	          </ul>
 	        </li>
 	        <li class="dropdown active">
@@ -88,7 +90,54 @@
 	        <li><a href="../foro/foro.html">Foro</a></li>
 	    </div>
 	  </div>
-	</nav>
+	</nav>';
+        }
+    else {
+        echo 
+        '                <div class="row">
+                </div>
+        </div>
+    </div>
+    </div>
+  	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>                        
+	      </button>
+	      <a class="navbar-brand" href="../../home.php">Inicio</a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav">
+	        <li class="dropdown">
+	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="../tesoreria/tesoreria_balances.php">Ver Balances</a></li>
+	            <li><a href="../tesoreria/tesoreria_recursos.php">Solicitar Recursos</a></li>
+	          </ul>
+	        </li>
+	        <li class="dropdown">
+	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Actividades <span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
+	            <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
+	          </ul>
+	        </li>
+	        <li class="dropdown active">
+	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Proyectos <span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li class="active"><a href="proyectos_proyecto.php">Proyectos</a></li>
+	          </ul>
+	        </li>
+	        <li><a href="../foro/foro.html">Foro</a></li>
+	    </div>
+	  </div>
+	</nav>';
+ }
+    ?>
+
 	<div class="row">
             <div class="col-sm-12">
                 <h1>Proyectos<small> (Vigentes)</small></h1>

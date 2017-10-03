@@ -62,7 +62,7 @@
                     <img class="img-responsive center-image" src="imagenes/user-icon.svg" width="200" height="200"><br>
                     <div class="row">
                         <div class="col-sm-8 col-sm-push-2">
-                        <form action="index.php" method="POST">
+                        <form acton="index.php" method="POST">
                             <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
                             <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus><br>
                             <label for="login-pswd"><i class="fa fa-lock"></i> Contraseña:</label>

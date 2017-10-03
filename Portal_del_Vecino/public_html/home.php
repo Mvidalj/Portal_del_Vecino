@@ -92,10 +92,10 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <div class="jumbotron btn btn-primary">
+                        <div class="jumbotron btn btn-primary center-block">
                             <h3>Unirse a organización</h3>
                         </div>
-                        <div class="jumbotron btn btn-success"">
+                        <div class="jumbotron btn btn-success center-block"">
                             <h3>Registrar organización</h3>
                         </div>
                     </div>

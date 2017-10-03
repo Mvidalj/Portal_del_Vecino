@@ -6,7 +6,7 @@
         $user->Redirect('../../index.php');
     } else {
         if($_SESSION['id_rol'] == "1"){
-            $user->Redirect('tesoreria_admin_balances.php');
+            
         }
     }
 ?>

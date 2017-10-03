@@ -6,7 +6,7 @@
         $user->Redirect('../../index.php');
     } else {
         if($_SESSION['id_rol'] != "1"){
-            $user->Redirect('tesoreria_balances.php');
+            
         }
     }
 ?>
@@ -87,9 +87,9 @@
                             <li class="dropdown active">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li class="active"><a href="tesoreria_admin_balances.php">Ver Balances</a></li>
+                                    <li><a href="tesoreria_balances.php">Ver Balances</a></li>
                                     <li><a href="tesoreria_recursos.php">Solicitar Recursos</a></li>
-                                    <li><a href="tesoreria_add_balances.php">Añadir balances</a></li>
+                                    <li class="active"><a href="tesoreria_admin_balances.php">Añadir balances</a></li>
                                     <li><a href="tesoreria_admin_recursos.php">Administrar Recursos</a></li>
                                 </ul>
                             </li>

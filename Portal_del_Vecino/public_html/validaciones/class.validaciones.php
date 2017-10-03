@@ -79,7 +79,14 @@
                 if($stmt->rowCount() > 0){
                     if(password_verify($upass, $userRow['PASSWORD'])){
                         $_SESSION['id_usuario'] = $userRow['ID_USUARIO'];
-                        $_SESSION['rol_usuario'] = $userRow['ID_ROL'];
+                        
+                        $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE ID_USUARIO = :uid LIMIT 1");
+                        $stmt->execute(array(':uid'=>$uid));
+                        $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+                        if($stmt->rowCount() > 0){
+                            $_SESSION['id_rol'] = $userRow['ID_ROL'];
+                        } else {return false;}
+                        
                         return true;
                     } else {return false;}
                 }
@@ -92,7 +99,7 @@
         //  Función para verificar si el usuario ya inicio sesión
         public function Is_Loggedin()
         {
-            if(isset($_SESSION['id_usuario'])) {return true;}
+            if(isset($_SESSION['id_usuario']) && isset($_SESSION['id_rol'])) {return true;}
         }
 
         //  Función para redireccionamiento

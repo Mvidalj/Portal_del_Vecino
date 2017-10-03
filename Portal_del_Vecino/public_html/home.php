@@ -9,6 +9,11 @@
 	<script src="librerias/jquery-3.2.1.js"></script>
 	<script src="js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script>
+            $(document).ready(function(){
+                $("#news").modal();
+            });
+        </script>
 </head>
 <body>
 <div class="container">
@@ -78,6 +83,28 @@
 	    </div>
 	  </div>
 	</nav>
+    
+        <div class="modal fade" id="news" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="jumbotron btn btn-primary">
+                            <h3>Unirse a organización</h3>
+                        </div>
+                        <div class="jumbotron btn btn-success"">
+                            <h3>Registrar organización</h3>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
@@ -90,7 +117,7 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
               <div class="item active">
-                <img class="asd" src="imagenes/testimage.jpg" alt="Fiestas patrias">
+                <img class="center-image" src="imagenes/testimage.jpg" alt="Fiestas patrias">
                 <div class="carousel-caption">
                   <h3>Titulo noticia</h3>
                   <p>Cuerpo noticia</p>
@@ -98,7 +125,7 @@
               </div>
             
               <div class="item">
-                <img class="asd" src="imagenes/testimage.jpg" alt="Fiestas patrias">
+                <img class="center-image" src="imagenes/testimage.jpg" alt="Fiestas patrias">
                 <div class="carousel-caption">
                   <h3>Titulo noticia</h3>
                   <p>Cuerpo noticia</p>
@@ -106,7 +133,7 @@
               </div>
             
               <div class="item">
-                <img class="asd" src="imagenes/testimage.jpg" alt="Fiestas patrias">
+                <img class="center-image" src="imagenes/testimage.jpg" alt="Fiestas patrias">
                 <div class="carousel-caption">
                   <h3>Titulo noticia</h3>
                   <p>Cuerpo noticia</p>

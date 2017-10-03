@@ -43,123 +43,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/validate-user-register.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("#register-user-submit").click(function(){
+            $("#myModal").modal();
+        });
+    });
+    </script>
 </head>
 <body>
-<div class="container">
-	<div class="jumbotron">
-		<div class="row">
-			<div class="col-sm-2">
-	    		<img class="img-responsive" src="imagenes/home.jpg" width="130" height="130">
-	    	</div>
-                <form method="POST">
-	    	<br><div class="row">
-			    	<div class="col-sm-3 col-sm-push-2">
-			    		<label for="login-user"><span class="fa fa-user-circle-o"></span> Usuario:</label>
-			    		<input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus>
-			    	</div>
-			    	<div class="col-sm-3 col-sm-push-2">
-			    		<label for="login-pswd"><span class="fa fa-lock"></span> Contraseña:</label>
-			    		<input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña">
-			    	</div>
-			    	<div class="col-sm-3 col-sm-push-2">
-                                    <br><button type="submit" id="login-submit" class="btn btn-primary ingreso" name="login-submit">Ingresar <span class="fa fa-sign-in"></span></button>
-			    	</div>
-			    	<div class="col-sm-3 col-sm-push-7">
-			    		<br><a href="#">¿Olvido su Contraseña <span class="fa fa-unlock-alt"></span> ?</a>
-			    	</div>
-			    </div>
-	    	</form>
-	    </div>
-	</div>
-
-	<div class="page-header">
-  		<h1>Registro de Usuario</h1>
-	</div>
-
-	<form method="POST">
-            <div class="row">
-                <div class="col-sm-3 col-sm-push-3">
-                    <label for="fname">Nombre:</label>
-                    <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')">
-                </div>
-                <div class="col-sm-3 col-sm-push-3">
-                    <label for="lname">Apellido:</label>
-                    <input type="text" class="form-control" name="register-lname" id="lname" placeholder="Apellido" required>
-                </div>
-            </div><br><br>
-            <div class="row">
-                <div class="col-sm-3 col-sm-push-3">
-                    <label for="pass">Contraseña:</label>
-                    <input type="password" class="form-control" name="register-pass" id="pass" placeholder="Contraseña" required onchange="validatePassword()">
-                </div>
-                <div class="col-sm-3 col-sm-push-3">
-                    <label for="cpass">Confirmar Contraseña:</label>
-                    <input type="password" class="form-control" id="cpass" placeholder="Confirmar Contraseña" required onkeyup="validatePassword()">
-                </div>
-            </div><br><br>
-            <div class="row">
-                <div class="col-sm-3 col-sm-push-3">
-                    <label for="com">Comuna:</label>
-                    <input type="text" class="form-control" name="register-com" id="com" placeholder="Comuna" required>
-                </div>
-                <div class="col-sm-3 col-sm-push-3">
-                        <label for="dir">Dirección:</label>
-                        <input type="text" class="form-control" name="register-dir" id="dir" placeholder="Dirección" required>
-                </div>
-            </div><br><br>
-            <div class="row">
-                <div class="col-sm-3 col-sm-push-3">
-                    <label for="cor">Correo:</label>
-                    <input type="email" class="form-control" name="register-mail" id="cor" placeholder="Correo" required>
-                </div>
-                <div class="col-sm-3 col-sm-push-3">
-                    <label for="tel">Teléfono:</label>
-                    <input type="text" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" required>
-                </div>
-            </div><br>
-            <div class="row">
-                <div class="col-sm-2 col-sm-push-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-push-3">
+                <div class="jumbotron">
+                    <img class="img-responsive center-image" src="imagenes/user-icon.svg" width="200" height="200"><br>
                     <div class="row">
-                        <div class="col-sm-2 col-sm-push-2">
-                            <br><input type="submit" class="btn btn-success" name="register-submit"><br><br>
+                        <div class="col-sm-8 col-sm-push-2">
+                        <form action="index.php" method="POST">
+                            <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
+                            <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus><br>
+                            <label for="login-pswd"><i class="fa fa-lock"></i> Contraseña:</label>
+                            <input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña">
+                            <a href="#">¿Olvido su Contraseña <i class="fa fa-unlock-alt"></i> ?</a>
+                            <div class="row">
+                                <div class="col-sm-1 col-sm-push-3"><br>
+                                    <button type="submit" id="login-user-submit" class="btn btn-primary" name="login-submit">Iniciar sesión</button>
+                                </div>
+                            </div>
+                        </form>
+                            <div class="col-sm-1 col-sm-push-1"><br>
+                                <button type="submit" id="register-user-submit" class="btn btn-success">Registrarse como usuario</button>
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+                                            </div>
+                                        <div class="modal-body">
+                                            <form method="POST">
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-sm-push-3">
+                                                        <label for="fname">Nombre:</label>
+                                                        <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')">
+                                                    </div>
+                                                    <div class="col-sm-3 col-sm-push-3">
+                                                        <label for="lname">Apellido:</label>
+                                                        <input type="text" class="form-control" name="register-lname" id="lname" placeholder="Apellido" required>
+                                                    </div>
+                                                </div><br><br>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-sm-push-3">
+                                                        <label for="pass">Contraseña:</label>
+                                                        <input type="password" class="form-control" name="register-pass" id="pass" placeholder="Contraseña" required onchange="validatePassword()">
+                                                    </div>
+                                                    <div class="col-sm-3 col-sm-push-3">
+                                                        <label for="cpass">Confirmar Contraseña:</label>
+                                                        <input type="password" class="form-control" id="cpass" placeholder="Confirmar Contraseña" required onkeyup="validatePassword()">
+                                                    </div>
+                                                </div><br><br>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-sm-push-3">
+                                                        <label for="com">Comuna:</label>
+                                                        <input type="text" class="form-control" name="register-com" id="com" placeholder="Comuna" required>
+                                                    </div>
+                                                    <div class="col-sm-3 col-sm-push-3">
+                                                            <label for="dir">Dirección:</label>
+                                                            <input type="text" class="form-control" name="register-dir" id="dir" placeholder="Dirección" required>
+                                                    </div>
+                                                </div><br><br>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-sm-push-3">
+                                                        <label for="cor">Correo:</label>
+                                                        <input type="email" class="form-control" name="register-mail" id="cor" placeholder="Correo" required>
+                                                    </div>
+                                                    <div class="col-sm-3 col-sm-push-3">
+                                                        <label for="tel">Teléfono:</label>
+                                                        <input type="text" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" required>
+                                                    </div>
+                                                </div><br>
+                                                <div class="row">
+                                                    <div class="col-sm-2 col-sm-push-5">
+                                                        <div class="row">
+                                                            <div class="col-sm-2 col-sm-push-2">
+                                                                <br><input type="submit" class="btn btn-success" name="register-submit"><br><br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-	</form>
-
-	<footer>
-            <div class="footer jumbotron">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <h3> Horarios  <i class="fa fa-clock-o"></i></h3>
-                            <ul>
-                                <li> Lunes a Viernes: 14:00 - 00:00</li>
-                                <li> Sábado y Domingo: 16:00 - 22:00 </li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-4">
-                            <h3> Contacto </h3>
-                            <ul>
-                                <li> <i class="fa fa-map-marker"></i> Dirección: Rudecindo Ortega 2950, Temuco</li>
-                                <li> <i class="fa fa-phone"></i> Telefono: +56 45 255 3978</li>
-                                <li> <i class="fa fa-envelope"></i> e-mail: uct@uct.cl</li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-4">
-                            <h3> Redes sociales </h3>
-                            <ul class="social">
-                                <li> <a href="https://www.facebook.com/canaluctemuco/"> <i class=" fa fa-facebook"></i> </a> </li>
-                                <li> <a href="https://twitter.com/uc_temuco?"> <i class="fa fa-twitter">   </i> </a> </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-</div>
+        </div>
+    </div>
 </body>
 </html>

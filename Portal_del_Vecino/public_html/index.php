@@ -60,23 +60,30 @@
             <div class="col-sm-6 col-sm-push-3">
                 <div class="jumbotron">
                     <img class="img-responsive center-image" src="imagenes/user-icon.svg" width="200" height="200"><br>
-                    <div class="row">
-                        <div class="col-sm-8 col-sm-push-2">
+
                         <form acton="index.php" method="POST">
-                            <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
-                            <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus><br>
-                            <label for="login-pswd"><i class="fa fa-lock"></i> Contraseña:</label>
-                            <input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña">
-                            <a href="#">¿Olvido su Contraseña <i class="fa fa-unlock-alt"></i> ?</a>
                             <div class="row">
-                                <div class="col-sm-1 col-sm-push-3"><br>
+                                <div class="col-sm-12">
+                                    <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
+                                    <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus><br>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label for="login-pswd"><i class="fa fa-lock"></i> Contraseña:</label>
+                                    <input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña">
+                                </div>
+                                <a href="#">¿Olvido su Contraseña? <i class="fa fa-unlock-alt"></i></a>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-12">
                                     <button type="submit" id="login-user-submit" class="btn btn-primary" name="login-submit">Iniciar sesión</button>
+                                </div>
+                                <br><br>
+                                <div class="col-sm-12">
+                                    <button type="submit" id="register-user-submit" class="btn btn-success">Registrarse como usuario</button>
                                 </div>
                             </div>
                         </form>
-                            <div class="col-sm-1 col-sm-push-1"><br>
-                                <button type="submit" id="register-user-submit" class="btn btn-success">Registrarse como usuario</button>
-                            </div>
                             <div class="modal fade" id="myModal" role="dialog">
                                 <div class="modal-dialog">
                                     <!-- Modal content-->
@@ -139,9 +146,9 @@
                                             </form>
                                         </div>
                                         
-                                    <div class="modal-footer">
-                                        <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                    </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                        </div>
                                         
                                     </div>
                                 </div>

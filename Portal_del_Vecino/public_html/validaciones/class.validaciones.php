@@ -18,7 +18,6 @@
                 $stmt = $this->db->prepare("INSERT INTO login(ID_USUARIO,PASSWORD)"
                         . "VALUES(:id, :pass)");
                 $epass = password_hash($pass,PASSWORD_DEFAULT);
-                echo $epass;
                 $stmt->bindparam(":id", $id);
                 $stmt->bindparam(":pass", $epass);
                 $stmt->execute();

@@ -1,6 +1,6 @@
 <?php
     require_once 'validaciones/conexion_bd.php';
-
+    
     if($user->Is_Loggedin()!="")
     {
         $user->Redirect('home.php');
@@ -26,13 +26,16 @@
         $mail = $_POST['register-mail'];
         $dir = $_POST['register-dir'];
         $phone = $_POST['register-phone'];
-        if($user->RegisterUser($fname, $lname, $mail, $phone, $dir)){
-            $user->EncryptPass(($user->GetUserId($mail)),$pass);
-            echo "<script>alert('Registrado Correctamente')</script>";
-            $user->Redirect('index.php');
-        }else{
-            echo "<script>alert('Este correo ya esta en uso')</script>";
-        }
+        if(empty($_SESSION['captcha_code'] ) || strcasecmp($_SESSION['captcha_code'], $_POST['captcha_code']) != 0){  
+            $msg="Los codigos no coinciden, intente nuevamente.";// Captcha verification is incorrect.		
+	}else{// Captcha verification is Correct. Final Code Execute here!		
+            if($user->RegisterUser($fname, $lname, $mail, $phone, $dir)){
+                $user->EncryptPass(($user->GetUserId($mail)),$pass);
+                echo "<script>alert('Registrado Correctamente')</script>";
+            }else{
+                echo "<script>alert('Este correo ya esta en uso')</script>";
+            }
+	}
     }
 ?>
 <!DOCTYPE html>
@@ -43,8 +46,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="librerias/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/validate-user-register.js"></script>
     <script>
     $(document).ready(function(){
@@ -52,6 +55,12 @@
             $("#myModal").modal();
         });
     });
+    </script>
+    <script type='text/javascript'>
+        function refreshCaptcha(){
+                var img = document.images['captchaimg'];
+                img.src = img.src.substring(0,img.src.lastIndexOf("?"))+"?rand="+Math.random()*1000;
+        }
     </script>
 </head>
 <body>
@@ -61,6 +70,9 @@
                 <div class="jumbotron">
                     <img class="img-responsive center-image" src="imagenes/user-icon.svg" width="200" height="200"><br>
                     <div class="row">
+                        <?php if(isset($msg)){
+                            echo '<script>alert("'.$msg.'")</script>';
+                        }?>
                         <div class="col-sm-8 col-sm-push-2">
                         <form acton="index.php" method="POST">
                             <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
@@ -128,14 +140,17 @@
                                                         <label for="tel">Teléfono:</label>
                                                         <input type="text" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" required>
                                                     </div>
+                                                    
                                                 </div><br>
                                                 <div class="row">
+                                                    <div class="col-sm-5 col-sm-push-4">
+                                                        <img src="validaciones/phpcaptcha/captcha.php?rand=<?php echo rand();?>" id='captchaimg'>
+                                                        <input id="captcha_code" name="captcha_code" type="text"> <a href='javascript: refreshCaptcha();'><i class="fa fa-refresh"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-sm-2 col-sm-push-5">
-                                                        <div class="row">
-                                                            <div class="col-sm-2 col-sm-push-2">
-                                                                <br><input type="submit" class="btn btn-success" name="register-submit"><br><br>
-                                                            </div>
-                                                        </div>
+                                                        <br><input type="submit" class="btn btn-success" value="Registrarse" name="register-submit"><br><br>
                                                     </div>
                                                 </div>
                                             </form>

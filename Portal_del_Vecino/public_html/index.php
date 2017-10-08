@@ -27,13 +27,13 @@
         $dir = $_POST['register-dir'];
         $phone = $_POST['register-phone'];
         if(empty($_SESSION['captcha_code'] ) || strcasecmp($_SESSION['captcha_code'], $_POST['captcha_code']) != 0){  
-            $msg="Los codigos no coinciden, intente nuevamente.";// Captcha verification is incorrect.		
+            $msg = "<script>alert('Los codigos nos coinciden, intente nuevamente.')</script>";// Captcha verification is incorrect.		
 	}else{// Captcha verification is Correct. Final Code Execute here!		
             if($user->RegisterUser($fname, $lname, $mail, $phone, $dir)){
                 $user->EncryptPass(($user->GetUserId($mail)),$pass);
-                echo "<script>alert('Registrado Correctamente')</script>";
+                $msg = "<script>alert('Registrado correctamente.')</script>";
             }else{
-                echo "<script>alert('Este correo ya esta en uso')</script>";
+                $msg = "<script>alert('Este correo ya esta en uso.')</script>";
             }
 	}
     }
@@ -71,7 +71,7 @@
                     <img class="img-responsive center-image" src="imagenes/user-icon.svg" width="200" height="200"><br>
                     <div class="row">
                         <?php if(isset($msg)){
-                            echo '<script>alert("'.$msg.'")</script>';
+                            echo $msg;
                         }?>
                         <div class="col-sm-8 col-sm-push-2">
                         <form acton="index.php" method="POST">

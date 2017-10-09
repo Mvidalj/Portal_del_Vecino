@@ -119,34 +119,94 @@
             <div class="page-header">
                 <h1>Administrar libro caja</h1>
             </div>
-
+            <?php
+                if(isset($_REQUEST['submit-entrada'])){
+                    try {
+                        $sql = $conn->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO)
+                        VALUES(1, :FECHA, :CONCEPTO, :E_S, :MONTO)");
+                        $sql->bindParam(':FECHA', date('Y-m-d', strtotime($_POST['fecha_ingreso'])));
+                        $sql->bindParam(':CONCEPTO', $_POST['concepto']);
+                        $sql->bindParam(':E_S', $_POST['select_actividad']);
+                        $sql->bindParam(':MONTO', $_POST['monto']);
+                        $sql->execute();
+                    } 
+                    catch (Exception $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+                }
+            ?>
             <div class="table-responsive">
                 <table id="example" class="table table-striped cell-border">
                     <thead>
                         <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
+                            <th>Fecha</th>
+                            <th>Concepto</th>
+                            <th>Actividad</th>
+                            <th>Monto</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>john@example.com</td>
-                        </tr>
-                        <tr>
-                            <td>Mary</td>
-                            <td>Moe</td>
-                            <td>mary@example.com</td>
-                        </tr>
-                        <tr>
-                            <td>July</td>
-                            <td>Dooley</td>
-                            <td>july@example.com</td>
-                        </tr>
+                        <?php
+                            try {
+                                $sql = $conn->prepare("SELECT * FROM tesoreria");#se prepara la consulta
+                                $sql->execute();                                 #se ejecuta la consulta
+                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                                    if($result['E_S'] == 1){$actividad = 'Entrada';}
+                                    else{$actividad = 'Salida';}
+
+                                    echo "<tr>                                       
+                                        <td class='text-center'>".$result['FECHA']."</td>
+                                        <td>".$result['CONCEPTO']."</td>
+                                        <td>".$actividad."</td>
+                                        <td>".$result['MONTO']."</td>
+                                        </tr>";
+                                } # por cada dato crea una columna
+                            } 
+                            catch (Exception $e) {
+                                echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                            }
+                        ?>
                     </tbody>
                 </table>
+            </div>
+            &nbsp;
+            <div class="row">
+                <form action="tesoreria_admin_balances.php" method="POST">
+                    <div class="col-sm-1">
+                        <label>Fecha:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso">
+                    </div>
+                    <div class="col-sm-1">
+                        <label>Concepto:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="concepto" name="concepto">
+                    </div>
+                    <div class="col-sm-1">
+                        <label>Actividad:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="select_actividad" name="select_actividad">
+                            <option value="" disabled selected>Ingreso/Egreso</option>
+                            <option value="1">Ingreso</option>
+                            <option value="0">Egreso</option>
+                        </select> 
+                    </div>
+                    <div class="col-sm-1">
+                        <label>Monto:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="monto" name="monto">
+                    </div>
+            </div>
+            &nbsp;
+            <div class="row">
+                <div class="col-sm-2">
+                    <input type="submit" class="btn btn-success" id="submit-entrada" name="submit-entrada" value="Añadir entrada">
+                </div>
+                </form>
             </div>
         </div>
     </body>

@@ -182,36 +182,55 @@
                         <div class="page-header">
                             <h1>Solicitar recursos</h1>
                         </div>
-
                         <div class="table-responsive">
                             <table id="example" class="table table-striped cell-border">
                                 <thead>
                                     <tr>
-                                        <th>Firstname</th>
-                                        <th>Lastname</th>
-                                        <th>Email</th>
+                                        <th>Recurso</th>
+                                        <th>Descripción</th>
+                                        <th>Disponibilidad</th>
                                         <th>Solicitar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>john@example.com</td>
-                                        <td><button class="btn btn-default">Solicitar</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mary</td>
-                                        <td>Moe</td>
-                                        <td>mary@example.com</td>
-                                        <td><button class="btn btn-default">Solicitar</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>July</td>
-                                        <td>Dooley</td>
-                                        <td>july@example.com</td>
-                                        <td><button class="btn btn-default">Solicitar</button></td>
-                                    </tr>
+                                    <?php
+                                        if(isset($_REQUEST['solicitar'])){
+                                            echo "<time datetime=".$_POST['fecha_solicitud'].">".$_POST['fecha_solicitud']."</time>";
+                                        }
+                                        try {
+                                            $sql = $conn->prepare("SELECT * FROM recursos");#se prepara la consulta
+                                            $sql->execute();                                 #se ejecuta la consulta
+                                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                                                if($result['ESTADO'] == 1){
+                                                    $estado = 'En uso';
+                                                    $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
+                                                                    <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
+                                                                    <input type='hidden' id='fecha_desde' name='fecha_desde' value=".$result['FECHA_INICIO']."'>
+                                                                    <input type='hidden' id='fecha_hasta' name='fecha_hasta' value=".$result['FECHA_TERMINO']."'>
+                                                                    <input type='submit' class='form-control' id='solicitar' name='solicitar' value='Solicitar'>
+                                                                  </form>";
+                                                    
+                                                }else{
+                                                    $estado = 'Disponible';
+                                                    $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
+                                                                    <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
+                                                                    <input type='hidden' id='fecha_solicitud' name='fecha_solicitud' value=".date('m/d/Y h:i:s a', time())."'>
+                                                                    <input type='submit' class='form-control' id='solicitar' name='solicitar' value='Solicitar'>
+                                                                  </form>";
+                                                }
+                                                
+                                                echo "<tr>                                       
+                                                        <td class='text-center'>".$result['NOMBRE']."</td>
+                                                        <td>".$result['DESCRIPCION']."</td>
+                                                        <td>".$estado."</td>
+                                                        <td>".$solicitar."</td>
+                                                    </tr>";
+                                            } # por cada dato crea una columna
+                                        } 
+                                        catch (Exception $e) {
+                                            echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                                        }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

@@ -68,10 +68,11 @@
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="modulos/tesoreria/tesoreria_balances.php">Ver Balances</a></li>
-                                                <li><a href="modulos/tesoreria/tesoreria_recursos.php">Solicitar Recursos</a></li>
-                                                <li><a href="modulos/tesoreria/tesoreria_admin_balances.php">Administrar balances</a></li>
-                                                <li><a href="modulos/tesoreria/tesoreria_admin_recursos.php">Administrar Recursos</a></li>
+                                                <li><a href="modulos/tesoreria/tesoreria_balances.php">Ver libro caja</a></li>
+                                                <li><a href="modulos/tesoreria/tesoreria_resumen.php">Ver resumen</a></li>
+                                                <li><a href="modulos/tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
+                                                <li><a href="modulos/tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
+                                                <li><a href="modulos/tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">
@@ -133,8 +134,9 @@
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="modulos/tesoreria/tesoreria_balances.php">Ver Balances</a></li>
-                                                <li><a href="modulos/tesoreria/tesoreria_recursos.php">Solicitar Recursos</a></li>
+                                                <li><a href="tesoreria_balances.php">Ver libro caja</a></li>
+                                                <li><a href="tesoreria_resumen.php">Ver resumen</a></li>
+                                                <li><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">
@@ -159,10 +161,26 @@
         }
     }
 ?>
-
-
-	
-
+        <!-- Modal -->
+        <div class="modal fade" id="news" role="dialog">
+            <div class="modal-dialog">
+        <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <button class="btn btn-primary">Crear una organización</button>
+                        <button class="btn btn-primary">Unirse a una organización</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">

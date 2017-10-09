@@ -87,10 +87,11 @@
                             <li class="dropdown active">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="tesoreria_balances.php">Ver Balances</a></li>
-                                    <li><a href="tesoreria_recursos.php">Solicitar Recursos</a></li>
-                                    <li class="active"><a href="tesoreria_admin_balances.php">Administrar balances</a></li>
-                                    <li><a href="tesoreria_admin_recursos.php">Administrar Recursos</a></li>
+                                    <li><a href="tesoreria_balances.php">Ver libro caja</a></li>
+                                    <li><a href="tesoreria_resumen.php">Ver resumen</a></li>
+                                    <li><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
+                                    <li class="active"><a href="tesoreria_admin_balances.php">Administrar libro caja</a></li>
+                                    <li><a href="tesoreria_admin_recursos.php">Administrar recursos</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -116,7 +117,7 @@
             </nav>
 
             <div class="page-header">
-                <h1>Administrar balances</h1>
+                <h1>Administrar libro caja</h1>
             </div>
 
             <div class="table-responsive">

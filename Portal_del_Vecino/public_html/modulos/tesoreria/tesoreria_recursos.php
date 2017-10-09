@@ -195,7 +195,7 @@
                                 <tbody>
                                     <?php
                                         if(isset($_REQUEST['solicitar'])){
-                                            echo "<time datetime=".$_POST['fecha_solicitud'].">".$_POST['fecha_solicitud']."</time>";
+                                            
                                         }
                                         try {
                                             $sql = $conn->prepare("SELECT * FROM recursos");#se prepara la consulta
@@ -205,17 +205,14 @@
                                                     $estado = 'En uso';
                                                     $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
                                                                     <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
-                                                                    <input type='hidden' id='fecha_desde' name='fecha_desde' value=".$result['FECHA_INICIO']."'>
-                                                                    <input type='hidden' id='fecha_hasta' name='fecha_hasta' value=".$result['FECHA_TERMINO']."'>
-                                                                    <input type='submit' class='form-control' id='solicitar' name='solicitar' value='Solicitar'>
+                                                                    <input type='submit' class='btn btn-primary' id='solicitar' name='solicitar' value='Solicitar'>
                                                                   </form>";
                                                     
                                                 }else{
                                                     $estado = 'Disponible';
                                                     $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
                                                                     <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
-                                                                    <input type='hidden' id='fecha_solicitud' name='fecha_solicitud' value=".date('m/d/Y h:i:s a', time())."'>
-                                                                    <input type='submit' class='form-control' id='solicitar' name='solicitar' value='Solicitar'>
+                                                                    <input type='submit' class='btn btn-primary' id='solicitar' name='solicitar' value='Solicitar'>
                                                                   </form>";
                                                 }
                                                 

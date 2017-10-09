@@ -119,59 +119,76 @@
             <div class="page-header">
                 <h1>Administrar recursos</h1>
             </div>
-
+            <?php
+                if(isset($_REQUEST['submit-recurso'])){
+                    try {
+                        $sql = $conn->prepare("INSERT INTO recursos (ID_ORGANIZACION, NOMBRE, DESCRIPCION, ESTADO, ELIMINADO)
+                        VALUES(1, :NOMBRE, :DESCRIPCION, 0, 0)");
+                        $sql->bindParam(':NOMBRE', $_POST['nombre-recurso']);
+                        $sql->bindParam(':DESCRIPCION', $_POST['desc-recurso']);  
+                        $sql->execute();
+                    } 
+                    catch (Exception $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+                }
+            ?>
             <div class="table-responsive">
                 <table id="example" class="table table-striped cell-border">
                     <thead>
                         <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
+                            <th>Recurso</th>
+                            <th>Descripción</th>
+                            <th>Disponibilidad</th>
                             <th>Asignar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>john@example.com</td>
-                            <td>
-                                <select>
-                                    <option value="Persona1">Persona 1</option>
-                                    <option value="Persona2">Persona 2</option>
-                                    <option value="Persona3">Persona 3</option>
-                                </select>
-                                <button class="btn btn-success">Confirmar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Mary</td>
-                            <td>Moe</td>
-                            <td>mary@example.com</td>
-                            <td>
-                                <select>
-                                    <option value="Persona1">Persona 1</option>
-                                    <option value="Persona2">Persona 2</option>
-                                    <option value="Persona3">Persona 3</option>
-                                </select>
-                                <button class="btn btn-success">Confirmar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>July</td>
-                            <td>Dooley</td>
-                            <td>july@example.com</td>
-                            <td>
-                                <select>
-                                    <option value="Persona1">Persona 1</option>
-                                    <option value="Persona2">Persona 2</option>
-                                    <option value="Persona3">Persona 3</option>
-                                </select>
-                                <button class="btn btn-success">Confirmar</button>
-                            </td>
-                        </tr>
+                    <?php
+                        try {
+                            $sql = $conn->prepare("SELECT * FROM recursos");#se prepara la consulta
+                            $sql->execute();                                 #se ejecuta la consulta
+                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                                if($result['ESTADO'] == 1){
+                                    $estado = 'En uso';
+                                }else{
+                                    $estado = 'Disponible';
+                                }
+
+                                echo "<tr>                                       
+                                        <td class='text-center'>".$result['NOMBRE']."</td>
+                                        <td>".$result['DESCRIPCION']."</td>
+                                        <td>".$estado."</td>
+                                        <td>Asignar</td>
+                                    </tr>";
+                            } # por cada dato crea una columna
+                        } 
+                        catch (Exception $e) {
+                            echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                        }
+                    ?>
                     </tbody>
                 </table>
+            </div>
+            &nbsp;
+            <div class="row">
+                <form action="tesoreria_admin_recursos.php" method="POST">
+                    <div class="col-sm-2">
+                        <label>Nombre de recurso:</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="nombre-recurso" name="nombre-recurso">
+                    </div>
+                    <div class="col-sm-2">
+                        <label>Descripción de recurso:</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="desc-recurso" name="desc-recurso">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" class="btn btn-success" id="submit-recurso" name="submit-recurso" value="Añadir recurso">
+                    </div>
+                </form>
             </div>
         </div>
     </body>

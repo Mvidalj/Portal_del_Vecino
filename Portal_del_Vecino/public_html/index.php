@@ -6,7 +6,7 @@
         $user->Redirect('home.php');
     }
     
-    if(isset($_POST['login-submit']))
+    if(isset($_REQUEST['login-submit']))
     {
         $umail = $_POST['login-user'];
         $upass = $_POST['login-pswd'];
@@ -19,7 +19,7 @@
             echo "<script>alert('Contraseña incorrecta')</script>";
         } 
     }
-    if(isset($_POST['register-submit'])){
+    if(isset($_REQUEST['register-submit'])){
         $fname = $_POST['register-fname'];
         $lname = $_POST['register-lname'];
         $pass = $_POST['register-pass'];
@@ -74,7 +74,7 @@
                             echo $msg;
                         }?>
                         <div class="col-sm-8 col-sm-push-2">
-                        <form acton="index.php" method="POST">
+                        <form action="index.php" method="POST">
                             <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
                             <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus><br>
                             <label for="login-pswd"><i class="fa fa-lock"></i> Contraseña:</label>

@@ -9,7 +9,7 @@
             <!DOCTYPE html>
             <html>
                 <head>
-                    <title>Solicitud de recursos</title>
+                    <title>Resumen</title>
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                     <link rel="stylesheet" href="../../css/font-awesome.min.css">
@@ -87,8 +87,8 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="tesoreria_balances.php">Ver libro caja</a></li>
-                                                <li><a href="tesoreria_resumen.php">Ver resumen</a></li>
-                                                <li class="active"><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
+                                                <li class="active"><a href="tesoreria_resumen.php">Ver resumen</a></li>
+                                                <li><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
                                                 <li><a href="tesoreria_admin_balances.php">Administrar libro caja</a></li>
                                                 <li><a href="tesoreria_admin_recursos.php">Administrar recursos</a></li>
                                             </ul>
@@ -109,7 +109,7 @@
                                                 <li><a href="../proyectos/proyectos_add_proyectos.php">Añadir Proyectos</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="../foro">Foro</a></li>
+                                        <li><a href="../foro/foro.html">Foro</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -153,8 +153,8 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="tesoreria_balances.php">Ver libro caja</a></li>
-                                                <li><a href="tesoreria_resumen.php">Ver resumen</a></li>
-                                                <li class="active"><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
+                                                <li class="active"><a href="tesoreria_resumen.php">Ver resumen</a></li>
+                                                <li><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">
@@ -180,41 +180,99 @@
     }
 ?>
                         <div class="page-header">
-                            <h1>Solicitar recursos</h1>
+                            <h4>Resumen</h4>
                         </div>
-
+                        
+                        <form action="tesoreria_resumen.php" method="POST">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <label>Búsqueda:</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="date" class="form-control" id="fecha_desde" name="fecha_desde">
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta">
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control" id="select_actividad" name="select_actividad">
+                                        <option value="" disabled selected>Ingresos/Egresos</option>
+                                        <option value="1">Ingresos</option>
+                                        <option value="0">Egresos</option>
+                                    </select> 
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="submit" class="btn btn-primary" id="submit-buscar" name="submit-buscar" value="Buscar">
+                                </div>
+                            </div>
+                        </form>
+                        &nbsp;
                         <div class="table-responsive">
                             <table id="example" class="table table-striped cell-border">
                                 <thead>
                                     <tr>
-                                        <th>Firstname</th>
-                                        <th>Lastname</th>
-                                        <th>Email</th>
-                                        <th>Solicitar</th>
+                                        <th>Fecha</th>
+                                        <th>Actividad</th>
+                                        <th>Monto</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>john@example.com</td>
-                                        <td><button class="btn btn-default">Solicitar</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mary</td>
-                                        <td>Moe</td>
-                                        <td>mary@example.com</td>
-                                        <td><button class="btn btn-default">Solicitar</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>July</td>
-                                        <td>Dooley</td>
-                                        <td>july@example.com</td>
-                                        <td><button class="btn btn-default">Solicitar</button></td>
-                                    </tr>
+                                    <?php
+                                        if(isset($_REQUEST['submit-buscar'])){
+                                            if($_POST['fecha_desde'] != "" && $_POST['fecha_hasta'] != ""){
+                                                if(isset($_POST['select_actividad'])){
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad");
+                                                    $sql->bindparam(":fecha_desde",  date('Y-m-d', strtotime($_POST['fecha_desde'])));
+                                                    $sql->bindparam(":fecha_hasta",  date('Y-m-d', strtotime($_POST['fecha_hasta'])));
+                                                    $sql->bindparam(":actividad", $_POST['select_actividad']);
+                                                }else{
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta");
+                                                    $sql->bindparam(':fecha_desde',  date('Y-m-d', strtotime($_POST['fecha_desde'])));
+                                                    $sql->bindparam(':fecha_hasta',  date('Y-m-d', strtotime($_POST['fecha_hasta'])));
+                                                }
+                                            }else{
+                                                $sql = $conn->prepare("SELECT * FROM tesoreria");
+                                            }
+                                            
+                                            try {
+                                                $sql->execute();                                 #se ejecuta la consulta
+                                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                                                    if($result['E_S'] == 1){$actividad = 'Ingreso';}
+                                                    else{$actividad = 'Egreso';}
+                                                
+                                                    echo "<tr>                                       
+                                                            <td class='text-center'>".$result['FECHA']."</td>
+                                                            <td>".$actividad."</td>
+                                                            <td>".$result['MONTO']."</td>
+                                                        </tr>";
+                                                } # por cada dato crea una columna
+                                            }
+                                            catch (Exception $e) {
+                                                echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                                            }
+                                        } else{
+                                            try {
+                                                $sql = $conn->prepare("SELECT * FROM tesoreria");
+                                                $sql->execute();                                 #se ejecuta la consulta
+                                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                                                    if($result['E_S'] == 1){$actividad = 'Ingreso';}
+                                                    else{$actividad = 'Egreso';}
+                                                
+                                                    echo "<tr>                                       
+                                                            <td class='text-center'>".$result['FECHA']."</td>
+                                                            <td>".$actividad."</td>
+                                                            <td>".$result['MONTO']."</td>
+                                                        </tr>";
+                                                } # por cada dato crea una columna
+                                            }
+                                            catch (Exception $e) {
+                                                echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                                            }
+                                        }
+                                        
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
                 </body>
             </html>

@@ -9,7 +9,7 @@
             <!DOCTYPE html>
             <html>
                 <head>
-                    <title>Balances</title>
+                    <title>Libro caja</title>
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                     <link rel="stylesheet" href="../../css/font-awesome.min.css">
@@ -86,10 +86,11 @@
                                         <li class="dropdown active">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <li class="active"><a href="tesoreria_balances.php">Ver Balances</a></li>
-                                                <li><a href="tesoreria_recursos.php">Solicitar Recursos</a></li>
-                                                <li><a href="tesoreria_admin_balances.php">Administrar balances</a></li>
-                                                <li><a href="tesoreria_admin_recursos.php">Administrar Recursos</a></li>
+                                                <li class="active"><a href="tesoreria_balances.php">Ver libro caja</a></li>
+                                                <li><a href="tesoreria_resumen.php">Ver resumen</a></li>
+                                                <li><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
+                                                <li><a href="tesoreria_admin_balances.php">Administrar libro caja</a></li>
+                                                <li><a href="tesoreria_admin_recursos.php">Administrar recursos</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">
@@ -151,8 +152,9 @@
                                         <li class="dropdown active">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <li class="active"><a href="tesoreria_balances.php">Ver Balances</a></li>
-                                                <li><a href="tesoreria_recursos.php">Solicitar Recursos</a></li>
+                                                <li class="active"><a href="tesoreria_balances.php">Ver libro caja</a></li>
+                                                <li><a href="tesoreria_resumen.php">Ver resumen</a></li>
+                                                <li><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">
@@ -178,34 +180,40 @@
     }
 ?>
                         <div class="page-header">
-                            <h1>Balances</h1>
+                            <h1>Libro caja</h1>
                         </div>
 
                         <div class="table-responsive">
                             <table id="example" class="table table-striped cell-border">
                                 <thead>
                                     <tr>
-                                        <th>Firstname</th>
-                                        <th>Lastname</th>
-                                        <th>Email</th>
+                                        <th>Fecha</th>
+                                        <th>Concepto</th>
+                                        <th>Actividad</th>
+                                        <th>Monto</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>john@example.com</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mary</td>
-                                        <td>Moe</td>
-                                        <td>mary@example.com</td>
-                                    </tr>
-                                    <tr>
-                                        <td>July</td>
-                                        <td>Dooley</td>
-                                        <td>july@example.com</td>
-                                    </tr>
+                                    <?php
+                                        try {
+                                            $sql = $conn->prepare("SELECT * FROM tesoreria");#se prepara la consulta
+                                            $sql->execute();                                 #se ejecuta la consulta
+                                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                                                if($result['E_S'] == 1){$actividad = 'Entrada';}
+                                                else{$actividad = 'Salida';}
+                                                
+                                                echo "<tr>                                       
+                                                    <td class='text-center'>".$result['FECHA']."</td>
+                                                    <td>".$result['CONCEPTO']."</td>
+                                                    <td>".$actividad."</td>
+                                                    <td>".$result['MONTO']."</td>
+                                                    </tr>";
+                                            } # por cada dato crea una columna
+                                        } 
+                                        catch (Exception $e) {
+                                            echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                                        }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

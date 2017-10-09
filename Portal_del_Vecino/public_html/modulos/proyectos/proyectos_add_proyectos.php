@@ -103,7 +103,7 @@
 	            <li class="active"><a href="proyectos_add_proyectos.html">Añadir Proyectos (*)</a></li>
 	          </ul>
 	        </li>
-	        <li><a href="../foro/foro.html">Foro</a></li>
+	        <li><a href="../foro">Foro</a></li>
 	    </div>
 	  </div>
 	</nav>

@@ -87,7 +87,7 @@
 	            <li><a href="proyectos_add_proyectos.php">Añadir Proyectos (*)</a></li>
 	          </ul>
 	        </li>
-	        <li><a href="../foro/foro.html">Foro</a></li>
+	        <li><a href="../foro">Foro</a></li>
 	    </div>
 	  </div>
 	</nav>';
@@ -131,7 +131,7 @@
 	            <li class="active"><a href="proyectos_proyecto.php">Proyectos</a></li>
 	          </ul>
 	        </li>
-	        <li><a href="../foro/foro.html">Foro</a></li>
+	        <li><a href="../foro">Foro</a></li>
 	    </div>
 	  </div>
 	</nav>';

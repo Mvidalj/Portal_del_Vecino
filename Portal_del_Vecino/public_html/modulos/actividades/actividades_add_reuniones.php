@@ -66,7 +66,6 @@
 	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="../tesoreria/tesoreria_balances.php">Ver libro caja</a></li>
-                    <li><a href="../tesoreria/tesoreria_resumen.php">Ver resumen</a></li>
                     <li><a href="../tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
                     <li><a href="../tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
                     <li><a href="../tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>

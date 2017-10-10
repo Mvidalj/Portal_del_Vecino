@@ -87,7 +87,6 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="tesoreria_balances.php">Ver libro caja</a></li>
-                                                <li><a href="tesoreria_resumen.php">Ver resumen</a></li>
                                                 <li class="active"><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
                                                 <li><a href="tesoreria_admin_balances.php">Administrar libro caja</a></li>
                                                 <li><a href="tesoreria_admin_recursos.php">Administrar recursos</a></li>
@@ -153,7 +152,6 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="tesoreria_balances.php">Ver libro caja</a></li>
-                                                <li><a href="tesoreria_resumen.php">Ver resumen</a></li>
                                                 <li class="active"><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
                                             </ul>
                                         </li>

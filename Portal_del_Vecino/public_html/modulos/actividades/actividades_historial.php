@@ -1,3 +1,6 @@
+<?php
+    require_once '../../validaciones/conexion_bd.php';
+?>
 <html>
 <head>
 	<title>Portal del Vecino</title>
@@ -96,7 +99,6 @@
 				    </thead>
 				    <tbody>
                                         <?php
-                                            require_once '../../validaciones/conexion_bd.php';
                                             try {
 							$sql = $conn->prepare("SELECT * FROM actividades");
 							$sql->execute();

@@ -1,13 +1,9 @@
 <?php
     require_once '../../validaciones/conexion_bd.php';
-
-    SESSION_START();
-    SESSION_UNSET();
-    SESSION_DESTROY();
-
-    if($user->is_loggedin()!="")
+    
+    if($user->Is_Loggedin() != true)
     {
-        $user->redirect('home.html');
+        $user->Redirect('../../index.php');
     }
 	
 	if(isset($_REQUEST['add_proyecto'])){

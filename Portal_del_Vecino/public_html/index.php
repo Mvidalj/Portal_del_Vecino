@@ -1,7 +1,7 @@
 <?php
     require_once 'validaciones/conexion_bd.php';
     
-    if($user->Is_Loggedin()!="")
+    if($user->Is_Loggedin() == true)
     {
         $user->Redirect('home.php');
     }

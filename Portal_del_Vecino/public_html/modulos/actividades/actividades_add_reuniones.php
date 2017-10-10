@@ -110,7 +110,7 @@
 					    		<textarea name="" class="form-control" id="desc" rows="5" placeholder="Descripcion"></textarea>
 					    	</div>
 							<div class="col-sm-4 col-sm-offset-4">
-					    		<br><a type="button" class="btn btn-primary btn-md" href="../../home.html">Guardar <span class="fa fa-save"></span></a>
+					    		<br><a type="button" class="btn btn-primary btn-md" href="../../home.php">Guardar <span class="fa fa-save"></span></a>
 					    	</div>
 				    	</div>
 					</div>

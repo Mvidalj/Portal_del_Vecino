@@ -32,8 +32,8 @@
             try
             {   
                 $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE CORREO = :umail LIMIT 1");
-                $stmt->execute(array(':umail'=>$umail));
-                $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+                $stmt->bindparam(":umail", $umail);
+                $stmt->execute();
                 if($stmt->rowCount() > 0){
                     return false;
                 }

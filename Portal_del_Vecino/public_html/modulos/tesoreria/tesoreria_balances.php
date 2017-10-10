@@ -1,6 +1,6 @@
 <?php
     require_once '../../validaciones/conexion_bd.php';
-
+    
     if($user->Is_Loggedin() != true)
     {
         $user->Redirect('../../index.php');
@@ -10,10 +10,18 @@
             <html>
                 <head>
                     <title>Libro caja</title>
-                    <meta charset="utf-8">
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                     <link rel="stylesheet" href="../../css/font-awesome.min.css">
                     <link rel="stylesheet" href="../../css/bootstrap.css">
+                    <style type="text/css">
+                        @media print
+                        {
+                            body * { visibility: hidden; }
+                            #printcontent * { visibility: visible; }
+                            #printcontent { position: absolute; top: 40px; left: 30px; }
+                        }
+                    </style>
                     <script src="../../librerias/jquery-3.2.1.js"></script>
                     <script src="../../librerias/bootstrap.js"></script>
                     <script>
@@ -35,7 +43,6 @@
                                     table.rows[r].cells[4].innerHTML = Number(table.rows[r-1].cells[4].innerHTML)+(Number(table.rows[r].cells[2].innerHTML)-Number(table.rows[r].cells[3].innerHTML));
                                 }
                             }
-                            
                         }
                     </script>
                 </head>
@@ -190,19 +197,22 @@
                                     <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta">
                                 </div>
                                 <div class="col-sm-2">
-                                    <select class="form-control" id="select_actividad" name="select_actividad">
+                                    <select class="form-control" id="select_actividad" name="select_actividad" onchange="reSend()">
                                         <option value="" disabled selected>Ingresos/Egresos</option>
                                         <option value="1">Ingresos</option>
                                         <option value="0">Egresos</option>
                                     </select> 
                                 </div>
-                                <div class="col-sm-2">
-                                    <input type="submit" class="btn btn-primary" id="submit-buscar" name="submit-buscar" value="Buscar">
+                                <div class="col-sm-1">
+                                    <button type="submit" class="btn btn-primary" id="submit-buscar" name="submit-buscar">Buscar <i class="fa fa-search"></i></button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button class="btn btn-info" onclick="PrintPage()">Imprimir resumen <i class="fa fa-print"></i></button>
                                 </div>
                             </div>
                         </form>
                         &nbsp;
-                        <div class="table-responsive">
+                        <div id="printcontent" class="table-responsive">
                             <table id="detalles" class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -242,27 +252,27 @@
                                                     if($result['E_S'] == 1){
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
-                                                            <td>".$result['CONCEPTO']."</td>
-                                                            <td>".$result['MONTO']."</td>
+                                                            <td>".utf8_decode($result['CONCEPTO'])."</td>
+                                                            <td class='text-right'>".$result['MONTO']."</td>
                                                             <td></td>
-                                                            <td>".$result['MONTO']."</td>
+                                                            <td class='text-right'>".$result['MONTO']."</td>
                                                         </tr>";    
                                                     }
                                                     else{
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
-                                                            <td>".$result['CONCEPTO']."</td>
+                                                            <td>".utf8_decode($result['CONCEPTO'])."</td>
                                                             <td></td>
-                                                            <td>".$result['MONTO']."</td>
-                                                            <td>".$result['MONTO']."</td>
+                                                            <td class='text-right'>".$result['MONTO']."</td>
+                                                            <td class='text-right'>".$result['MONTO']."</td>
                                                         </tr>";
                                                     }
                                                 }
                                                 echo "<tr class='info'>
                                                         <td><strong>".date('Y-m-d', time())."</strong></td>
                                                         <td><strong>SUB-TOTAL</strong></td>
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td class='text-right'></td>
+                                                        <td class='text-right'></td>
                                                         <td></td>
                                                       </tr>";
                                             }
@@ -277,19 +287,19 @@
                                                     if($result['E_S'] == 1){
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
-                                                            <td>".$result['CONCEPTO']."</td>
-                                                            <td>".$result['MONTO']."</td>
+                                                            <td>".utf8_decode($result['CONCEPTO'])."</td>
+                                                            <td class='text-right'>".$result['MONTO']."</td>
                                                             <td></td>
-                                                            <td>".$result['MONTO']."</td>
+                                                            <td class='text-right'>".$result['MONTO']."</td>
                                                         </tr>";    
                                                     }
                                                     else{
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
-                                                            <td>".$result['CONCEPTO']."</td>
+                                                            <td>".utf8_decode($result['CONCEPTO'])."</td>
                                                             <td></td>
-                                                            <td>".$result['MONTO']."</td>
-                                                            <td>".$result['MONTO']."</td>
+                                                            <td class='text-right'>".$result['MONTO']."</td>
+                                                            <td class='text-right'>".$result['MONTO']."</td>
                                                         </tr>";
                                                     }
                                                 }
@@ -297,9 +307,9 @@
                                                 echo "<tr class='info'>
                                                         <td><strong>".date('Y-m-d', time())."</strong></td>
                                                         <td><strong>SUB-TOTAL</strong></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td class='text-right'></td>
+                                                        <td class='text-right'></td>
+                                                        <td class='text-right'></td>
                                                       </tr>";
                                                 
                                             }
@@ -316,6 +326,12 @@
                         GetSub('2');
                         GetSub('3');
                         GetBalance();
+                        function PrintPage() {
+                            window.print();
+                        }
+                        function reSend() {
+                            document.querySelectorAll("button[type=submit]")[0].click();
+                        }
                     </script>
                 </body>
             </html>

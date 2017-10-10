@@ -1,9 +1,22 @@
-    <html>
+<?php
+    require_once '../../validaciones/conexion_bd.php';
+
+    if($user->Is_Loggedin() != true)
+    {
+        $user->Redirect('../../index.php');
+    } else {
+        if($_SESSION['id_rol'] != "1"){
+            $user->Redirect('../../index.php');
+        }
+    }
+?>
+<!DOCTYPE html>
+<html>
 <head>
 	<title>Portal del Vecino</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="../../css/font-awesome.min.css">
+        <link rel="stylesheet" href="../../css/font-awesome.min.css">
         <link rel="stylesheet" href="../../css/bootstrap.css">
         <link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
         <script src="../../librerias/jquery-3.2.1.js"></script>
@@ -45,7 +58,7 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>                        
 	      </button>
-	      <a class="navbar-brand" href="../../home.php">Inicio</a>
+	      <a class="navbar-brand" href="../../home.html">Inicio</a>
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav">
@@ -64,8 +77,8 @@
 	          <ul class="dropdown-menu">
 	            <li><a href="actividades_reuniones.php">Reuniones</a></li>
 	            <li><a href="actividades_historial.php">Historial de Actividades</a></li>
-	            <li><a href="actividades_add_reuniones.html">Añadir Reuniones (*)</a></li>
-                    <li class="active"><a href="actividades_add_actividades.html">Añadir Actividades (*)</a></li>
+	            <li class="active"><a href="actividades_add_reuniones.php">Añadir Reuniones (*)</a></li>
+                    <li><a href="actividades_add_actividades.php">Añadir Actividades (*)</a></li>
 	          </ul>
 	        </li>
 	        <li class="dropdown">
@@ -81,37 +94,29 @@
 	</nav>
 
 	<div class="row">
-            <div class="col-sm-12">
-                <h1>Añadir actividad</h1>
-                <hr>
-                <form>
-                    <div class="row ">
-                        <div class="col-sm-6 col-sm-offset-3" >
-                            <div class="row">
-                                <div class="col-sm-6">
-                                        <label for="fecha_in">Fecha Inicio:</label>
-                                        <input type="date" class="form-control" id="fecha_in">
-                                </div>
-                                <div class="col-sm-6 ">
-                                        <label for="fecha_ter">Fecha Termino:</label>
-                                        <input type="date" class="form-control" id="fecha_ter">
-                                </div><br><br><br><br>
-                                <div class="col-sm-12">
-                                        <label for="nombre">Nombre Actividad:</label>
-                                        <input type="text" class="form-control" id="nombre" placeholder="Nombre">
-                                </div><br><br><br><br>
-                                        <div class="col-sm-12 ">
-                                        <label for="desc">Descripcion:</label>
-                                        <textarea name="" class="form-control" id="desc" rows="5" placeholder="Descripcion"></textarea>
-                                </div>
-                                        <div class="col-sm-3 col-sm-offset-5">
-                                        <br><a type="button" class="btn btn-primary btn-md" href="home.html">Guardar <span class="fa fa-save"></span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+		<div class="col-sm-12">
+			<h1>Añadir reunion</h1>
+			<hr>
+			<form>
+				<div class="row ">
+					<div class="col-sm-4 col-sm-offset-4" >
+						<div class="row">
+							<div class="col-sm-12">
+					    		<label for="fecha_in">Fecha Inicio:</label>
+					    		<input type="date" class="form-control" id="fecha_in">
+					    	</div>
+					    	<div class="col-sm-12 ">
+					    		<label for="desc">Descripcion:</label>
+					    		<textarea name="" class="form-control" id="desc" rows="5" placeholder="Descripcion"></textarea>
+					    	</div>
+							<div class="col-sm-4 col-sm-offset-4">
+					    		<br><a type="button" class="btn btn-primary btn-md" href="../../home.html">Guardar <span class="fa fa-save"></span></a>
+					    	</div>
+				    	</div>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 	<br><br><br>
 </div>

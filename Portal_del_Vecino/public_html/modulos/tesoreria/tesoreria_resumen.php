@@ -98,8 +98,8 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
                                                 <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
-                                                <li><a href="../actividades/actividades_add_reuniones.html">Añadir Reuniones</a></li>
-                                                <li><a href="../actividades/actividades_add_actividades.html">Añadir Actividades</a></li>
+                                                <li><a href="../actividades/actividades_add_reuniones.php">Añadir Reuniones</a></li>
+                                                <li><a href="../actividades/actividades_add_actividades.php">Añadir Actividades</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">

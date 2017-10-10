@@ -1,3 +1,11 @@
+<?php
+    require_once '../../validaciones/conexion_bd.php';
+
+    if($user->Is_Loggedin() != true)
+    {
+        $user->Redirect('../../index.php');
+    }
+?>
 <html>
 <head>
 	<title>Portal del Vecino</title>
@@ -55,8 +63,12 @@
 	            <li><a href="../tesoreria/tesoreria_balances.php">Ver libro caja</a></li>
                     <li><a href="../tesoreria/tesoreria_resumen.php">Ver resumen</a></li>
                     <li><a href="../tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
-                    <li><a href="../tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
-                    <li><a href="../tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>
+    <?php
+        if($_SESSION['id_rol'] == "1"){                
+            echo   "<li><a href='../tesoreria/tesoreria_admin_balances.php'>Administrar libro caja</a></li>
+                    <li><a href='../tesoreria/tesoreria_admin_recursos.php'>Administrar recursos</a></li>";
+        }
+    ?>
 	          </ul>
 	        </li>
 	        <li class="dropdown active">
@@ -64,15 +76,23 @@
 	          <ul class="dropdown-menu">
 	            <li><a href="actividades_reuniones.php">Reuniones</a></li>
 	            <li class="active"><a href="actividades_historial.php">Historial de Actividades</a></li>
-	            <li><a href="actividades_add_reuniones.html">Añadir Reuniones (*)</a></li>
-                    <li><a href="actividades_add_actividades.html">Añadir Actividades (*)</a></li>
+    <?php
+        if($_SESSION['id_rol'] == "1"){
+            echo   "<li><a href='actividades_add_reuniones.php'>Añadir Reuniones (*)</a></li>
+                    <li><a href='actividades_add_actividades.php'>Añadir Actividades (*)</a></li>";
+        }
+    ?>
 	          </ul>
 	        </li>
 	        <li class="dropdown">
 	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Proyectos <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="../proyectos/proyectos_proyecto.php">Proyectos</a></li>
-	            <li><a href="../proyectos/proyectos_add_proyectos.php">Añadir Proyectos (*)</a></li>
+    <?php
+        if($_SESSION['id_rol'] == "1"){
+	    echo   "<li><a href='../proyectos/proyectos_add_proyectos.php'>Añadir Proyectos (*)</a></li>";
+        }
+    ?>
 	          </ul>
 	        </li>
 	        <li><a href="../foro">Foro</a></li>
@@ -96,7 +116,6 @@
 				    </thead>
 				    <tbody>
                                         <?php
-                                            require_once '../../validaciones/conexion_bd.php';
                                             try {
 							$sql = $conn->prepare("SELECT * FROM actividades");
 							$sql->execute();

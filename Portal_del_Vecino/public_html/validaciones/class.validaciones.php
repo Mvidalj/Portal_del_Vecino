@@ -39,7 +39,7 @@
                 }
 
                 $stmt = $this->db->prepare("INSERT INTO usuarios(ID_ORGANIZACION,NOMBRE,APELLIDO,CORREO,TELEFONO,ID_ROL,ID_COMUNA,DIRECCION,ELIMINADO)"
-                        . "VALUES(1, :fname, :lname, :umail, :phone, 1, 10109, :dir, 0)");
+                        . "VALUES(1, :fname, :lname, :umail, :phone, 1, 9101, :dir, 0)");
 
                 $stmt->bindparam(":fname", $fname);
                 $stmt->bindparam(":lname", $lname);

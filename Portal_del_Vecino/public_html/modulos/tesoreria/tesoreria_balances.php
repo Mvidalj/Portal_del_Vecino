@@ -228,28 +228,28 @@
                                         if(isset($_REQUEST['submit-buscar'])){
                                             if($_POST['fecha_desde'] != "" && $_POST['fecha_hasta'] != ""){
                                                 if(isset($_POST['select_actividad'])){
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad AND ELIMINADO = 0");
                                                     $sql->bindparam(":fecha_desde",  date('Y-m-d', strtotime($_POST['fecha_desde'])));
                                                     $sql->bindparam(":fecha_hasta",  date('Y-m-d', strtotime($_POST['fecha_hasta'])));
                                                     $sql->bindparam(":actividad", $_POST['select_actividad']);
                                                 }else{
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND ELIMINADO = 0");
                                                     $sql->bindparam(':fecha_desde',  date('Y-m-d', strtotime($_POST['fecha_desde'])));
                                                     $sql->bindparam(':fecha_hasta',  date('Y-m-d', strtotime($_POST['fecha_hasta'])));
                                                 }
                                             }else{
                                                 if(isset($_POST['select_actividad'])){
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE E_S = :actividad");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE E_S = :actividad OR E_S = 3 AND ELIMINADO = 0");
                                                     $sql->bindparam(":actividad", $_POST['select_actividad']);
                                                 }else{
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0");
                                                 }
                                             }
                                             
                                             try {
                                                 $sql->execute();                                 #se ejecuta la consulta
                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
-                                                    if($result['E_S'] == 1){
+                                                    if($result['E_S'] == 1 || $result['E_S'] == 3){
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
                                                             <td>".utf8_decode($result['CONCEPTO'])."</td>
@@ -281,10 +281,10 @@
                                             }
                                         } else{
                                             try {
-                                                $sql = $conn->prepare("SELECT * FROM tesoreria");
+                                                $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0");
                                                 $sql->execute();
                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
-                                                    if($result['E_S'] == 1){
+                                                    if($result['E_S'] == 1 || $result['E_S'] == 3){
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
                                                             <td>".utf8_decode($result['CONCEPTO'])."</td>

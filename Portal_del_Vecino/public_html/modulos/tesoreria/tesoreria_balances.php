@@ -10,7 +10,7 @@
             <html>
                 <head>
                     <title>Libro caja</title>
-                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                    <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                     <link rel="stylesheet" href="../../css/font-awesome.min.css">
                     <link rel="stylesheet" href="../../css/bootstrap.css">
@@ -252,7 +252,7 @@
                                                     if($result['E_S'] == 1 || $result['E_S'] == 3){
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
-                                                            <td>".utf8_decode($result['CONCEPTO'])."</td>
+                                                            <td>".$result['CONCEPTO']."</td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
                                                             <td></td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
@@ -261,7 +261,7 @@
                                                     else{
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
-                                                            <td>".utf8_decode($result['CONCEPTO'])."</td>
+                                                            <td>".$result['CONCEPTO']."</td>
                                                             <td></td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
@@ -287,7 +287,7 @@
                                                     if($result['E_S'] == 1 || $result['E_S'] == 3){
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
-                                                            <td>".utf8_decode($result['CONCEPTO'])."</td>
+                                                            <td>".$result['CONCEPTO']."</td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
                                                             <td></td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
@@ -296,7 +296,7 @@
                                                     else{
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
-                                                            <td>".utf8_decode($result['CONCEPTO'])."</td>
+                                                            <td>".$result['CONCEPTO']."</td>
                                                             <td></td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
                                                             <td class='text-right'>".$result['MONTO']."</td>

@@ -18,32 +18,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="../../css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../css/bootstrap.css">
-	<link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
 	<script src="../../librerias/jquery-3.2.1.js"></script>
 	<script src="../../librerias/bootstrap.js"></script>
-	<script src="../../librerias/jquery.dataTables.min.js"></script>
-        
-        <!-- Configuración de lenguaje de DataTable -->
-	<script type="text/javascript">
-	$(document).ready(function() {
-            $('#example').DataTable( {
-                "language": {
-                    "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
-                    "zeroRecords"   :   "Lo sentimos, no hay información",
-                    "info"          :   "Mostrando _PAGE_ de _PAGES_",
-                    "search"        :   "Buscar:",
-                    "infoEmpty"     :   "Lo sentimos, no hay información",
-                    "infoFiltered"  :   "(filtered from _MAX_ total records)",
-                    "paginate": {
-                            "first"     :   "Primero",
-                            "last"      :   "Último",
-                            "next"      :   "Siguiente",
-                            "previous"  :   "Anterior"
-                        }
-                }
-            } );
-	} );
-	</script>
     </head>
     <body>
         <div class="container">
@@ -131,21 +107,31 @@
                         echo "Error: " . $e->getMessage();
                     }
                 }
+                
+                if(isset($_REQUEST['delete_resource'])){
+                    try {
+                        $sql = $conn->prepare("UPDATE recursos SET ELIMINADO = 1 WHERE ID_RECURSO = :ID");
+                        $sql->bindParam(':ID', $_POST['id_recurso']);  
+                        $sql->execute();
+                    } catch (Exception $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+                }
             ?>
             <div class="table-responsive">
-                <table id="example" class="table table-striped cell-border">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Recurso</th>
                             <th>Descripción</th>
                             <th>Disponibilidad</th>
-                            <th>Asignar</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php
                         try {
-                            $sql = $conn->prepare("SELECT * FROM recursos");#se prepara la consulta
+                            $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0");#se prepara la consulta
                             $sql->execute();                                 #se ejecuta la consulta
                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
                                 if($result['ESTADO'] == 1){
@@ -158,7 +144,12 @@
                                         <td class='text-center'>".$result['NOMBRE']."</td>
                                         <td>".$result['DESCRIPCION']."</td>
                                         <td>".$estado."</td>
-                                        <td>Asignar</td>
+                                        <td>
+                                            <form action='tesoreria_admin_recursos.php' method='POST'>
+                                                <input type='hidden' id='id_recurso' name='id_recurso' value='".$result['ID_RECURSO']."'>
+                                                <button type='submit' class='btn btn-danger' id='delete_resource' name='delete_resource' onclick=\"return confirm('¿Está seguro de que desea eliminar este recurso?')\"><i class='fa fa-trash-o'></i></button>
+                                            </form>
+                                        </td>
                                     </tr>";
                             } # por cada dato crea una columna
                         } 

@@ -14,32 +14,8 @@
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                     <link rel="stylesheet" href="../../css/font-awesome.min.css">
                     <link rel="stylesheet" href="../../css/bootstrap.css">
-                    <link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
                     <script src="../../librerias/jquery-3.2.1.js"></script>
                     <script src="../../librerias/bootstrap.js"></script>
-                    <script src="../../librerias/jquery.dataTables.min.js"></script>
-
-                    <!-- Configuración de lenguaje de DataTable -->
-                    <script type="text/javascript">
-                    $(document).ready(function() {
-                            $("#example").DataTable( {
-                    "language": {
-                        "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
-                        "zeroRecords"   :   "Lo sentimos, no hay información",
-                        "info"          :   "Mostrando _PAGE_ de _PAGES_",
-                        "search"        :   "Buscar:",
-                        "infoEmpty"     :   "Lo sentimos, no hay información",
-                        "infoFiltered"  :   "(filtered from _MAX_ total records)",
-                                "paginate"      : {
-                                    "first"     :   "Primero",
-                                    "last"      :   "Último",
-                                    "next"      :   "Siguiente",
-                                    "previous"  :   "Anterior"
-                                }
-                    }
-                    } );
-                    } );
-                    </script>
                 </head>
                 <body>
                     <div class="container">
@@ -181,7 +157,7 @@
                             <h1>Solicitar recursos</h1>
                         </div>
                         <div class="table-responsive">
-                            <table id="example" class="table table-striped cell-border">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Recurso</th>
@@ -210,17 +186,38 @@
                                                     $estado = 'Disponible';
                                                     $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
                                                                     <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
-                                                                    <input type='submit' class='btn btn-primary' id='solicitar' name='solicitar' value='Solicitar'>
-                                                                  </form>";
+                                                                    <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
+                                                                    <!-- Modal -->
+                                                                    <div id='".$result['ID_RECURSO']."' class='modal fade' role='dialog'>
+                                                                        <div class='modal-dialog'>
+                                                                            <!-- Modal content-->
+                                                                            <div class='modal-content'>
+                                                                                <div class='modal-header'>
+                                                                                    <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                                    <h4 class='modal-title'>Solicitar</h4>
+                                                                                </div>
+                                                                                <div class='modal-body'>
+                                                                                    <label>Desde:</label>
+                                                                                    <input type='text' class='form-control' id='from_date' name='from_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" placeholder='Seleccione una fecha' required><br>
+                                                                                    <label>Hasta:</label>
+                                                                                    <input type='text' class='form-control' id='to_date' name='to_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" placeholder='Seleccione una fecha' required><br>
+                                                                                    <input type='submit' class='btn btn-success' id='submit-request' name='submit-request' value='Solicitar'>
+                                                                                </div>
+                                                                                <div class='modal-footer'>
+                                                                                    <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                   </form>";
                                                 }
-                                                
                                                 echo "<tr>                                       
                                                         <td class='text-center'>".$result['NOMBRE']."</td>
                                                         <td>".$result['DESCRIPCION']."</td>
                                                         <td>".$estado."</td>
                                                         <td>".$solicitar."</td>
                                                     </tr>";
-                                            } # por cada dato crea una columna
+                                            }
                                         } 
                                         catch (Exception $e) {
                                             echo "Error: " . $e->getMessage();#captura el error y lo muestra

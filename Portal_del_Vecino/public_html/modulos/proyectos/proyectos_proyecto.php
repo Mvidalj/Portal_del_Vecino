@@ -5,6 +5,16 @@
     {
         $user->Redirect('../../index.php');
     }
+    if(isset($_REQUEST['delete'])){
+        $id = $_POST['delete'];
+	try{
+		$sentencia = $conn->prepare("DELETE FROM proyectos WHERE ID_PROYECTO= :ID");
+		$sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
+                if($sentencia->execute()){$user->Redirect('proyectos_proyecto.php');}  
+		}catch(PDOException $e){
+			echo 'Fallo la conexion:'.$e->GetMessage();
+		}
+	}
     
 ?>
 <html>
@@ -66,6 +76,7 @@
 	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tesorería <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
                     <li><a href="../tesoreria/tesoreria_balances.php">Ver libro caja</a></li>
+                    <li><a href="../tesoreria/tesoreria_resumen.php">Ver resumen</a></li>
                     <li><a href="../tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
                     <li><a href="../tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
                     <li><a href="../tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>
@@ -137,41 +148,73 @@
 	</nav>';
  }
     ?>
-
 	<div class="row">
             <div class="col-sm-12">
                 <h1>Proyectos<small> (Vigentes)</small></h1>
                 <hr>
                 <div class="table-responsive">
-                    <table id="example" class="table table-striped cell-border">
-                        <thead>
-                            <tr>
-                                <th class="col-sm-2 text-center">N°</th>
-                                <th class="col-sm-4">Nombre</th>
-                                <th class="col-sm-3 ">Fecha Inicio</th>
-                                <th class="col-sm-3">Fecha Termino</th>
-                            </tr>
-                        </thead>
+                    <form action="proyectos_proyecto.php" method='POST'>
+                        <table id="example" class="table table-striped cell-border">
+                            <thead>
+                                <tr>
+                                    <?php
+                                    if($_SESSION['id_rol'] == "1")
+                                        {
+                                        echo '
+                                    <th class="col-sm-1 text-center">N°</th>
+                                    <th class="col-sm-4">Nombre</th>
+                                    <th class="col-sm-3 ">Fecha Inicio</th>
+                                    <th class="col-sm-3">Fecha Termino</th>
+                                    <th class="col-sm-1">Opciones</th>';
+                                        }
+                                    else{
+                                        echo '
+                                    <th class="col-sm-2 text-center">N°</th>
+                                    <th class="col-sm-4">Nombre</th>
+                                    <th class="col-sm-3 ">Fecha Inicio</th>
+                                    <th class="col-sm-3">Fecha Termino</th>';
+                                    }
+                                    ?>
+                                </tr>
+                            </thead>
                             <tbody>
                                 <?php
                                     try {
                                         $sql = $conn->prepare("SELECT * FROM proyectos");#se prepara la consulta
                                         $sql->execute();                                 #se ejecuta la consulta
                                         while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
-                                        echo "<tr>                                       
-                                              <td class='text-center'>".$result['ID_PROYECTO']."</td>
-                                              <td>".$result['NOMBRE']."</td>
-                                              <td class='text-center'>".$result['FECHA_INICIO']."</td>
-                                              <td class='text-center'>".$result['FECHA_TERMINO']."</td>
-                                              </tr>";
-                                        } # por cada dato crea una columna
-                                    } 
+                                        if($_SESSION['id_rol'] == "1")
+                                            {
+                                            echo "
+                                <tr>                                       
+                                  <td class='text-center'>".$result['ID_PROYECTO']."</td>
+                                  <td>".$result['NOMBRE']."</td>
+                                  <td class='text-center'>".$result['FECHA_INICIO']."</td>
+                                  <td class='text-center'>".$result['FECHA_TERMINO']."</td>
+                                  <td class='text-center'> 
+                                      <button type='submit' class='btn-link' name='edit' id='asd' value=".$result['ID_PROYECTO']."><span class='fa fa-pencil'></span></button>
+                                      <button type='submit' class='btn-link' name='delete' id='asd2' value=".$result['ID_PROYECTO']."><span class='fa fa-times'></span></button>
+                                  </td>
+                                </tr>";
+                                            } # por cada dato crea una columna
+                                    else
+                                        {
+                                    echo "
+                                <tr>                                       
+                                  <td class='text-center'>".$result['ID_PROYECTO']."</td>
+                                  <td>".$result['NOMBRE']."</td>
+                                  <td class='text-center'>".$result['FECHA_INICIO']."</td>
+                                  <td class='text-center'>".$result['FECHA_TERMINO']."</td>
+                                </tr>";
+                                        }
+                                    }}
                                     catch (Exception $e) {
                                         echo "Error: " . $e->getMessage();#captura el error y lo muestra
                                     }
                                 ?>
                             </tbody>
                         </table>
+                        </form>
                     </div>
 		</div>
 	</div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-10-2017 a las 17:20:37
+-- Tiempo de generación: 15-10-2017 a las 23:24:52
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -488,6 +488,13 @@ CREATE TABLE `prestamos` (
   `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `prestamos`
+--
+
+INSERT INTO `prestamos` (`ID_PRESTAMO`, `ID_RECURSO`, `ID_USUARIO`, `FECHA_INICIO`, `FECHA_TERMINO`, `ELIMINADO`) VALUES
+(1, 1, 1, '2017-10-01', '2017-10-01', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -602,7 +609,7 @@ CREATE TABLE `recursos` (
 --
 
 INSERT INTO `recursos` (`ID_RECURSO`, `ID_ORGANIZACION`, `NOMBRE`, `DESCRIPCION`, `ESTADO`, `ELIMINADO`) VALUES
-(1, 1, 'Set de loza', '12 platos, 12 vasos, 12 tenedores, 12 cuchillos, 12 cucharas', 0, 0);
+(1, 1, 'Set de loza', '12 platos, 12 vasos, 12 tenedores, 12 cuchillos, 12 cucharas', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -703,15 +710,19 @@ CREATE TABLE `tesoreria` (
   `FECHA` date NOT NULL,
   `CONCEPTO` varchar(140) NOT NULL,
   `MONTO` int(10) UNSIGNED NOT NULL,
-  `E_S` tinyint(1) NOT NULL
+  `E_S` tinyint(1) NOT NULL,
+  `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `tesoreria`
 --
 
-INSERT INTO `tesoreria` (`ID_TESORERIA`, `ID_ORGANIZACION`, `FECHA`, `CONCEPTO`, `MONTO`, `E_S`) VALUES
-(1, 1, '2017-10-01', 'Pago inscripciÃ³n en portal del vecino', 150000, 0);
+INSERT INTO `tesoreria` (`ID_TESORERIA`, `ID_ORGANIZACION`, `FECHA`, `CONCEPTO`, `MONTO`, `E_S`, `ELIMINADO`) VALUES
+(1, 1, '2017-10-01', 'Saldo inicial', 500000, 3, 0),
+(2, 1, '2017-10-02', 'Pago inscripciÃ³n en portal del vecino', 180000, 0, 0),
+(3, 1, '2017-10-03', 'Pago gastos comunes', 32399, 0, 0),
+(4, 1, '2017-10-04', 'Pago de participantes de la junta de vecinos', 45000, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -897,7 +908,7 @@ ALTER TABLE `organizaciones`
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
-  MODIFY `ID_PRESTAMO` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_PRESTAMO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `provincia`
 --
@@ -937,7 +948,7 @@ ALTER TABLE `temas`
 -- AUTO_INCREMENT de la tabla `tesoreria`
 --
 ALTER TABLE `tesoreria`
-  MODIFY `ID_TESORERIA` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_TESORERIA` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --

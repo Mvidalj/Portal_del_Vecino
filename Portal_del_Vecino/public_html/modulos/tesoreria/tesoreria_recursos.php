@@ -168,23 +168,30 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        if(isset($_REQUEST['solicitar'])){
-                                            
+                                        if(isset($_REQUEST['submit-request'])){
+                                            try{
+                                                $sql = $conn->prepare("UPDATE recursos SET ESTADO = 1 WHERE ID_RECURSO = :id");
+                                                $sql->bindparam(":id", $_POST['id_recurso']);
+                                                if($sql->execute()){
+                                                    $sql = $conn->prepare("INSERT INTO prestamos (ID_RECURSO, ID_USUARIO, FECHA_INICIO, FECHA_TERMINO, ELIMINADO) VALUES(:ID, :USER, :FROM, :TO, 0)");
+                                                    $sql->bindparam(":ID", $_POST['id_recurso']);
+                                                    $sql->bindparam(":USER", $_SESSION['id_usuario']);
+                                                    $sql->bindparam(":FROM", date('Y-m-d', strtotime($_POST['from_date'])));
+                                                    $sql->bindparam(":TO", date('Y-m-d', strtotime($_POST['to_date'])));
+                                                    if($sql->execute()){
+                                                        echo "<script>alert('Su solicitud se ha realizado correctamente')</script>";
+                                                    }
+                                                }
+                                                
+                                            } catch (Exception $e) {
+                                                echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                                            }
                                         }
                                         try {
                                             $sql = $conn->prepare("SELECT * FROM recursos");#se prepara la consulta
                                             $sql->execute();                                 #se ejecuta la consulta
-                                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
-                                                if($result['ESTADO'] == 1){
-                                                    $estado = 'En uso';
-                                                    $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
-                                                                    <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
-                                                                    <input type='submit' class='btn btn-primary' id='solicitar' name='solicitar' value='Solicitar'>
-                                                                  </form>";
-                                                    
-                                                }else{
-                                                    $estado = 'Disponible';
-                                                    $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
+                                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                                $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
                                                                     <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
                                                                     <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
                                                                     <!-- Modal -->
@@ -210,6 +217,16 @@
                                                                         </div>
                                                                     </div>
                                                                    </form>";
+                                                
+                                                if($result['ESTADO'] == 1){
+                                                    $estado = 'Se ha solicitado';
+                                                    $sql = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");#se prepara la consulta
+                                                    $sql->execute();
+                                                    $data = $sql->fetch(PDO::FETCH_ASSOC);
+                                                    $mindate = $data['FECHA_INICIO'];
+                                                    $maxdate = $data['FECHA_TERMINO'];
+                                                }else{
+                                                    $estado = 'Disponible';
                                                 }
                                                 echo "<tr>                                       
                                                         <td class='text-center'>".$result['NOMBRE']."</td>

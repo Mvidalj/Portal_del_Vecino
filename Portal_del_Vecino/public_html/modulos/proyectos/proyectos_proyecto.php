@@ -191,8 +191,8 @@
                                   <td>".$result['NOMBRE']."</td>
                                   <td class='text-center'>".$result['FECHA_INICIO']."</td>
                                   <td class='text-center'>".$result['FECHA_TERMINO']."</td>
-                                  <td class='text-center'> 
-                                      <button type='submit' class='btn-link' name='edit' id='asd' value=".$result['ID_PROYECTO']."><span class='fa fa-pencil'></span></button>
+                                  <td class='text-center'>
+                                  <a href='proyectos_edit.php?id=".$result['ID_PROYECTO']."'><span class='fa fa-pencil'></span></a>
                                       <button type='submit' class='btn-link' name='delete' id='asd2' value=".$result['ID_PROYECTO']."><span class='fa fa-times'></span></button>
                                   </td>
                                 </tr>";

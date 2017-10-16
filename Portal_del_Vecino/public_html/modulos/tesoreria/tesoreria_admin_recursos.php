@@ -108,6 +108,18 @@
                     }
                 }
                 
+                if(isset($_REQUEST['submit-edit'])){
+                    try {
+                        $sql = $conn->prepare("UPDATE recursos SET NOMBRE = :NOMBRE, DESCRIPCION = :DESC WHERE ID_RECURSO = :ID");
+                        $sql->bindParam(':NOMBRE', $_POST['edit_name']);
+                        $sql->bindParam(':DESC', $_POST['edit_desc']);
+                        $sql->bindParam(':ID', $_POST['id_recurso']);
+                        $sql->execute();
+                    } catch (Exception $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+                }
+                
                 if(isset($_REQUEST['delete_resource'])){
                     try {
                         $sql = $conn->prepare("UPDATE recursos SET ELIMINADO = 1 WHERE ID_RECURSO = :ID");
@@ -147,6 +159,27 @@
                                         <td>
                                             <form action='tesoreria_admin_recursos.php' method='POST'>
                                                 <input type='hidden' id='id_recurso' name='id_recurso' value='".$result['ID_RECURSO']."'>
+                                                <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'><i class='fa fa-edit'></i></button>
+                                                <!-- Modal -->
+                                                <div id='".$result['ID_RECURSO']."' class='modal fade' role='dialog'>
+                                                    <div class='modal-dialog'>
+                                                    <!-- Modal content-->
+                                                        <div class='modal-content'>
+                                                            <div class='modal-header'>
+                                                                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                <h4 class='modal-title'>Editar</h4>
+                                                            </div>
+                                                            <div class='modal-body'>
+                                                                <input type='text' class='form-control' id='edit_name' name='edit_name' value='".$result['NOMBRE']."' required><br>
+                                                                <input type='text' class='form-control' id='edit_desc' name='edit_desc' value='".$result['DESCRIPCION']."' required><br>
+                                                                <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este recurso?')\">
+                                                            </div>
+                                                            <div class='modal-footer'>
+                                                                <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <button type='submit' class='btn btn-danger' id='delete_resource' name='delete_resource' onclick=\"return confirm('¿Está seguro de que desea eliminar este recurso?')\"><i class='fa fa-trash-o'></i></button>
                                             </form>
                                         </td>

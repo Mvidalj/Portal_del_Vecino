@@ -23,11 +23,11 @@
                             });
                             $(document).ready(function(){
                                 $("#createorg").click(function(){
-                                    $("#form-createorg").toggle();
+                                    $("#form-createorg").show();
                                     $("#form-uniteorg").hide();
                                 });
                                 $("#uniteorg").click(function(){
-                                    $("#form-uniteorg").toggle();
+                                    $("#form-uniteorg").show();
                                     $("#form-createorg").hide();
                                 });
                             });
@@ -195,7 +195,7 @@
                                 </fieldset>
                             </form>
                         </div>
-                        <div id="form-uniteorg" class="collapse">
+                        <div id="form-uniteorg">
                             <form>
                                 <fieldset>
                                     <legend>Unirse a organización</legend>

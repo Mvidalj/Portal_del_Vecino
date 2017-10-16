@@ -124,7 +124,10 @@
                                                 <div class="row">
                                                     <div class="col-sm-3 col-sm-push-3">
                                                         <label for="com">Comuna:</label>
-                                                        <input type="text" class="form-control" name="register-com" id="com" placeholder="Comuna" required>
+                                                        <select class="form-control" id="com" name="register-com">
+                                                            <option value="" disabled selected>Comuna</option>
+                                                            <option value="0">Agregar dinamicamente</option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-sm-3 col-sm-push-3">
                                                             <label for="dir">Dirección:</label>

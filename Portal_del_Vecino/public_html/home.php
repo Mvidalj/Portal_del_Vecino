@@ -21,6 +21,16 @@
                             $(document).ready(function(){
                                 $("#news").modal();
                             });
+                            $(document).ready(function(){
+                                $("#createorg").click(function(){
+                                    $("#form-createorg").toggle();
+                                    $("#form-uniteorg").hide();
+                                });
+                                $("#uniteorg").click(function(){
+                                    $("#form-uniteorg").toggle();
+                                    $("#form-createorg").hide();
+                                });
+                            });
                         </script>
                 </head>
                 <body>
@@ -165,11 +175,39 @@
         <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
+                        <button class="btn btn-primary" id="createorg">Crear una organización</button>
+                        <button class="btn btn-primary" id="uniteorg">Unirse a una organización</button>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <button class="btn btn-primary">Crear una organización</button>
-                        <button class="btn btn-primary">Unirse a una organización</button>
+                        <div id="form-createorg" class="collapse">
+                            <form>
+                                <fieldset>
+                                    <legend>Registrar organización</legend>
+                                    <label for="nameorg" >Nombre de organización: </label>
+                                    <input type="text" class="form-control" id="nameorg" name="nameorg"><br>
+                                    <label for="comorg" >Comuna: </label>
+                                    <select class="form-control" id="comorg" name="comorg">
+                                        <option value="" disabled selected>Comuna</option>
+                                        <option value="0">Agregar dinamicamente</option>
+                                    </select><br>
+                                    <input type="submit" class="btn btn-success" value="Registrar organización">
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div id="form-uniteorg" class="collapse">
+                            <form>
+                                <fieldset>
+                                    <legend>Unirse a organización</legend>
+                                    <label for="select-org" >Comuna: </label>
+                                    <select class="form-control" id="select-org" name="select-org">
+                                        <option value="" disabled selected>Organización</option>
+                                        <option value="0">Agregar dinamicamente</option>
+                                    </select><br>
+                                    <input type="submit" class="btn btn-success" value="Unirse a organización">
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>

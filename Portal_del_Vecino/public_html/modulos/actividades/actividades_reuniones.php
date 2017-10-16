@@ -5,6 +5,16 @@
     {
         $user->Redirect('../../index.php');
     }
+        if(isset($_REQUEST['delete'])){
+        $id = $_POST['delete'];
+	try{
+		$sentencia = $conn->prepare("DELETE FROM reuniones WHERE ID_REUNION= :ID");
+		$sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
+                if($sentencia->execute()){$user->Redirect('actividades_reuniones.php');}  
+		}catch(PDOException $e){
+			echo 'Fallo la conexion:'.$e->GetMessage();
+		}
+	}
 ?>
 <html>
 <head>
@@ -104,13 +114,18 @@
 			<h1>Reuniones:</h1>
 			<hr>
 			<div class="table-responsive">
+                            <form action="actividades_reuniones.php" method='POST'>
 				<table id="example" class="table table-striped cell-border">
 				    <thead>
 				     	<tr>
 				        	<th class="col-sm-1 text-center">N°</th>
-				        	<th class="col-sm-7">Descripcion</th>
+                                                <?php if($_SESSION['id_rol'] == "1"){echo'
+                                                <th class="col-sm-6">Descripcion</th>';}
+                                                else { echo '<th class="col-sm-7">Descripcion</th>';}?>
 				        	<th class="col-sm-2 ">Fecha</th>
 				        	<th class="col-sm-2">Estado</th>
+                                                <?php if($_SESSION['id_rol'] == "1"){echo '<th class="col-sm-1">Opciones</th>';}?>
+                                                
 				      	</tr>
 				    </thead>
 				    <tbody>
@@ -123,8 +138,14 @@
 									<td class='text-center'>".$result['ID_REUNION']."</td>
 									<td>".$result['DESCRIPCION']."</td>
 									<td class='text-center'>".$result['FECHA_REUNION']."</td>
-									<td class='text-center'>".$result['ESTADO']."</td>
-                                                              </tr>";
+									<td class='text-center'>".$result['ESTADO']."</td>";
+                                                        if($_SESSION['id_rol'] == "1"){echo 
+                                                            "<td class='text-center'>
+                                                                <a href='actividades_edit_reunion.php?id=".$result['ID_REUNION']."'><span class='fa fa-pencil'></span></a>
+                                                                <button type='submit' class='btn-link' name='delete' id='asd2' value=".$result['ID_REUNION'].">
+                                                                <span class='fa fa-times'></span></button>
+                                                             </td>";}
+                                                              echo"</tr>";
 							}
                                                 } 
                                                 catch (Exception $e) {
@@ -133,6 +154,7 @@
                                         ?>
 				    </tbody>
 				</table>
+                            </form>
 			</div>
 		</div>
 	</div>

@@ -9,6 +9,19 @@
             $user->Redirect('../../index.php');
         }
     }
+    
+    if(isset($_REQUEST['add_reunion'])){
+	try{
+		$sentencia = $conn->prepare("INSERT INTO reuniones (ID_ORGANIZACION, FECHA_REUNION, DESCRIPCION, ESTADO, ACTA_REUNION)
+		VALUES(1, :FECHA, :DESCRIPCION,'PENDIENTE',' ')");
+		$date = date('Y-m-d', strtotime($_POST['fecha_in']));
+		$sentencia->bindParam(':FECHA', $date);
+		$sentencia->bindParam(':DESCRIPCION',$_POST['desc'],PDO::PARAM_STR);
+                if($sentencia->execute()){$user->Redirect('actividades_reuniones.php');}  
+		}catch(PDOException $e){
+			echo 'Fallo la conexion:'.$e->GetMessage();
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,20 +109,20 @@
 		<div class="col-sm-12">
 			<h1>Añadir reunion</h1>
 			<hr>
-			<form>
+                        <form action="actividades_add_reuniones.php" method="post">
 				<div class="row ">
 					<div class="col-sm-4 col-sm-offset-4" >
 						<div class="row">
 							<div class="col-sm-12">
 					    		<label for="fecha_in">Fecha Inicio:</label>
-					    		<input type="date" class="form-control" id="fecha_in">
+					    		<input type="date" class="form-control" id="fecha_in" name='fecha_in'>
 					    	</div>
 					    	<div class="col-sm-12 ">
 					    		<label for="desc">Descripcion:</label>
-					    		<textarea name="" class="form-control" id="desc" rows="5" placeholder="Descripcion"></textarea>
+					    		<textarea class="form-control" id="desc" rows="5" placeholder="Descripcion" name="desc"></textarea>
 					    	</div>
 							<div class="col-sm-4 col-sm-offset-4">
-					    		<br><a type="button" class="btn btn-primary btn-md" href="../../home.php">Guardar <span class="fa fa-save"></span></a>
+                                                            <br><button type="submit" class="btn btn-primary btn-md" name="add_reunion">Guardar <span class="fa fa-save"></span></button>
 					    	</div>
 				    	</div>
 					</div>

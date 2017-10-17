@@ -6,17 +6,17 @@
         $user->Redirect('../../index.php');
     }
     if(isset($_REQUEST['delete'])){
-        $id = $_POST['delete'];
+        
 	try{
             $sentencia = $conn->prepare("UPDATE proyectos SET ELIMINADO = 1 WHERE ID_PROYECTO= :ID");
-            $sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
+            $sentencia->bindParam(':ID', $_POST['id'],PDO::PARAM_INT);
             if($sentencia->execute()){$user->Redirect('proyectos_proyecto.php');}  
             }catch(PDOException $e){
                     echo 'Fallo la conexion:'.$e->GetMessage();
             }
 	}
     if (isset($_REQUEST['submit-edit'])){
-        
+               
                     try{
 		$sentencia = $conn->prepare("UPDATE proyectos SET NOMBRE= :NOMBRE, DESCRIPCION= :DESC,
                                              FECHA_INICIO= :FECHIN, FECHA_TERMINO= :FECHTER
@@ -129,7 +129,7 @@
                 <h1>Proyectos<small> (Vigentes)</small></h1>
                 <hr>
                 <div class="table-responsive">
-                    <form action="proyectos_proyecto.php" method='POST'>
+                    
                         <table id="example" class="table table-striped cell-border">
                             <thead>
                                 <tr>
@@ -168,33 +168,35 @@
                                                   <td>".$result['NOMBRE']."</td>
                                                   <td class='text-center'>".$result['FECHA_INICIO']."</td>
                                                   <td class='text-center'>".$result['FECHA_TERMINO']."</td>
-                                                 <td> 
-                                                <input type='hidden' id='id' name='id' value='".$result['ID_PROYECTO']."'>
-                                                <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_PROYECTO']."'><i class='fa fa-edit'></i></button>
-                                                <!-- Modal -->
-                                                <div id='".$result['ID_PROYECTO']."' class='modal fade' role='dialog'>
-                                                    <div class='modal-dialog'>
-                                                    <!-- Modal content-->
-                                                        <div class='modal-content'>
-                                                            <div class='modal-header'>
-                                                                <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                                <h4 class='modal-title'>Editar</h4>
-                                                            </div>
-                                                            <div class='modal-body'>
-                                                                <input type='text' class='form-control' id='fecha_in' name='fecha_in' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_INICIO']."' required><br>
-                                                                <input type='text' class='form-control' id='fecha_ter' name='fecha_ter' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_TERMINO']."' required><br>
-                                                                <input type='text' class='form-control' id='nombre' name='nombre' value= '".$result['NOMBRE']."' required><br>
-                                                                <textarea class='form-control' id='desc' rows='5' name='desc'>".$result['DESCRIPCION']."</textarea><br>
-                                                                <button type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value= '".$result['ID_PROYECTO']."' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar</button>
-                                                            </div>
-                                                            <div class='modal-footer'>
-                                                                <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
+                                                    <td> 
+                                                    <form name='form' action='proyectos_proyecto.php' method='POST'>
+                                                        <button type='button' class='btn btn-info' id='lol' name='lol' data-toggle='modal' data-target='#".$result['ID_PROYECTO']."'><i class='fa fa-edit'></i></button>
+                                                        <!-- Modal -->
+                                                        <div id='".$result['ID_PROYECTO']."' class='modal fade' role='dialog'>
+                                                            <div class='modal-dialog'>
+                                                            <!-- Modal content-->
+                                                                <div class='modal-content'>
+                                                                    <div class='modal-header'>
+                                                                        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                        <h4 class='modal-title'>Editar</h4>
+                                                                    </div>
+                                                                    <div class='modal-body'>
+                                                                        <input type='hidden' id='id' name='id' value='".$result['ID_PROYECTO']."'>
+                                                                        <input type='date' class='form-control' id='fecha_in' name='fecha_in' onblur=form.fecha_ter.min=form.fecha_in.value value='".$result['FECHA_INICIO']."' required><br>
+                                                                        <input type='date' class='form-control' id='fecha_ter' name='fecha_ter' value='".$result['FECHA_TERMINO']."' required><br>
+                                                                        <input type='text' class='form-control' id='nombre' name='nombre' value= '".$result['NOMBRE']."' required><br>
+                                                                        <textarea class='form-control' id='desc' rows='5' name='desc'>".$result['DESCRIPCION']."</textarea><br>
+                                                                        <button type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">editar</button>
+                                                                    </div>
+                                                                    <div class='modal-footer'>
+                                                                        <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <button type='submit' class='btn btn-danger' id='delete' name='delete' value= '".$result['ID_PROYECTO']."' onclick=\"return confirm('¿Está seguro de que desea eliminar este dato?')\"><i class='fa fa-trash-o'></i></button>
-                                            </td>
+                                                        <button type='submit' class='btn btn-danger' id='delete' name='delete' onclick=\"return confirm('¿Está seguro de que desea eliminar este dato?')\"><i class='fa fa-trash-o'></i></button>
+                                                        </form>
+                                                    </td>
                                                 </tr>";
                                                 } # por cada dato crea una columna
                                             else
@@ -215,7 +217,7 @@
                                 ?>
                             </tbody>
                         </table>
-                        </form>
+                        
                     </div>
 		</div>
 	</div>

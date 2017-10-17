@@ -8,12 +8,12 @@
     if(isset($_REQUEST['delete'])){
         $id = $_POST['delete'];
 	try{
-		$sentencia = $conn->prepare("UPDATE proyectos SET ELIMINADO = 1 WHERE ID_PROYECTO= :ID");
-		$sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
-                if($sentencia->execute()){$user->Redirect('proyectos_proyecto.php');}  
-		}catch(PDOException $e){
-			echo 'Fallo la conexion:'.$e->GetMessage();
-		}
+            $sentencia = $conn->prepare("UPDATE proyectos SET ELIMINADO = 1 WHERE ID_PROYECTO= :ID");
+            $sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
+            if($sentencia->execute()){$user->Redirect('proyectos_proyecto.php');}  
+            }catch(PDOException $e){
+                    echo 'Fallo la conexion:'.$e->GetMessage();
+            }
 	}
     
 ?>

@@ -38,8 +38,8 @@
                     return false;
                 }
 
-                $stmt = $this->db->prepare("INSERT INTO usuarios(ID_ORGANIZACION,NOMBRE,APELLIDO,CORREO,TELEFONO,ID_ROL,ID_COMUNA,DIRECCION,ELIMINADO)"
-                        . "VALUES(1, :fname, :lname, :umail, :phone, 1, 9101, :dir, 0)");
+                $stmt = $this->db->prepare("INSERT INTO usuarios(NOMBRE,APELLIDO,CORREO,TELEFONO,ID_ROL,ID_COMUNA,DIRECCION,ELIMINADO)"
+                        . "VALUES(:fname, :lname, :umail, :phone, 2, 9101, :dir, 0)");
 
                 $stmt->bindparam(":fname", $fname);
                 $stmt->bindparam(":lname", $lname);
@@ -84,6 +84,7 @@
                         $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
                         if($stmt->rowCount() > 0){
                             $_SESSION['id_rol'] = $userRow['ID_ROL'];
+                            $_SESSION['id_org'] = $userRow['ID_ORGANIZACION'];
                         } else {return false;}
                         
                         return true;

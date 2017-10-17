@@ -9,6 +9,21 @@
             $user->Redirect('../../index.php');
         }
     }
+    if(isset($_REQUEST['add_actividad'])){
+	try{
+            $sentencia = $conn->prepare("INSERT INTO actividades (ID_ORGANIZACION, NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_TERMINO, ELIMINADO)
+            VALUES(1, :NOMBRE, :DESCRIPCION,:FECHA_INICIO,:FECHA_TERMINO,0)");
+            $date_in = date('Y-m-d', strtotime($_POST['fecha_in']));
+            $date_ter = date('Y-m-d', strtotime($_POST['fecha_ter']));
+            $sentencia->bindParam(':NOMBRE', $_POST['nombre'],PDO::PARAM_STR);
+            $sentencia->bindParam(':FECHA_INICIO', $date_in);
+            $sentencia->bindParam(':FECHA_TERMINO', $date_ter); 
+            $sentencia->bindParam(':DESCRIPCION', $_POST['desc'],PDO::PARAM_STR);
+            if($sentencia->execute()){$user->Redirect('actividades_historial.php');}  
+            }catch(PDOException $e){
+                    echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,28 +111,28 @@
             <div class="col-sm-12">
                 <h1>Añadir actividad</h1>
                 <hr>
-                <form>
+                <form action="actividades_add_actividades.php" method="post">
                     <div class="row ">
                         <div class="col-sm-6 col-sm-offset-3" >
                             <div class="row">
                                 <div class="col-sm-6">
-                                        <label for="fecha_in">Fecha Inicio:</label>
-                                        <input type="date" class="form-control" id="fecha_in">
+                                    <label for="fecha_in">Fecha Inicio:</label>
+                                    <input type="date" class="form-control" id="fecha_in" name="fecha_in">
                                 </div>
                                 <div class="col-sm-6 ">
-                                        <label for="fecha_ter">Fecha Termino:</label>
-                                        <input type="date" class="form-control" id="fecha_ter">
+                                    <label for="fecha_ter">Fecha Termino:</label>
+                                    <input type="date" class="form-control" id="fecha_ter" name="fecha_ter">
                                 </div><br><br><br><br>
                                 <div class="col-sm-12">
-                                        <label for="nombre">Nombre Actividad:</label>
-                                        <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                                    <label for="nombre">Nombre Actividad:</label>
+                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre">
                                 </div><br><br><br><br>
-                                        <div class="col-sm-12 ">
-                                        <label for="desc">Descripcion:</label>
-                                        <textarea name="" class="form-control" id="desc" rows="5" placeholder="Descripcion"></textarea>
+                                    <div class="col-sm-12 ">
+                                    <label for="desc">Descripcion:</label>
+                                    <textarea name="desc" class="form-control" id="desc" rows="5" placeholder="Descripcion"></textarea>
                                 </div>
                                         <div class="col-sm-3 col-sm-offset-5">
-                                        <br><a type="button" class="btn btn-primary btn-md" href="home.html">Guardar <span class="fa fa-save"></span></a>
+                                        <br><button type="submit" class="btn btn-primary btn-md" name="add_actividad">Guardar <span class="fa fa-save"></span></button>
                                 </div>
                             </div>
                         </div>

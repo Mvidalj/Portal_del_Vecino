@@ -8,12 +8,12 @@
     if(isset($_REQUEST['delete'])){
         $id = $_POST['delete'];
 	try{
-		$sentencia = $conn->prepare("DELETE FROM proyectos WHERE ID_PROYECTO= :ID");
-		$sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
-                if($sentencia->execute()){$user->Redirect('proyectos_proyecto.php');}  
-		}catch(PDOException $e){
-			echo 'Fallo la conexion:'.$e->GetMessage();
-		}
+            $sentencia = $conn->prepare("UPDATE proyectos SET ELIMINADO = 1 WHERE ID_PROYECTO= :ID");
+            $sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
+            if($sentencia->execute()){$user->Redirect('proyectos_proyecto.php');}  
+            }catch(PDOException $e){
+                    echo 'Fallo la conexion:'.$e->GetMessage();
+            }
 	}
     
 ?>
@@ -183,31 +183,35 @@
                                         $sql = $conn->prepare("SELECT * FROM proyectos");#se prepara la consulta
                                         $sql->execute();                                 #se ejecuta la consulta
                                         while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
-                                        if($_SESSION['id_rol'] == "1")
-                                            {
-                                            echo "
-                                <tr>                                       
-                                  <td class='text-center'>".$result['ID_PROYECTO']."</td>
-                                  <td>".$result['NOMBRE']."</td>
-                                  <td class='text-center'>".$result['FECHA_INICIO']."</td>
-                                  <td class='text-center'>".$result['FECHA_TERMINO']."</td>
-                                  <td class='text-center'>
-                                  <a href='proyectos_edit.php?id=".$result['ID_PROYECTO']."'><span class='fa fa-pencil'></span></a>
-                                      <button type='submit' class='btn-link' name='delete' id='asd2' value=".$result['ID_PROYECTO']."><span class='fa fa-times'></span></button>
-                                  </td>
-                                </tr>";
-                                            } # por cada dato crea una columna
-                                    else
-                                        {
-                                    echo "
-                                <tr>                                       
-                                  <td class='text-center'>".$result['ID_PROYECTO']."</td>
-                                  <td>".$result['NOMBRE']."</td>
-                                  <td class='text-center'>".$result['FECHA_INICIO']."</td>
-                                  <td class='text-center'>".$result['FECHA_TERMINO']."</td>
-                                </tr>";
-                                        }
-                                    }}
+                                        if($result['ELIMINADO'] == '0'){
+                                            if($_SESSION['id_rol'] == "1")
+                                                {
+                                                echo "
+                                                <tr>                                       
+                                                  <td class='text-center'>".$result['ID_PROYECTO']."</td>
+                                                  <td>".$result['NOMBRE']."</td>
+                                                  <td class='text-center'>".$result['FECHA_INICIO']."</td>
+                                                  <td class='text-center'>".$result['FECHA_TERMINO']."</td>
+                                                  <td class='text-center'>
+                                                  <a href='proyectos_edit.php?id=".$result['ID_PROYECTO']."'><span class='fa fa-pencil'></span></a>
+                                                  <button type='submit' class='btn-link' name='delete' id='asd2' value=".$result['ID_PROYECTO'].">
+                                                  <span class='fa fa-times'></span>
+                                                  </button>
+                                                  </td>
+                                                </tr>";
+                                                } # por cada dato crea una columna
+                                            else
+                                                {
+                                                echo "
+                                                <tr>                                       
+                                                  <td class='text-center'>".$result['ID_PROYECTO']."</td>
+                                                  <td>".$result['NOMBRE']."</td>
+                                                  <td class='text-center'>".$result['FECHA_INICIO']."</td>
+                                                  <td class='text-center'>".$result['FECHA_TERMINO']."</td>
+                                                </tr>";
+                                                }
+                                        }}
+                                    }
                                     catch (Exception $e) {
                                         echo "Error: " . $e->getMessage();#captura el error y lo muestra
                                     }

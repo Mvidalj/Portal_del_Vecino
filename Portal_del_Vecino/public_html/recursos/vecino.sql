@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-10-2017 a las 03:28:12
+-- Tiempo de generación: 17-10-2017 a las 03:32:58
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -580,7 +580,8 @@ CREATE TABLE `proyectos` (
   `NOMBRE` varchar(30) NOT NULL,
   `DESCRIPCION` text NOT NULL,
   `FECHA_INICIO` date NOT NULL,
-  `FECHA_TERMINO` date NOT NULL
+  `FECHA_TERMINO` date NOT NULL,
+  `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

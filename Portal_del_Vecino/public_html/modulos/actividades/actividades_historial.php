@@ -151,7 +151,7 @@
                                                             <td class='text-center'>".$result['FECHA_TERMINO']."</td>";
                                                             if($_SESSION['id_rol'] == "1"){echo
                                                                 "<td>
-                                                                    <form action='actividades_reuniones.php' method='POST'>
+                                                                    <form action='actividades_historial.php' method='POST'>
                                                                         <input type='hidden' id='id_actividad' name='id_actividad' value='".$result['ID_ACTIVIDAD']."'>
                                                                         <button type='button' class='btn btn-info' id='edit_reunion' name='edit_reunion' data-toggle='modal' data-target='#".$result['ID_ACTIVIDAD']."'><i class='fa fa-edit'></i></button>
                                                                         <!-- Modal -->

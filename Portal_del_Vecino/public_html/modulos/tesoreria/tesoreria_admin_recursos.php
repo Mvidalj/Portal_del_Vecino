@@ -8,6 +8,9 @@
         if($_SESSION['id_rol'] != "1"){
             $user->Redirect('../../index.php');
         }
+        if($_SESSION['id_org'] == ""){
+            $user->Redirect('../../home.php');
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -143,15 +146,15 @@
                     <tbody>
                     <?php
                         try {
-                            $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0");#se prepara la consulta
-                            $sql->execute();                                 #se ejecuta la consulta
-                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                            $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                            $sql->bindparam(":IDORG", $_SESSION['id_org']);
+                            $sql->execute();
+                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                 if($result['ESTADO'] == 1){
                                     $estado = 'En uso';
                                 }else{
                                     $estado = 'Disponible';
                                 }
-
                                 echo "<tr>                                       
                                         <td class='text-center'>".$result['NOMBRE']."</td>
                                         <td>".$result['DESCRIPCION']."</td>

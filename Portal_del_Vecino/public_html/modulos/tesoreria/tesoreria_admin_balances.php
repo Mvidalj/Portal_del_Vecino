@@ -8,6 +8,9 @@
         if($_SESSION['id_rol'] != "1"){
             $user->Redirect('../../index.php');
         }
+        if($_SESSION['id_org'] == ""){
+            $user->Redirect('../../home.php');
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -150,9 +153,10 @@
                     <tbody>
                         <?php
                             try {
-                                $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0");#se prepara la consulta
-                                $sql->execute();                                 #se ejecuta la consulta
-                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {#obtiene los datos de la consulta
+                                $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                $sql->bindparam(":IDORG", $_SESSION['id_org']);
+                                $sql->execute();
+                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                     if($result['E_S'] == 1 || $result['E_S'] == 3){
                                         $actividad = 'Entrada';
                                         $options = "<option value='3'>Registro de saldo</option>

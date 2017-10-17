@@ -5,6 +5,9 @@
     {
         $user->Redirect('../../index.php');
     } else {
+        if($_SESSION['id_org'] == ""){
+            $user->Redirect('../../home.php');
+        }
         echo '
             <!DOCTYPE html>
             <html>
@@ -184,43 +187,44 @@
                                                 }
                                                 
                                             } catch (Exception $e) {
-                                                echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                                                echo "Error: " . $e->getMessage();
                                             }
                                         }
                                         try {
-                                            $sql = $conn->prepare("SELECT * FROM recursos");#se prepara la consulta
-                                            $sql->execute();                                 #se ejecuta la consulta
+                                            $sql = $conn->prepare("SELECT * FROM recursos WHERE ID_ORGANIZACION = :IDORG");
+                                            $sql->bindparam(":IDORG", $_SESSION['id_org']);
+                                            $sql->execute();
                                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                 $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
-                                                                    <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
-                                                                    <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
-                                                                    <!-- Modal -->
-                                                                    <div id='".$result['ID_RECURSO']."' class='modal fade' role='dialog'>
-                                                                        <div class='modal-dialog'>
-                                                                            <!-- Modal content-->
-                                                                            <div class='modal-content'>
-                                                                                <div class='modal-header'>
-                                                                                    <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                                                    <h4 class='modal-title'>Solicitar</h4>
-                                                                                </div>
-                                                                                <div class='modal-body'>
-                                                                                    <label>Desde:</label>
-                                                                                    <input type='text' class='form-control' id='from_date' name='from_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" placeholder='Seleccione una fecha' required><br>
-                                                                                    <label>Hasta:</label>
-                                                                                    <input type='text' class='form-control' id='to_date' name='to_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" placeholder='Seleccione una fecha' required><br>
-                                                                                    <input type='submit' class='btn btn-success' id='submit-request' name='submit-request' value='Solicitar'>
-                                                                                </div>
-                                                                                <div class='modal-footer'>
-                                                                                    <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
-                                                                                </div>
+                                                                <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
+                                                                <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
+                                                                <!-- Modal -->
+                                                                <div id='".$result['ID_RECURSO']."' class='modal fade' role='dialog'>
+                                                                    <div class='modal-dialog'>
+                                                                        <!-- Modal content-->
+                                                                        <div class='modal-content'>
+                                                                            <div class='modal-header'>
+                                                                                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                                <h4 class='modal-title'>Solicitar</h4>
+                                                                            </div>
+                                                                            <div class='modal-body'>
+                                                                                <label>Desde:</label>
+                                                                                <input type='text' class='form-control' id='from_date' name='from_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" placeholder='Seleccione una fecha' required><br>
+                                                                                <label>Hasta:</label>
+                                                                                <input type='text' class='form-control' id='to_date' name='to_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" placeholder='Seleccione una fecha' required><br>
+                                                                                <input type='submit' class='btn btn-success' id='submit-request' name='submit-request' value='Solicitar'>
+                                                                            </div>
+                                                                            <div class='modal-footer'>
+                                                                                <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                   </form>";
+                                                                </div>
+                                                               </form>";
                                                 
                                                 if($result['ESTADO'] == 1){
                                                     $estado = 'Se ha solicitado';
-                                                    $sql = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");#se prepara la consulta
+                                                    $sql = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");
                                                     $sql->execute();
                                                     $data = $sql->fetch(PDO::FETCH_ASSOC);
                                                     $mindate = $data['FECHA_INICIO'];

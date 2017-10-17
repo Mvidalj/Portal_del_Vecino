@@ -5,6 +5,9 @@
     {
         $user->Redirect('../../index.php');
     } else {
+        if($_SESSION['id_org'] == ""){
+            $user->Redirect('../../home.php');
+        }
         echo '
             <!DOCTYPE html>
             <html>
@@ -228,26 +231,30 @@
                                         if(isset($_REQUEST['submit-buscar'])){
                                             if($_POST['fecha_desde'] != "" && $_POST['fecha_hasta'] != ""){
                                                 if(isset($_POST['select_actividad'])){
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad AND ELIMINADO = 0");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad AND ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                                    $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                     $sql->bindparam(":fecha_desde",  date('Y-m-d', strtotime($_POST['fecha_desde'])));
                                                     $sql->bindparam(":fecha_hasta",  date('Y-m-d', strtotime($_POST['fecha_hasta'])));
                                                     $sql->bindparam(":actividad", $_POST['select_actividad']);
                                                 }else{
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND ELIMINADO = 0");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                                    $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                     $sql->bindparam(':fecha_desde',  date('Y-m-d', strtotime($_POST['fecha_desde'])));
                                                     $sql->bindparam(':fecha_hasta',  date('Y-m-d', strtotime($_POST['fecha_hasta'])));
                                                 }
                                             }else{
                                                 if(isset($_POST['select_actividad'])){
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE E_S = :actividad OR E_S = 3 AND ELIMINADO = 0");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE E_S = :actividad OR E_S = 3 AND ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                                    $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                     $sql->bindparam(":actividad", $_POST['select_actividad']);
                                                 }else{
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                                    $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                 }
                                             }
                                             
                                             try {
-                                                $sql->execute();                                 #se ejecuta la consulta
+                                                $sql->execute();
                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                     if($result['E_S'] == 1 || $result['E_S'] == 3){
                                                         echo "<tr>                                       
@@ -281,7 +288,8 @@
                                             }
                                         } else{
                                             try {
-                                                $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0");
+                                                $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                                $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                 $sql->execute();
                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                     if($result['E_S'] == 1 || $result['E_S'] == 3){

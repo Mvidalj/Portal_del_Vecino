@@ -5,6 +5,16 @@
     {
         $user->Redirect('../../index.php');
     }
+    if(isset($_REQUEST['delete'])){
+        $id = $_POST['delete'];
+	try{
+		$sentencia = $conn->prepare("UPDATE actividades SET ELIMINADO = '1' WHERE ID_ACTIVIDAD= :ID");
+		$sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
+                if($sentencia->execute()){$user->Redirect('actividades_historial.php');}  
+		}catch(PDOException $e){
+			echo 'Fallo la conexion:'.$e->GetMessage();
+		}
+	}
 ?>
 <html>
 <head>
@@ -104,35 +114,48 @@
 			<h1>Historial <small>(actividades)</small></h1>
 			<hr>
 			<div class="table-responsive">
+                            <form action="actividades_historial.php" method='POST'>
                             <table id="example" class="table table-striped cell-border">
 				    <thead>
 				     	<tr>
-				        	<th class="col-sm-2 text-center">N°</th>
-				        	<th class="col-sm-4">Nombre</th>
-				        	<th class="col-sm-3 ">Fecha Inicio</th>
-				        	<th class="col-sm-3">Fecha Termino</th>
+                                            <?php if($_SESSION['id_rol'] == "1"){echo'
+                                            <th class="col-sm-1 text-center">N°</th>';}
+                                            else { echo '<th class="col-sm-2 text-center">N°</th>';}?>
+                                            <th class="col-sm-4">Nombre</th>
+                                            <th class="col-sm-3 ">Fecha Inicio</th>
+                                            <th class="col-sm-3">Fecha Termino</th>
+                                            <?php if($_SESSION['id_rol'] == "1"){echo '<th class="col-sm-1">Opciones</th>';}?>
 				      	</tr>
 				    </thead>
 				    <tbody>
                                         <?php
                                             try {
-							$sql = $conn->prepare("SELECT * FROM actividades");
-							$sql->execute();
-							while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
-							echo "<tr>
-									<td class='text-center'>".$result['ID_ACTIVIDAD']."</td>
-									<td>".$result['NOMBRE']."</td>
-									<td class='text-center'>".$result['FECHA_INICIO']."</td>
-									<td class='text-center'>".$result['FECHA_TERMINO']."</td>
-                                                              </tr>";
-							}
-                                                } 
-                                                catch (Exception $e) {
-                                                        echo "Error: " . $e->getMessage();
+                                                $sql = $conn->prepare("SELECT * FROM actividades");
+                                                $sql->execute();
+                                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                                    if($result['ELIMINADO'] == '0'){
+                                                        echo "<tr>
+                                                                <td class='text-center'>".$result['ID_ACTIVIDAD']."</td>
+                                                                <td>".$result['NOMBRE']."</td>
+                                                                <td class='text-center'>".$result['FECHA_INICIO']."</td>
+                                                                <td class='text-center'>".$result['FECHA_TERMINO']."</td>";
+                                                                if($_SESSION['id_rol'] == "1"){echo 
+                                                                "<td class='text-center'>
+                                                                    <a href='actividades_edit_actividades.php?id=".$result['ID_ACTIVIDAD']."'><span class='fa fa-pencil'></span></a>
+                                                                    <button type='submit' class='btn-link' name='delete' id='asd2' value=".$result['ID_ACTIVIDAD'].">
+                                                                    <span class='fa fa-times'></span></button>
+                                                                 </td>";}
+                                                              echo "</tr>";
+                                                    }
                                                 }
+                                            } 
+                                            catch (Exception $e) {
+                                                echo "Error: " . $e->getMessage();
+                                            }
                                         ?>
 				    </tbody>
                             </table>
+                            </form>
 			</div>
 		</div>
 	</div>

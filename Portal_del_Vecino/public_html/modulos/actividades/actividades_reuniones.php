@@ -8,7 +8,7 @@
         if(isset($_REQUEST['delete'])){
         $id = $_POST['delete'];
 	try{
-		$sentencia = $conn->prepare("DELETE FROM reuniones WHERE ID_REUNION= :ID");
+		$sentencia = $conn->prepare("UPDATE reuniones SET ESTADO = 'CANCELADO' WHERE ID_REUNION= :ID");
 		$sentencia->bindParam(':ID', $id,PDO::PARAM_INT);
                 if($sentencia->execute()){$user->Redirect('actividades_reuniones.php');}  
 		}catch(PDOException $e){
@@ -131,22 +131,24 @@
 				    <tbody>
                                         <?php
                                             try {
-							$sql = $conn->prepare("SELECT * FROM reuniones");
-							$sql->execute();
-							while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
-							echo "<tr>
-									<td class='text-center'>".$result['ID_REUNION']."</td>
-									<td>".$result['DESCRIPCION']."</td>
-									<td class='text-center'>".$result['FECHA_REUNION']."</td>
-									<td class='text-center'>".$result['ESTADO']."</td>";
-                                                        if($_SESSION['id_rol'] == "1"){echo 
-                                                            "<td class='text-center'>
-                                                                <a href='actividades_edit_reunion.php?id=".$result['ID_REUNION']."'><span class='fa fa-pencil'></span></a>
-                                                                <button type='submit' class='btn-link' name='delete' id='asd2' value=".$result['ID_REUNION'].">
-                                                                <span class='fa fa-times'></span></button>
-                                                             </td>";}
-                                                              echo"</tr>";
-							}
+                                                    $sql = $conn->prepare("SELECT * FROM reuniones");
+                                                    $sql->execute();
+                                                    while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                                        if($result['ESTADO'] != 'CANCELADO'){
+                                                            echo "<tr>
+                                                                    <td class='text-center'>".$result['ID_REUNION']."</td>
+                                                                    <td>".$result['DESCRIPCION']."</td>
+                                                                    <td class='text-center'>".$result['FECHA_REUNION']."</td>
+                                                                    <td class='text-center'>".$result['ESTADO']."</td>";
+                                                            if($_SESSION['id_rol'] == "1"){echo 
+                                                                "<td class='text-center'>
+                                                                    <a href='actividades_edit_reunion.php?id=".$result['ID_REUNION']."'><span class='fa fa-pencil'></span></a>
+                                                                    <button type='submit' class='btn-link' name='delete' id='asd2' value=".$result['ID_REUNION'].">
+                                                                    <span class='fa fa-times'></span></button>
+                                                                 </td>";}
+                                                                  echo"</tr>";
+                                                        }
+                                                    }
                                                 } 
                                                 catch (Exception $e) {
                                                         echo "Error: " . $e->getMessage();

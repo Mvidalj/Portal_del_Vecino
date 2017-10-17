@@ -5,6 +5,29 @@
     {
         $user->Redirect('../../index.php');
     }
+    
+    if(isset($_REQUEST['submit-edit'])){
+        try{   
+            $sentencia = $conn->prepare("UPDATE reuniones SET DESCRIPCION= :DESC, FECHA_REUNION= :FECHIN, ESTADO = :STATE, ACTA_REUNION = ' ' WHERE ID_REUNION= :ID");
+            $sentencia->bindParam(':FECHIN', date('Y-m-d', strtotime($_POST['edit_date'])));
+            $sentencia->bindParam(':STATE', $_POST['edit_state']);
+            $sentencia->bindParam(':DESC', $_POST['edit_desc']);
+            $sentencia->bindParam(':ID', $_POST['id_reunion']);
+            $sentencia->execute();
+        }catch(PDOException $e){
+            echo 'Fallo la conexion:'.$e->GetMessage();
+        }
+    }
+        
+    if(isset($_REQUEST['submit-delete'])){
+        try{   
+            $sentencia = $conn->prepare("UPDATE reuniones SET ESTADO = 'CANCELADO' WHERE ID_REUNION= :ID");
+            $sentencia->bindParam(':ID', $_POST['id_reunion']);
+            $sentencia->execute();
+        }catch(PDOException $e){
+            echo 'Fallo la conexion:'.$e->GetMessage();
+        }
+    }
 ?>
 <html>
 <head>
@@ -98,29 +121,7 @@
 	    </div>
 	  </div>
 	</nav>
-    <?php
-        if(isset($_REQUEST['submit-edit'])){
-            try{   
-                $sentencia = $conn->prepare("UPDATE reuniones SET DESCRIPCION= :DESC, FECHA_REUNION= :FECHIN, ESTADO = 'PENDIENTE', ACTA_REUNION = ' ' WHERE ID_REUNION= :ID");
-                $sentencia->bindParam(':FECHIN', date('Y-m-d', strtotime($_POST['edit_date']))); 
-                $sentencia->bindParam(':DESC', $_POST['edit_desc']);
-                $sentencia->bindParam(':ID', $_POST['id_reunion']);
-                $sentencia->execute();
-            }catch(PDOException $e){
-                echo 'Fallo la conexion:'.$e->GetMessage();
-            }
-	}
-        
-        if(isset($_REQUEST['submit-delete'])){
-            try{   
-                $sentencia = $conn->prepare("UPDATE reuniones SET ESTADO = 'REALIZADO' WHERE ID_REUNION= :ID");
-                $sentencia->bindParam(':ID', $_POST['id_reunion']);
-                $sentencia->execute();
-            }catch(PDOException $e){
-                echo 'Fallo la conexion:'.$e->GetMessage();
-            }
-	}
-    ?>
+
 	<div class="row">
 		<div class="col-sm-12">
 			<h1>Reuniones:</h1>
@@ -130,10 +131,7 @@
 				<table id="example" class="table table-striped cell-border">
 				    <thead>
 				     	<tr>
-                                            <th class="col-sm-1 text-center">N°</th>
-                                            <?php if($_SESSION['id_rol'] == "1"){echo'
-                                            <th class="col-sm-6">Descripcion</th>';}
-                                            else { echo '<th class="col-sm-7">Descripcion</th>';}?>
+                                            <th class="col-sm-7">Descripcion</th>
                                             <th class="col-sm-2 ">Fecha</th>
                                             <th class="col-sm-2">Estado</th>
                                             <?php if($_SESSION['id_rol'] == "1"){echo '<th class="col-sm-1">Opciones</th>';}?>
@@ -147,11 +145,21 @@
                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                     if($result['ESTADO'] != 'CANCELADO'){
                                                         echo "<tr>
-                                                                <td class='text-center'>".$result['ID_REUNION']."</td>
                                                                 <td>".$result['DESCRIPCION']."</td>
                                                                 <td class='text-center'>".$result['FECHA_REUNION']."</td>
                                                                 <td class='text-center'>".$result['ESTADO']."</td>";
-                                                        if($_SESSION['id_rol'] == "1"){echo
+                                                        if($_SESSION['id_rol'] == "1"){
+                                                            if($result['ESTADO'] == 'PENDIENTE'){
+                                                                $options = "<option value='PENDIENTE' selected>Pendiente</option>
+                                                                            <option value='REALIZADO'>Realizado</option>
+                                                                            ";
+                                                            }
+                                                            if($result['ESTADO'] == 'REALIZADO'){
+                                                                $options = "<option value='PENDIENTE'>Pendiente</option>
+                                                                            <option value='REALIZADO' selected>Realizado</option>
+                                                                            ";
+                                                            }
+                                                            echo
                                                             "<td>
                                                                 <form action='actividades_reuniones.php' method='POST'>
                                                                     <input type='hidden' id='id_reunion' name='id_reunion' value='".$result['ID_REUNION']."'>
@@ -163,12 +171,17 @@
                                                                             <div class='modal-content'>
                                                                                 <div class='modal-header'>
                                                                                     <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                                                    <h4 class='modal-title'>Editar</h4>
+                                                                                    <h4 class='modal-title'>Editar reunión</h4>
                                                                                 </div>
                                                                                 <div class='modal-body'>
+                                                                                    <label>Fecha: </label>
                                                                                     <input type='text' class='form-control' id='edit_date' name='edit_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_REUNION']."' required><br>
+                                                                                    <label>Descripción: </label>
                                                                                     <input type='text' class='form-control' id='edit_desc' name='edit_desc' value='".$result['DESCRIPCION']."' required><br>
-                                                                                    <input type='text' class='form-control' id='edit_state' name='edit_state' value='".$result['ESTADO']."' required><br>
+                                                                                    <label>Estado: </label>
+                                                                                    <select class='form-control' id='edit_state' name='edit_state' required>
+                                                                                        ".$options."
+                                                                                    </select><br>
                                                                                     <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
                                                                                 </div>
                                                                                 <div class='modal-footer'>

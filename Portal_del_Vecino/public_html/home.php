@@ -175,6 +175,8 @@
     if(isset($_REQUEST['submit-join'])){
         echo "<script>alert('Estamos trabajando para usted')</script>";
     }
+    
+    if($_SESSION['id_org'] == ""){
 ?>
         <!-- Modal -->
         <div class="modal fade" id="news" role="dialog">
@@ -227,8 +229,9 @@
                 </div>
             </div>
         </div>
-        
-        
+<?php
+    }
+?>
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">

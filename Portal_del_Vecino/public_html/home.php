@@ -168,6 +168,13 @@
 <?php   
         }
     }
+    if(isset($_REQUEST['submit-create'])){
+        echo "<script>alert('Estamos trabajando para usted')</script>";
+    }
+    
+    if(isset($_REQUEST['submit-join'])){
+        echo "<script>alert('Estamos trabajando para usted')</script>";
+    }
 ?>
         <!-- Modal -->
         <div class="modal fade" id="news" role="dialog">
@@ -181,7 +188,7 @@
                     </div>
                     <div class="modal-body">
                         <div id="form-createorg" class="collapse">
-                            <form>
+                            <form action="home.php" method="POST">
                                 <fieldset>
                                     <legend>Registrar organización</legend>
                                     <label for="nameorg" >Nombre de organización: </label>
@@ -191,20 +198,25 @@
                                         <option value="" disabled selected>Comuna</option>
                                         <option value="0">Agregar dinamicamente</option>
                                     </select><br>
-                                    <input type="submit" class="btn btn-success" value="Registrar organización">
+                                    <input type="submit" id="submit-create" name="submit-create" class="btn btn-success" value="Registrar organización">
                                 </fieldset>
                             </form>
                         </div>
                         <div id="form-uniteorg">
-                            <form>
+                            <form action="home.php" method="POST">
                                 <fieldset>
                                     <legend>Unirse a organización</legend>
                                     <label for="select-org" >Comuna: </label>
                                     <select class="form-control" id="select-org" name="select-org">
                                         <option value="" disabled selected>Organización</option>
-                                        <option value="0">Agregar dinamicamente</option>
+                                <?php  $sql = $conn->prepare("SELECT * FROM organizaciones");
+                                       $sql->execute();
+                                       while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                           echo "<option value='".$result['ID_ORGANIZACION']."'>".$result['NOMBRE']."</option>";
+                                       }
+                                ?>
                                     </select><br>
-                                    <input type="submit" class="btn btn-success" value="Unirse a organización">
+                                    <input type="submit" id="submit-join" name="submit-join" class="btn btn-success" value="Unirse a organización">
                                 </fieldset>
                             </form>
                         </div>

@@ -50,11 +50,11 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/validate-user-register.js"></script>
     <script>
-    $(document).ready(function(){
+    <!--$(document).ready(function(){
         $("#register-user-submit").click(function(){
             $("#myModal").modal();
         });
-    });
+    });-->
     </script>
     <script type='text/javascript'>
         function refreshCaptcha(){
@@ -125,8 +125,13 @@
                                                     <div class="col-sm-3 col-sm-push-3">
                                                         <label for="com">Comuna:</label>
                                                         <select class="form-control" id="com" name="register-com">
-                                                            <option value="" disabled selected>Comuna</option>
-                                                            <option value="0">Agregar dinamicamente</option>
+                                                            <option value="" selected disabled>Comuna</option>
+                                                            <?php  $sql = $conn->prepare("SELECT * FROM COMUNA");
+                                                                $sql->execute();
+                                                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                                                    echo "<option value=".$result['ID_COMUNA'].">".$result['COMUNA']."</option>";
+                                                                }
+                                                             ?>
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-3 col-sm-push-3">

@@ -194,14 +194,18 @@
                                                         <div class='modal-content'>
                                                             <div class='modal-header'>
                                                                 <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                                <h4 class='modal-title'>Editar</h4>
+                                                                <h4 class='modal-title'>Editar entrada</h4>
                                                             </div>
                                                             <div class='modal-body'>
+                                                                <label>Fecha: </label>
                                                                 <input type='text' class='form-control' id='edit_date' name='edit_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA']."' required><br>
+                                                                <label>Concepto: </label>
                                                                 <input type='text' class='form-control' id='edit_caption' name='edit_caption' value='".$result['CONCEPTO']."' required><br>
+                                                                <label>Actividad: </label>
                                                                 <select class='form-control' id='edit_activity' name='edit_activity' required>
                                                                     ".$options."
                                                                 </select><br>
+                                                                <label>Monto: </label>
                                                                 <input type='number' class='form-control' id='edit_ammount' name='edit_ammount' value='".$result['MONTO']."' required><br>
                                                                 <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
                                                             </div>

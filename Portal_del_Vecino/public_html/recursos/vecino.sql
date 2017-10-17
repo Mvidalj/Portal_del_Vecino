@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-10-2017 a las 23:24:52
+-- Tiempo de generación: 17-10-2017 a las 03:25:38
 -- Versión del servidor: 10.1.25-MariaDB
--- Versión de PHP: 5.6.31
+-- Versión de PHP: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -43,7 +43,8 @@ CREATE TABLE `actividades` (
 --
 
 INSERT INTO `actividades` (`ID_ACTIVIDAD`, `ID_ORGANIZACION`, `NOMBRE`, `DESCRIPCION`, `FECHA_INICIO`, `FECHA_TERMINO`, `ELIMINADO`) VALUES
-(1, 1, 'Celebración día del padre', 'Todos los padres y familias invitadas al quincho de la junta de vecinos para celebrar este día', '2017-06-17', '2017-06-17', 0);
+(1, 1, 'Celebration father day', 'Todos los padres y familias invitadas al quincho de la junta de vecinos para celebrar este dï¿½a', '2017-06-17', '2017-06-17', 0),
+(2, 1, 'actividad de test', 'alguna descripcion', '2017-10-05', '2017-10-06', 1);
 
 -- --------------------------------------------------------
 
@@ -452,7 +453,8 @@ CREATE TABLE `login` (
 
 INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`) VALUES
 (1, 1, '$2y$10$NIpBGb2cKBhQ9ngz1dXFeeynvrr2BNAsyQNhECnPQ1QtqOJ.NoF3i'),
-(2, 2, '$2y$10$YLvpUlwAxtiuzSGGO3Pv3.JeYe/FBztspIKqbCxBW0NFA0jiZCxZ.');
+(2, 2, '$2y$10$YLvpUlwAxtiuzSGGO3Pv3.JeYe/FBztspIKqbCxBW0NFA0jiZCxZ.'),
+(3, 3, '$2y$10$36TF4pAra20PeqPJckzEaumAmNgkIKr2Gg2dSHNvZUQWbmEiRknfy');
 
 -- --------------------------------------------------------
 
@@ -579,15 +581,18 @@ CREATE TABLE `proyectos` (
   `NOMBRE` varchar(30) NOT NULL,
   `DESCRIPCION` text NOT NULL,
   `FECHA_INICIO` date NOT NULL,
-  `FECHA_TERMINO` date NOT NULL
+  `FECHA_TERMINO` date NOT NULL,
+  `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `proyectos`
 --
 
-INSERT INTO `proyectos` (`ID_PROYECTO`, `ID_ORGANIZACION`, `NOMBRE`, `DESCRIPCION`, `FECHA_INICIO`, `FECHA_TERMINO`) VALUES
-(1, 1, 'LicitaciÃ³n ampliaciÃ³n de sed', 'Se esta postulando a un proyecto de fondos para ampliar la sede de nuestra junta de vecinos', '2017-10-01', '2017-11-01');
+INSERT INTO `proyectos` (`ID_PROYECTO`, `ID_ORGANIZACION`, `NOMBRE`, `DESCRIPCION`, `FECHA_INICIO`, `FECHA_TERMINO`, `ELIMINADO`) VALUES
+(1, 1, 'LicitaciÃ³n ampliaciÃ³n de sed', 'Se esta postulando a un proyecto de fondos para ampliar la sede de nuestra junta de vecinos', '2017-10-01', '2017-11-01', 0),
+(2, 1, 'test proyect', 'una descripcion cualquiera', '2017-10-05', '2017-10-06', 0),
+(3, 1, 'lolipop', 'algo', '2017-10-26', '2017-10-27', 1);
 
 -- --------------------------------------------------------
 
@@ -663,7 +668,8 @@ CREATE TABLE `reuniones` (
 --
 
 INSERT INTO `reuniones` (`ID_REUNION`, `ID_ORGANIZACION`, `FECHA_REUNION`, `DESCRIPCION`, `ESTADO`, `ACTA_REUNION`) VALUES
-(1, 1, '2017-06-15', 'Preparación celebración día del padre', 'REALIZADO', 'Se acordó celebrarlo en el quincho de la junta, donde todos aportaron con cuota para regalos');
+(1, 1, '2017-06-15', 'Preparación celebración día del padre', 'REALIZADO', 'Se acordó celebrarlo en el quincho de la junta, donde todos aportaron con cuota para regalos'),
+(2, 1, '2017-10-20', 'reunion de prueba', 'CANCELADO', ' ');
 
 -- --------------------------------------------------------
 
@@ -749,7 +755,8 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `ID_ORGANIZACION`, `NOMBRE`, `APELLIDO`, `CORREO`, `TELEFONO`, `ID_ROL`, `ID_COMUNA`, `DIRECCION`, `ELIMINADO`) VALUES
 (1, 1, 'Admin', 'Administrador', 'admin@admin', '+56912345678', 1, 9101, 'Address', 0),
-(2, 1, 'Invitado', 'Invitado', 'guess@guess', '+56987654321', 1, 9101, 'Address', 0);
+(2, 1, 'Invitado', 'Invitado', 'guess@guess', '+56987654321', 1, 9101, 'Address', 0),
+(3, 1, 'MATHI', 'munoz', 'mathi@mathi.com', '12345678', 1, 9101, 'asd', 0);
 
 --
 -- Índices para tablas volcadas
@@ -878,7 +885,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `actividades`
 --
 ALTER TABLE `actividades`
-  MODIFY `ID_ACTIVIDAD` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_ACTIVIDAD` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `comentarios`
 --
@@ -898,7 +905,7 @@ ALTER TABLE `foro`
 -- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
-  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `organizaciones`
 --
@@ -918,7 +925,7 @@ ALTER TABLE `provincia`
 -- AUTO_INCREMENT de la tabla `proyectos`
 --
 ALTER TABLE `proyectos`
-  MODIFY `ID_PROYECTO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_PROYECTO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `recursos`
 --
@@ -933,7 +940,7 @@ ALTER TABLE `regiones`
 -- AUTO_INCREMENT de la tabla `reuniones`
 --
 ALTER TABLE `reuniones`
-  MODIFY `ID_REUNION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_REUNION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
@@ -953,7 +960,7 @@ ALTER TABLE `tesoreria`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Restricciones para tablas volcadas
 --

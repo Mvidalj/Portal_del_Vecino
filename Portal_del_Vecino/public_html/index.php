@@ -31,6 +31,7 @@
 	}else{// Captcha verification is Correct. Final Code Execute here!		
             if($user->RegisterUser($fname, $lname, $mail, $phone, $dir)){
                 $user->EncryptPass(($user->GetUserId($mail)),$pass);
+                $user->RegisterForum($fname,$lname,$mail,$pass);
                 $msg = "<script>alert('Registrado correctamente.')</script>";
             }else{
                 $msg = "<script>alert('Este correo ya esta en uso.')</script>";

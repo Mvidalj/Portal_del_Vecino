@@ -51,11 +51,11 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/validate-user-register.js"></script>
     <script>
-    <!--$(document).ready(function(){
+    $(document).ready(function(){
         $("#register-user-submit").click(function(){
             $("#myModal").modal();
         });
-    });-->
+    });
     </script>
     <script type='text/javascript'>
         function refreshCaptcha(){

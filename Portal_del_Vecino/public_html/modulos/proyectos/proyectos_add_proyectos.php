@@ -108,25 +108,26 @@
             <div class="col-sm-12">
                 <h1>Añadir proyecto</h1>
                 <hr>
-                    <form action="proyectos_add_proyectos.php" method="post">
+                    <form name="form" action="proyectos_add_proyectos.php" method="post">
                         <div class="row ">
                             <div class="col-sm-6 col-sm-offset-3" >
                                 <div class="row">
                                     <div class="col-sm-6">
                                     <label for="fecha_in">Fecha Inicio:</label>
-                                    <input type="date" class="form-control" id="fecha_in" name="fecha_in">
+                                    <input type="date" class="form-control" id="fecha_in" name="fecha_in" onblur=form.fecha_ter.min=form.fecha_in.value required>
                                 </div>
                                 <div class="col-sm-6 ">
                                     <label for="fecha_ter">Fecha Termino:</label>
-                                    <input type="date" class="form-control" id="fecha_ter" name="fecha_ter">
+                                    <input type="date" class="form-control" id="fecha_ter" name="fecha_ter" required>
                                 </div><br><br><br><br>
                                 <div class="col-sm-12">
                                     <label for="nombre">Nombre Proyecto:</label>
-                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre">
+                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre" required>
                                 </div><br><br><br><br>
                                     <div class="col-sm-12 ">
                                     <label for="desc">Descripcion:</label>
                                     <textarea class="form-control" id="desc" rows="5" placeholder="Descripcion" name="desc"></textarea>
+                                    <input type="text" name="_trord" id="_trord" > 
                                 </div>
                                     <div class="col-sm-3 col-sm-offset-5">
                                     <br><button type="submit" class="btn btn-primary btn-md" name="add_proyecto">Guardar <span class="fa fa-save"></span></button>

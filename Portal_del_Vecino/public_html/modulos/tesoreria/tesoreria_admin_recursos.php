@@ -170,10 +170,12 @@
                                                         <div class='modal-content'>
                                                             <div class='modal-header'>
                                                                 <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                                <h4 class='modal-title'>Editar</h4>
+                                                                <h4 class='modal-title'>Editar recurso</h4>
                                                             </div>
                                                             <div class='modal-body'>
+                                                                <label>Recurso: </label>
                                                                 <input type='text' class='form-control' id='edit_name' name='edit_name' value='".$result['NOMBRE']."' required><br>
+                                                                <label>Descripción: </label>
                                                                 <input type='text' class='form-control' id='edit_desc' name='edit_desc' value='".$result['DESCRIPCION']."' required><br>
                                                                 <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este recurso?')\">
                                                             </div>

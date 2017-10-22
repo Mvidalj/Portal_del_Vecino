@@ -1,5 +1,9 @@
 <?php if (!defined('APPLICATION')) exit();
 
+// API
+$Configuration['API']['Secret'] = 'c1ced446-b415-4863-9f34-3e881e621aeb';
+$Configuration['API']['Version'] = '0.5.0';
+
 // Conversations
 $Configuration['Conversations']['Version'] = '2.3.1';
 
@@ -12,6 +16,7 @@ $Configuration['Database']['Password'] = '';
 // EnabledApplications
 $Configuration['EnabledApplications']['Conversations'] = 'conversations';
 $Configuration['EnabledApplications']['Vanilla'] = 'vanilla';
+$Configuration['EnabledApplications']['api'] = 'api';
 
 // EnabledLocales
 $Configuration['EnabledLocales']['vf_es'] = 'es';
@@ -68,4 +73,4 @@ $Configuration['Routes']['DefaultController'] = 'discussions';
 // Vanilla
 $Configuration['Vanilla']['Version'] = '2.3.1';
 
-// Last edited by admin (127.0.0.1)2017-10-09 16:43:26
+// Last edited by admin (127.0.0.1)2017-10-18 14:47:15

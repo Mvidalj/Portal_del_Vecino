@@ -36,29 +36,31 @@
                 <body>
                 <div class="container">
         ';
-        $stmt = $conn->prepare("SELECT * FROM ACTIVIDADES WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
-        $stmt->execute();
-        $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-            if($stmt->rowCount() > 0){
-                $Titulo_act = $userRow['NOMBRE'];
-                $Finicio_act = $userRow['FECHA_INICIO'];
-                $Ftermino_act = $userRow['FECHA_TERMINO'];
-            }
-        $stmt = $conn->prepare("SELECT * FROM PROYECTOS WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
-        $stmt->execute();
-        $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-            if($stmt->rowCount() > 0){
-                $Titulo_pro = $userRow['NOMBRE'];
-                $Finicio_pro = $userRow['FECHA_INICIO'];
-                $Ftermino_pro = $userRow['FECHA_TERMINO'];
-            }
-        $stmt = $conn->prepare("SELECT * FROM REUNIONES WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
-        $stmt->execute();
-        $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-            if($stmt->rowCount() > 0){
-                $Titulo_reu = $userRow['DESCRIPCION'];
-                $Fecha_reu = $userRow['FECHA_REUNION'];
-            }
+        if($_SESSION['id_org']!= ""){
+            $stmt = $conn->prepare("SELECT * FROM ACTIVIDADES WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
+            $stmt->execute();
+            $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+                if($stmt->rowCount() > 0){
+                    $Titulo_act = $userRow['NOMBRE'];
+                    $Finicio_act = $userRow['FECHA_INICIO'];
+                    $Ftermino_act = $userRow['FECHA_TERMINO'];
+                }
+            $stmt = $conn->prepare("SELECT * FROM PROYECTOS WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
+            $stmt->execute();
+            $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+                if($stmt->rowCount() > 0){
+                    $Titulo_pro = $userRow['NOMBRE'];
+                    $Finicio_pro = $userRow['FECHA_INICIO'];
+                    $Ftermino_pro = $userRow['FECHA_TERMINO'];
+                }
+            $stmt = $conn->prepare("SELECT * FROM REUNIONES WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
+            $stmt->execute();
+            $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+                if($stmt->rowCount() > 0){
+                    $Titulo_reu = $userRow['DESCRIPCION'];
+                    $Fecha_reu = $userRow['FECHA_REUNION'];
+                }
+        }
         if($_SESSION['id_rol'] == "1"){
 ?>
                         <div class="jumbotron">
@@ -74,7 +76,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3 col-sm-push-9">
-                                        <br><a class="btn btn-primary conf" href="config.html" rel>Configuración <span class="fa fa-cog"></span></a>
+                                        <br><a class="btn btn-primary conf" href="config.php" rel>Configuración <span class="fa fa-cog"></span></a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -144,7 +146,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-3 col-sm-push-9">
-                                            <br><a class="btn btn-primary conf" href="config.html" rel>Configuración <span class="fa fa-cog"></span></a>
+                                            <br><a class="btn btn-primary conf" href="config.php" rel>Configuración <span class="fa fa-cog"></span></a>
                                         </div>
                                     </div>
                                 </div>

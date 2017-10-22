@@ -8,6 +8,26 @@
         if($_SESSION['id_org'] == ""){
             $user->Redirect('../../home.php');
         }
+        
+        if(isset($_REQUEST['submit-request'])){
+            try{
+                $sql = $conn->prepare("UPDATE recursos SET ESTADO = 1 WHERE ID_RECURSO = :id");
+                $sql->bindparam(":id", $_POST['id_recurso']);
+                if($sql->execute()){
+                    $sql = $conn->prepare("INSERT INTO prestamos (ID_RECURSO, ID_USUARIO, FECHA_INICIO, FECHA_TERMINO, ELIMINADO) VALUES(:ID, :USER, :FROM, :TO, 0)");
+                    $sql->bindparam(":ID", $_POST['id_recurso']);
+                    $sql->bindparam(":USER", $_SESSION['id_usuario']);
+                    $sql->bindparam(":FROM", date('Y-m-d', strtotime($_POST['from_date'])));
+                    $sql->bindparam(":TO", date('Y-m-d', strtotime($_POST['to_date'])));
+                    if($sql->execute()){
+                        echo "<script>alert('Su solicitud se ha realizado correctamente')</script>";
+                    }
+                }
+
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
         echo '
             <!DOCTYPE html>
             <html>
@@ -76,8 +96,6 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
                                                 <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
-                                                <li><a href="../actividades/actividades_add_reuniones.php">Añadir Reuniones</a></li>
-                                                <li><a href="../actividades/actividades_add_actividades.php">Añadir Actividades</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">
@@ -171,27 +189,8 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        if(isset($_REQUEST['submit-request'])){
-                                            try{
-                                                $sql = $conn->prepare("UPDATE recursos SET ESTADO = 1 WHERE ID_RECURSO = :id");
-                                                $sql->bindparam(":id", $_POST['id_recurso']);
-                                                if($sql->execute()){
-                                                    $sql = $conn->prepare("INSERT INTO prestamos (ID_RECURSO, ID_USUARIO, FECHA_INICIO, FECHA_TERMINO, ELIMINADO) VALUES(:ID, :USER, :FROM, :TO, 0)");
-                                                    $sql->bindparam(":ID", $_POST['id_recurso']);
-                                                    $sql->bindparam(":USER", $_SESSION['id_usuario']);
-                                                    $sql->bindparam(":FROM", date('Y-m-d', strtotime($_POST['from_date'])));
-                                                    $sql->bindparam(":TO", date('Y-m-d', strtotime($_POST['to_date'])));
-                                                    if($sql->execute()){
-                                                        echo "<script>alert('Su solicitud se ha realizado correctamente')</script>";
-                                                    }
-                                                }
-                                                
-                                            } catch (Exception $e) {
-                                                echo "Error: " . $e->getMessage();
-                                            }
-                                        }
                                         try {
-                                            $sql = $conn->prepare("SELECT * FROM recursos WHERE ID_ORGANIZACION = :IDORG");
+                                            $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
                                             $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                             $sql->execute();
                                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
@@ -224,11 +223,11 @@
                                                 
                                                 if($result['ESTADO'] == 1){
                                                     $estado = 'Se ha solicitado';
-                                                    $sql = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");
-                                                    $sql->execute();
-                                                    $data = $sql->fetch(PDO::FETCH_ASSOC);
-                                                    $mindate = $data['FECHA_INICIO'];
-                                                    $maxdate = $data['FECHA_TERMINO'];
+                                                    #$sql = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");
+                                                    #$sql->execute();
+                                                    #$data = $sql->fetch(PDO::FETCH_ASSOC);
+                                                    #$mindate = $data['FECHA_INICIO'];
+                                                    #$maxdate = $data['FECHA_TERMINO'];
                                                 }else{
                                                     $estado = 'Disponible';
                                                 }

@@ -11,6 +11,41 @@
         if($_SESSION['id_org'] == ""){
             $user->Redirect('../../home.php');
         }
+        
+        if(isset($_REQUEST['submit-recurso'])){
+            try {
+                $sql = $conn->prepare("INSERT INTO recursos (ID_ORGANIZACION, NOMBRE, DESCRIPCION, ESTADO, ELIMINADO)
+                VALUES(1, :NOMBRE, :DESCRIPCION, 0, 0)");
+                $sql->bindParam(':NOMBRE', $_POST['nombre-recurso']);
+                $sql->bindParam(':DESCRIPCION', $_POST['desc-recurso']);  
+                $sql->execute();
+            } 
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+
+        if(isset($_REQUEST['submit-edit'])){
+            try {
+                $sql = $conn->prepare("UPDATE recursos SET NOMBRE = :NOMBRE, DESCRIPCION = :DESC WHERE ID_RECURSO = :ID");
+                $sql->bindParam(':NOMBRE', $_POST['edit_name']);
+                $sql->bindParam(':DESC', $_POST['edit_desc']);
+                $sql->bindParam(':ID', $_POST['id_recurso']);
+                $sql->execute();
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+
+        if(isset($_REQUEST['delete_resource'])){
+            try {
+                $sql = $conn->prepare("UPDATE recursos SET ELIMINADO = 1 WHERE ID_RECURSO = :ID");
+                $sql->bindParam(':ID', $_POST['id_recurso']);  
+                $sql->execute();
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -77,8 +112,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
                                     <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
-                                    <li><a href="../actividades/actividades_add_reuniones.php">Añadir Reuniones</a></li>
-                                    <li><a href="../actividades/actividades_add_actividades.php">Añadir Actividades</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -95,44 +128,8 @@
             </nav>
 
             <div class="page-header">
-                <h1>Administrar recursos</h1>
+                <h1>Administrar recursos <button type="button" class="btn pull-right btn-success" id="add_resource" name="add_resource" data-toggle="modal" data-target="#new_resource">Agregar recurso <i class='fa fa-edit'></i></button></h1>
             </div>
-            <?php
-                if(isset($_REQUEST['submit-recurso'])){
-                    try {
-                        $sql = $conn->prepare("INSERT INTO recursos (ID_ORGANIZACION, NOMBRE, DESCRIPCION, ESTADO, ELIMINADO)
-                        VALUES(1, :NOMBRE, :DESCRIPCION, 0, 0)");
-                        $sql->bindParam(':NOMBRE', $_POST['nombre-recurso']);
-                        $sql->bindParam(':DESCRIPCION', $_POST['desc-recurso']);  
-                        $sql->execute();
-                    } 
-                    catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
-                }
-                
-                if(isset($_REQUEST['submit-edit'])){
-                    try {
-                        $sql = $conn->prepare("UPDATE recursos SET NOMBRE = :NOMBRE, DESCRIPCION = :DESC WHERE ID_RECURSO = :ID");
-                        $sql->bindParam(':NOMBRE', $_POST['edit_name']);
-                        $sql->bindParam(':DESC', $_POST['edit_desc']);
-                        $sql->bindParam(':ID', $_POST['id_recurso']);
-                        $sql->execute();
-                    } catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
-                }
-                
-                if(isset($_REQUEST['delete_resource'])){
-                    try {
-                        $sql = $conn->prepare("UPDATE recursos SET ELIMINADO = 1 WHERE ID_RECURSO = :ID");
-                        $sql->bindParam(':ID', $_POST['id_recurso']);  
-                        $sql->execute();
-                    } catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
-                }
-            ?>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -199,24 +196,29 @@
                 </table>
             </div>
             &nbsp;
-            <div class="row">
-                <form action="tesoreria_admin_recursos.php" method="POST">
-                    <div class="col-sm-2">
-                        <label>Nombre de recurso:</label>
+            <!-- Modal -->
+            <div id="new_resource" class='modal fade' role='dialog'>
+                <div class='modal-dialog'>
+                <!-- Modal content-->
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                            <h4 class='modal-title'>Agregar recurso</h4>
+                        </div>
+                        <div class='modal-body'>
+                           <form action="tesoreria_admin_recursos.php" method="POST">
+                                <label>Nombre de recurso:</label>
+                                <input type="text" class="form-control" id="nombre-recurso" name="nombre-recurso"><br>
+                                <label>Descripción de recurso:</label>
+                                <input type="text" class="form-control" id="desc-recurso" name="desc-recurso"><br>
+                                <input type="submit" class="btn btn-success" id="submit-recurso" name="submit-recurso" value="Añadir recurso">
+                            </form>
+                        </div>
+                        <div class='modal-footer'>
+                            <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
+                        </div>
                     </div>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="nombre-recurso" name="nombre-recurso">
-                    </div>
-                    <div class="col-sm-2">
-                        <label>Descripción de recurso:</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="desc-recurso" name="desc-recurso">
-                    </div>
-                    <div class="col-sm-2">
-                        <input type="submit" class="btn btn-success" id="submit-recurso" name="submit-recurso" value="Añadir recurso">
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </body>

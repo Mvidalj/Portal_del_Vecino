@@ -53,37 +53,6 @@
             } 
 
         }
-        public function RegisterForum($fname,$lname,$umail,$pass) {
-            $timestamp = time(); 
-            $username = "admin"; 
-            $method = array("users","configuration","roles"); //discussions, etc ...
-
-            $request_authentication = array(
-                    'username' => $username, 
-                    'timestamp' => $timestamp);
-
-            ksort($request_authentication);
-            $request_authentication = implode('-', $request_authentication);
-            $secret_code = 'c1ced446-b415-4863-9f34-3e881e621aeb'; //Code secret de l'API
-            $token = hash_hmac('sha256', strtolower($request_authentication), $secret_code);
-            $data = array('Name'=>$lname,
-                          'Email'=>$umail,
-                          'Password'=>$pass,
-                          'RoleID'=> [8]);
-            $header = array('Content-Type: application/json',
-                                             'Accept: application/json');
-
-            /* Construction de l'URL */
-            $url = "http://127.0.0.1/Portal_del_Vecino/Portal_del_Vecino/public_html/modulos/foro/api/".$method[0]."?username=$username&timestamp=$timestamp&token=$token" ;
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
-            curl_setopt($ch, CURLOPT_POST, count($data) );
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data) ); 
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header); 
-            curl_exec ($ch);
-        }
         //  Función para obtener credenciales de usuario
         public function GetUserId($umail){
             try{

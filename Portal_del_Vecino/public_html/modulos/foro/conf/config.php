@@ -25,13 +25,15 @@ $Configuration['EnabledLocales']['vf_es'] = 'es';
 $Configuration['EnabledPlugins']['GettingStarted'] = 'GettingStarted';
 $Configuration['EnabledPlugins']['HtmLawed'] = 'HtmLawed';
 $Configuration['EnabledPlugins']['vanillicon'] = true;
+$Configuration['EnabledPlugins']['jsconnect'] = true;
+$Configuration['EnabledPlugins']['jsconnectAutoSignIn'] = true;
 
 // Garden
 $Configuration['Garden']['Title'] = 'Foro para vecinos';
 $Configuration['Garden']['Cookie']['Salt'] = 'l86mR4juK9H8ICUN';
 $Configuration['Garden']['Cookie']['Domain'] = '';
-$Configuration['Garden']['Registration']['ConfirmEmail'] = '1';
-$Configuration['Garden']['Registration']['Method'] = 'Captcha';
+$Configuration['Garden']['Registration']['ConfirmEmail'] = false;
+$Configuration['Garden']['Registration']['Method'] = 'Connect';
 $Configuration['Garden']['Registration']['InviteExpiration'] = '1 week';
 $Configuration['Garden']['Registration']['CaptchaPrivateKey'] = '6LdVlzMUAAAAADkK6xvI265aM8P0b8e7SbxDF4eS';
 $Configuration['Garden']['Registration']['CaptchaPublicKey'] = '6LdVlzMUAAAAABnDdoJhP4b7EkhG7VEhJbDA-4hc';
@@ -73,4 +75,4 @@ $Configuration['Routes']['DefaultController'] = 'discussions';
 // Vanilla
 $Configuration['Vanilla']['Version'] = '2.3.1';
 
-// Last edited by admin (127.0.0.1)2017-10-18 14:47:15
+// Last edited by admin (127.0.0.1)2017-10-23 04:27:42

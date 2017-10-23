@@ -1,6 +1,7 @@
 <?php
+    
     require_once '../../validaciones/conexion_bd.php';
- 
+
     if($user->Is_Loggedin() != true)
     {
         $user->Redirect('../../index.php');
@@ -14,7 +15,7 @@
             $sentencia->bindParam(':ID', $_POST['id'],PDO::PARAM_INT);
             if($sentencia->execute()){$user->Redirect('proyectos_proyecto.php');}  
             }catch(PDOException $e){
-                    echo 'Fallo la conexion:'.$e->GetMessage();
+                echo 'Fallo la conexion:'.$e->GetMessage();
             }
         }
         if (isset($_REQUEST['submit-edit'])){
@@ -51,17 +52,16 @@
     }
     
 ?>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Portal del Vecino</title>
+    <title>Proyectos</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/bootstrap.css">
-    <link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
     <script src="../../librerias/jquery-3.2.1.js"></script>
     <script src="../../librerias/bootstrap.js"></script>
-    <script src="../../librerias/jquery.dataTables.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -248,23 +248,3 @@
     </div>
 </body>
 </html>
-<script type="text/javascript" language="javascript" class="init">
-	$(document).ready(function() {
-		$('#example').DataTable( {
-        "language": {
-            "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
-            "zeroRecords"   :   "Lo sentimos, no hay información",
-            "info"          :   "Mostrando _PAGE_ de _PAGES_",
-            "search"        :   "Buscar:",
-            "infoEmpty"     :   "Lo sentimos, no hay información",
-            "infoFiltered"  :   "(filtered from _MAX_ total records)",
-		    "paginate"      : {
-		        "first"     :   "Primero",
-		        "last"      :   "Último",
-		        "next"      :   "Siguiente",
-		        "previous"  :   "Anterior"
-		    }
-        }
-    	} );
-	} );
-</script>

@@ -102,27 +102,27 @@
                                         <div class="modal-body">
                                             <form method="POST">
                                                 <div class="row">
-                                                    <div class="col-sm-3 col-sm-push-3">
+                                                    <div class="col-sm-5 col-sm-push-1">
                                                         <label for="fname">Nombre:</label>
                                                         <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')">
                                                     </div>
-                                                    <div class="col-sm-3 col-sm-push-3">
+                                                    <div class="col-sm-5 col-sm-push-1">
                                                         <label for="lname">Apellido:</label>
-                                                        <input type="text" class="form-control" name="register-lname" id="lname" placeholder="Apellido" required>
+                                                        <input type="text" class="form-control" name="register-lname" id="lname" placeholder="Apellido" required onchange="validateInputs('lname')">
                                                     </div>
                                                 </div><br><br>
                                                 <div class="row">
-                                                    <div class="col-sm-3 col-sm-push-3">
+                                                    <div class="col-sm-5 col-sm-push-1">
                                                         <label for="pass">Contraseña:</label>
                                                         <input type="password" class="form-control" name="register-pass" id="pass" placeholder="Contraseña" required onchange="validatePassword()">
                                                     </div>
-                                                    <div class="col-sm-3 col-sm-push-3">
+                                                    <div class="col-sm-5 col-sm-push-1">
                                                         <label for="cpass">Confirmar Contraseña:</label>
                                                         <input type="password" class="form-control" id="cpass" placeholder="Confirmar Contraseña" required onkeyup="validatePassword()">
                                                     </div>
                                                 </div><br><br>
                                                 <div class="row">
-                                                    <div class="col-sm-3 col-sm-push-3">
+                                                    <div class="col-sm-5 col-sm-push-1">
                                                         <label for="com">Comuna:</label>
                                                         <select class="form-control" id="com" name="register-com">
                                                             <option value="" selected disabled>Comuna</option>
@@ -134,40 +134,35 @@
                                                              ?>
                                                         </select>
                                                     </div>
-                                                    <div class="col-sm-3 col-sm-push-3">
+                                                    <div class="col-sm-5 col-sm-push-1">
                                                             <label for="dir">Dirección:</label>
                                                             <input type="text" class="form-control" name="register-dir" id="dir" placeholder="Dirección" required>
                                                     </div>
                                                 </div><br><br>
                                                 <div class="row">
-                                                    <div class="col-sm-3 col-sm-push-3">
+                                                    <div class="col-sm-5 col-sm-push-1">
                                                         <label for="cor">Correo:</label>
                                                         <input type="email" class="form-control" name="register-mail" id="cor" placeholder="Correo" required>
                                                     </div>
-                                                    <div class="col-sm-3 col-sm-push-3">
+                                                    <div class="col-sm-5 col-sm-push-1">
                                                         <label for="tel">Teléfono:</label>
-                                                        <input type="text" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" required>
+                                                        <input type="tel" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" pattern="[0-9]{9}"required>
                                                     </div>
                                                     
                                                 </div><br>
                                                 <div class="row">
-                                                    <div class="col-sm-5 col-sm-push-4">
+                                                    <div class="col-sm-4 col-sm-push-4">
                                                         <img src="validaciones/phpcaptcha/captcha.php?rand=<?php echo rand();?>" id='captchaimg'>
-                                                        <input id="captcha_code" name="captcha_code" type="text"> <a href='javascript: refreshCaptcha();'><i class="fa fa-refresh"></i></a>
+                                                        <input id="captcha_code" class="form-control" name="captcha_code" type="text"> <a href='javascript: refreshCaptcha();'><i class="fa fa-refresh"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-sm-2 col-sm-push-5">
+                                                    <div class="col-sm-4 col-sm-push-1">
                                                         <br><input type="submit" class="btn btn-success" value="Registrarse" name="register-submit"><br><br>
                                                     </div>
                                                 </div>
                                             </form>
-                                        </div>
-                                        
-                                    <div class="modal-footer">
-                                        <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                    </div>
-                                        
+                                        </div>                                       
                                     </div>
                                 </div>
                             </div>

@@ -69,22 +69,21 @@
                 <div class="row">
                 <div class="col-sm-3 col-sm-push-9">
                     <br><a type="button" class="btn btn-success conf" href="home.php" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                </div>
                 </div>';}?>
             </div>
         </div>
     </div>
-</div>
-<div class="container">
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>                        
-        </button>
-        <a class="navbar-brand" href="home.php">Inicio</a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="home.php">Inicio</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">

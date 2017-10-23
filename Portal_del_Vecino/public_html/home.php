@@ -44,6 +44,21 @@
     <script src="librerias/jquery-3.2.1.js"></script>
     <script src="librerias/bootstrap.js"></script>
     <script src="librerias/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#news").modal();
+        });
+        $(document).ready(function(){
+            $("#createorg").click(function(){
+                $("#form-createorg").show();
+                $("#form-uniteorg").hide();
+            });
+            $("#uniteorg").click(function(){
+                $("#form-uniteorg").show();
+                $("#form-createorg").hide();
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="container">

@@ -31,6 +31,7 @@
 	}else{// Captcha verification is Correct. Final Code Execute here!		
             if($user->RegisterUser($fname, $lname, $mail, $phone, $dir)){
                 $user->EncryptPass(($user->GetUserId($mail)),$pass);
+                $user->RegisterForum($fname,$lname,$mail,$pass);
                 $msg = "<script>alert('Registrado correctamente.')</script>";
             }else{
                 $msg = "<script>alert('Este correo ya esta en uso.')</script>";
@@ -125,8 +126,13 @@
                                                     <div class="col-sm-3 col-sm-push-3">
                                                         <label for="com">Comuna:</label>
                                                         <select class="form-control" id="com" name="register-com">
-                                                            <option value="" disabled selected>Comuna</option>
-                                                            <option value="0">Agregar dinamicamente</option>
+                                                            <option value="" selected disabled>Comuna</option>
+                                                            <?php  $sql = $conn->prepare("SELECT * FROM COMUNA");
+                                                                $sql->execute();
+                                                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                                                    echo "<option value=".$result['ID_COMUNA'].">".$result['COMUNA']."</option>";
+                                                                }
+                                                             ?>
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-3 col-sm-push-3">

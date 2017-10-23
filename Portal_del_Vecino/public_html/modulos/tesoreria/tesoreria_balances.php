@@ -105,8 +105,6 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
                                                 <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
-                                                <li><a href="../actividades/actividades_add_reuniones.php">Añadir Reuniones</a></li>
-                                                <li><a href="../actividades/actividades_add_actividades.php">Añadir Actividades</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">
@@ -231,20 +229,20 @@
                                         if(isset($_REQUEST['submit-buscar'])){
                                             if($_POST['fecha_desde'] != "" && $_POST['fecha_hasta'] != ""){
                                                 if(isset($_POST['select_actividad'])){
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad AND ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad  AND ID_ORGANIZACION = :IDORG");
                                                     $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                     $sql->bindparam(":fecha_desde",  date('Y-m-d', strtotime($_POST['fecha_desde'])));
                                                     $sql->bindparam(":fecha_hasta",  date('Y-m-d', strtotime($_POST['fecha_hasta'])));
                                                     $sql->bindparam(":actividad", $_POST['select_actividad']);
                                                 }else{
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE FECHA BETWEEN :fecha_desde AND :fecha_hasta AND ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND FECHA BETWEEN :fecha_desde AND :fecha_hasta AND ID_ORGANIZACION = :IDORG");
                                                     $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                     $sql->bindparam(':fecha_desde',  date('Y-m-d', strtotime($_POST['fecha_desde'])));
                                                     $sql->bindparam(':fecha_hasta',  date('Y-m-d', strtotime($_POST['fecha_hasta'])));
                                                 }
                                             }else{
                                                 if(isset($_POST['select_actividad'])){
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE E_S = :actividad OR E_S = 3 AND ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND E_S = :actividad OR E_S = 3 AND ID_ORGANIZACION = :IDORG");
                                                     $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                     $sql->bindparam(":actividad", $_POST['select_actividad']);
                                                 }else{

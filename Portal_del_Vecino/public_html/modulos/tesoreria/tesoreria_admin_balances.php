@@ -11,6 +11,46 @@
         if($_SESSION['id_org'] == ""){
             $user->Redirect('../../home.php');
         }
+        
+        if (isset($_REQUEST['delete_actividad'])){
+            try {
+                $sql = $conn->prepare("UPDATE tesoreria SET ELIMINADO = 1 WHERE ID_TESORERIA = :id");
+                $sql->bindParam(':id', $_POST['id']);
+                $sql->execute();
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+
+        if (isset($_REQUEST['submit-edit'])){
+            try {
+                $sql = $conn->prepare("UPDATE tesoreria SET FECHA = :EDITFECHA, CONCEPTO = :EDITCONCEPTO, MONTO = :EDITOMONTO, E_S = :EDITACTIVIDAD WHERE ID_TESORERIA = :ID");
+                $sql->bindParam(':EDITFECHA', date('Y-m-d', strtotime($_POST['edit_date'])));
+                $sql->bindParam(':EDITCONCEPTO', $_POST['edit_caption']);
+                $sql->bindParam(':EDITOMONTO', $_POST['edit_ammount']);
+                $sql->bindParam(':EDITACTIVIDAD', $_POST['edit_activity']);
+                $sql->bindParam(':ID', $_POST['id']);
+                $sql->execute();
+            } 
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+
+        if(isset($_REQUEST['submit-entrada'])){
+            try {
+                $sql = $conn->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO)
+                VALUES(1, :FECHA, :CONCEPTO, :E_S, :MONTO)");
+                $sql->bindParam(':FECHA', date('Y-m-d', strtotime($_POST['fecha_ingreso'])));
+                $sql->bindParam(':CONCEPTO', $_POST['concepto']);
+                $sql->bindParam(':E_S', $_POST['select_actividad']);
+                $sql->bindParam(':MONTO', $_POST['monto']);
+                $sql->execute();
+            } 
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -77,8 +117,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
                                     <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
-                                    <li><a href="../actividades/actividades_add_reuniones.php">Añadir Reuniones</a></li>
-                                    <li><a href="../actividades/actividades_add_actividades.php">Añadir Actividades</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -95,50 +133,8 @@
             </nav>
 
             <div class="page-header">
-                <h1>Administrar libro caja</h1>
+                <h1>Administrar libro caja <button type="button" class="btn pull-right btn-success" id="add_entry" name="add_entry" data-toggle="modal" data-target="#new_entry">Nueva entrada <i class='fa fa-edit'></i></button></h1>
             </div>
-            <?php
-                if (isset($_REQUEST['delete_actividad'])){
-                    try {
-                        $sql = $conn->prepare("UPDATE tesoreria SET ELIMINADO = 1 WHERE ID_TESORERIA = :id");
-                        $sql->bindParam(':id', $_POST['id']);
-                        $sql->execute();
-                    } catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
-                }
-                
-                if (isset($_REQUEST['submit-edit'])){
-                    try {
-                        $sql = $conn->prepare("UPDATE tesoreria SET FECHA = :EDITFECHA, CONCEPTO = :EDITCONCEPTO, MONTO = :EDITOMONTO, E_S = :EDITACTIVIDAD WHERE ID_TESORERIA = :ID");
-                        $sql->bindParam(':EDITFECHA', date('Y-m-d', strtotime($_POST['edit_date'])));
-                        $sql->bindParam(':EDITCONCEPTO', $_POST['edit_caption']);
-                        $sql->bindParam(':EDITOMONTO', $_POST['edit_ammount']);
-                        $sql->bindParam(':EDITACTIVIDAD', $_POST['edit_activity']);
-                        $sql->bindParam(':ID', $_POST['id']);
-                        $sql->execute();
-                    } 
-                    catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
-                }
-                
-                if(isset($_REQUEST['submit-entrada'])){
-                    try {
-                        $sql = $conn->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO)
-                        VALUES(1, :FECHA, :CONCEPTO, :E_S, :MONTO)");
-                        $sql->bindParam(':FECHA', date('Y-m-d', strtotime($_POST['fecha_ingreso'])));
-                        $sql->bindParam(':CONCEPTO', $_POST['concepto']);
-                        $sql->bindParam(':E_S', $_POST['select_actividad']);
-                        $sql->bindParam(':MONTO', $_POST['monto']);
-                        $sql->execute();
-                    } 
-                    catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
-                }
-                
-            ?>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -194,14 +190,18 @@
                                                         <div class='modal-content'>
                                                             <div class='modal-header'>
                                                                 <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                                <h4 class='modal-title'>Editar</h4>
+                                                                <h4 class='modal-title'>Editar entrada</h4>
                                                             </div>
                                                             <div class='modal-body'>
+                                                                <label>Fecha: </label>
                                                                 <input type='text' class='form-control' id='edit_date' name='edit_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA']."' required><br>
+                                                                <label>Concepto: </label>
                                                                 <input type='text' class='form-control' id='edit_caption' name='edit_caption' value='".$result['CONCEPTO']."' required><br>
+                                                                <label>Actividad: </label>
                                                                 <select class='form-control' id='edit_activity' name='edit_activity' required>
                                                                     ".$options."
                                                                 </select><br>
+                                                                <label>Monto: </label>
                                                                 <input type='number' class='form-control' id='edit_ammount' name='edit_ammount' value='".$result['MONTO']."' required><br>
                                                                 <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
                                                             </div>
@@ -215,54 +215,48 @@
                                             </form>
                                         </td>
                                         </tr>";
-                                } # por cada dato crea una columna
+                                }
                             } 
                             catch (Exception $e) {
-                                echo "Error: " . $e->getMessage();#captura el error y lo muestra
+                                echo "Error: " . $e->getMessage();
                             }
                         ?>
                     </tbody>
                 </table>
             </div>
             &nbsp;
-            <div class="row">
-                <form action="tesoreria_admin_balances.php" method="POST">
-                    <div class="col-sm-1">
-                        <label>Fecha:</label>
+            <!-- Modal -->
+            <div id="new_entry" class='modal fade' role='dialog'>
+                <div class='modal-dialog'>
+                <!-- Modal content-->
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                            <h4 class='modal-title'>Agregar entrada</h4>
+                        </div>
+                        <div class='modal-body'>
+                           <form action="tesoreria_admin_balances.php" method="POST">
+                                <label>Fecha:</label>
+                                <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso"><br>
+                                <label>Concepto:</label>
+                                <input type="text" class="form-control" id="concepto" name="concepto"><br>
+                                <label>Actividad:</label>
+                                <select class="form-control" id="select_actividad" name="select_actividad">
+                                    <option value="" disabled selected>Ingreso/Egreso</option>
+                                    <option value="3">Registro de saldo</option>
+                                    <option value="1">Ingreso</option>
+                                    <option value="0">Egreso</option>
+                                </select><br>
+                                <label>Monto:</label>
+                                <input type="number" class="form-control" id="monto" name="monto"><br>
+                                <input type="submit" class="btn btn-success" id="submit-entrada" name="submit-entrada" value="Añadir entrada">
+                            </form> 
+                        </div>
+                        <div class='modal-footer'>
+                            <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                        <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso">
-                    </div>
-                    <div class="col-sm-1">
-                        <label>Concepto:</label>
-                    </div>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="concepto" name="concepto">
-                    </div>
-                    <div class="col-sm-1">
-                        <label>Actividad:</label>
-                    </div>
-                    <div class="col-sm-2">
-                        <select class="form-control" id="select_actividad" name="select_actividad">
-                            <option value="" disabled selected>Ingreso/Egreso</option>
-                            <option value="3">Registro de saldo</option>
-                            <option value="1">Ingreso</option>
-                            <option value="0">Egreso</option>
-                        </select> 
-                    </div>
-                    <div class="col-sm-1">
-                        <label>Monto:</label>
-                    </div>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" id="monto" name="monto">
-                    </div>
-            </div>
-            &nbsp;
-            <div class="row">
-                <div class="col-sm-2">
-                    <input type="submit" class="btn btn-success" id="submit-entrada" name="submit-entrada" value="Añadir entrada">
                 </div>
-                </form>
             </div>
         </div>
     </body>

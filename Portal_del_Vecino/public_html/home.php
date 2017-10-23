@@ -114,15 +114,12 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="modulos/actividades/actividades_reuniones.php">Reuniones</a></li>
                                                 <li><a href="modulos/actividades/actividades_historial.php">Historial de Actividades</a></li>
-                                                <li><a href="modulos/actividades/actividades_add_reuniones.php">Añadir Reuniones</a></li>
-                                                <li><a href="modulos/actividades/actividades_add_actividades.php">Añadir Actividades</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Proyectos <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="modulos/proyectos/proyectos_proyecto.php">Proyectos</a></li>
-                                                <li><a href="modulos/proyectos/proyectos_add_proyectos.php">Añadir Proyectos</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="modulos/foro">Foro</a></li>

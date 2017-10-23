@@ -13,7 +13,10 @@ confirm_password.onkeyup = validatePassword;
 function validateInputs(iid){
     var iTxt = document.getElementById(iid);
 
-    if( /[^a-zA-Z0-9\-\/]/.test(iTxt.value) ) {
-        alert("No debe contener caracteres especiales")
-    } 
+    if( /[^a-zA-Z\-\/]/.test(iTxt.value) ) {
+        iTxt.setCustomValidity("No debe contener caracteres especiales");
+    }
+    else{
+        iTxt.setCustomValidity("");
+    }
 }

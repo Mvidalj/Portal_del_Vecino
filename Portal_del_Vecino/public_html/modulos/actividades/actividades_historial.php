@@ -226,7 +226,7 @@
                                                                 <td class='text-center'>".$result['FECHA_TERMINO']."</td>";
                                                                 if($_SESSION['id_rol'] == "1"){echo
                                                                     "<td>
-                                                                        <form action='actividades_historial.php' method='POST'>
+                                                                        <form name= 'form' action='actividades_historial.php' method='POST'>
                                                                             <input type='hidden' id='id_actividad' name='id_actividad' value='".$result['ID_ACTIVIDAD']."'>
                                                                             <button type='button' class='btn btn-info' id='edit_reunion' name='edit_reunion' data-toggle='modal' data-target='#".$result['ID_ACTIVIDAD']."'><i class='fa fa-edit'></i></button>
                                                                             <!-- Modal -->
@@ -242,7 +242,7 @@
                                                                                             <label>Nombre: </label>
                                                                                             <input type='text' class='form-control' id='edit_nom' name='edit_nom' value='".$result['NOMBRE']."' required><br>
                                                                                             <label>Fecha de inicio: </label>
-                                                                                            <input type='text' class='form-control' id='edit_datefrom' name='edit_datefrom' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_INICIO']."' required><br>
+                                                                                            <input type='text' class='form-control' id='edit_datefrom' name='edit_datefrom' onfocus=\"(this.type='date')\" onblur=form.edit_dateto.min=form.edit_datefrom.value value='".$result['FECHA_INICIO']."' required><br>
                                                                                             <label>Fecha de termino: </label>
                                                                                             <input type='text' class='form-control' id='edit_dateto' name='edit_dateto' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_TERMINO']."' required><br>
                                                                                             <label>Descripción: </label>
@@ -279,9 +279,9 @@
                                         <h4 class='modal-title'>Agregar actividad</h4>
                                     </div>
                                     <div class='modal-body'>
-                                       <form action="actividades_historial.php" method="POST">
+                                       <form name= "form" action="actividades_historial.php" method="POST">
                                             <label for="fecha_in">Fecha Inicio:</label>
-                                            <input type="date" class="form-control" id="fecha_in" name="fecha_in"><br>
+                                            <input type="date" class="form-control" id="fecha_in" onblur=form.fecha_ter.min=form.fecha_in.value name="fecha_in"><br>
                                             <label for="fecha_ter">Fecha Termino:</label>
                                             <input type="date" class="form-control" id="fecha_ter" name="fecha_ter"><br>
                                             <label for="nombre">Nombre Actividad:</label>

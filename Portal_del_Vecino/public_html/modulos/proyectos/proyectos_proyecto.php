@@ -121,8 +121,8 @@
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Actividades <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="actividades_reuniones.php">Reuniones</a></li>
-                                    <li class="active"><a href="actividades_historial.php">Historial de Actividades</a></li>
+                                    <li><a href="../actividades/actividades_reuniones.php">Reuniones</a></li>
+                                    <li class="active"><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
@@ -167,7 +167,7 @@
                                                 <td class='text-center'>".$result['FECHA_TERMINO']."</td>";
                                                 if($_SESSION['id_rol'] == "1"){echo
                                                     "<td>
-                                                        <form action='proyectos_proyecto.php' method='POST'>
+                                                        <form name='form' action='proyectos_proyecto.php' method='POST'>
                                                             <input type='hidden' id='id_proyecto' name='id_proyecto' value='".$result['ID_PROYECTO']."'>
                                                             <button type='button' class='btn btn-info' id='edit_proyecto' name='edit_proyecto' data-toggle='modal' data-target='#".$result['ID_PROYECTO']."'><i class='fa fa-edit'></i></button>
                                                             <!-- Modal -->
@@ -183,7 +183,7 @@
                                                                             <label>Nombre: </label>
                                                                             <input type='text' class='form-control' id='edit_nom' name='edit_nom' value='".$result['NOMBRE']."' required><br>
                                                                             <label>Fecha de inicio: </label>
-                                                                            <input type='text' class='form-control' id='edit_datefrom' name='edit_datefrom' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_INICIO']."' required><br>
+                                                                            <input type='text' class='form-control' id='edit_datefrom' name='edit_datefrom' onfocus=\"(this.type='date')\" onblur=form.edit_dateto.min=form.edit_datefrom.value value='".$result['FECHA_INICIO']."' required><br>
                                                                             <label>Fecha de termino: </label>
                                                                             <input type='text' class='form-control' id='edit_dateto' name='edit_dateto' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_TERMINO']."' required><br>
                                                                             <label>Descripción: </label>
@@ -221,9 +221,9 @@
                             <h4 class='modal-title'>Agregar proyecto</h4>
                         </div>
                         <div class='modal-body'>
-                           <form action="proyectos_proyecto.php" method="POST">
+                           <form name="form" action="proyectos_proyecto.php" method="POST">
                                 <label for="fecha_in">Fecha Inicio:</label>
-                                <input type="date" class="form-control" id="fecha_in" name="fecha_in"><br>
+                                <input type="date" class="form-control" id="fecha_in" onblur=form.fecha_in.min=form.fecha_ter.value name="fecha_in"><br>
                                 <label for="fecha_ter">Fecha Termino:</label>
                                 <input type="date" class="form-control" id="fecha_ter" name="fecha_ter"><br>
                                 <label for="nombre">Nombre Proyecto:</label>

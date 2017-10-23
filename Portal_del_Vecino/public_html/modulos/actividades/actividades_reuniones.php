@@ -71,7 +71,7 @@
         <div class="col-sm-10">
             <div class="row">
                 <div class="col-sm-3 col-sm-push-9">
-                        <br><a type="button" class="btn btn-danger conf" href="../../index.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
+                        <br><a type="button" class="btn btn-danger conf" href="../../cerrar_sesion.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
                 </div>
                 </div>
                 <div class="row">

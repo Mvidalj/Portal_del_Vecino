@@ -55,7 +55,7 @@
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-sm-3 col-sm-push-9">
-                        <br><a type="button" class="btn btn-danger conf" href="index.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
+                        <br><a type="button" class="btn btn-danger conf" href="cerrar_sesion.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
                     </div>
                 </div>
                 <div class="row">
@@ -74,6 +74,8 @@
         </div>
     </div>
 </div>
+<div class="container">
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -221,49 +223,6 @@
               <span class="sr-only">Next</span>
             </a>
           </div>
-<!-- Modal content-->
-    <div class='modal-content'>
-        <div class='modal-header'>
-            <button type='button' class='close' data-dismiss='modal'>&times;</button>
-            <h4 class='modal-title'>Configuración</h4>
-        </div>
-        <div class='modal-body'>
-            <form method="POST">
-            <div class="row">
-                <div class="col-sm-4 col-sm-push-2">
-                    <label for="fname">Nombre:</label>
-                    <input type="text" class="form-control" value="<?php echo $fname?>" name="fname" placeholder="Nombre">
-                </div>
-                <div class="col-sm-4 col-sm-push-2">
-                    <label for="lname">Apellido:</label>
-                    <input type="text" class="form-control" value="<?php echo $lname?>" name="lname" placeholder="Correo Nuevo">
-                </div><br><br><br><br>
-                <div class="col-sm-4 col-sm-push-2">
-                    <label for="pass">Contraseña Actual:</label>
-                    <input type="password" class="form-control" name="pass" placeholder="Contraseña">
-                </div>
-                <div class="col-sm-4 col-sm-push-2">
-                    <label for="npass">Contraseña Nueva:</label>
-                    <input type="password" class="form-control" name="npass" placeholder="Contraseña Nueva">
-                </div><br><br><br><br>
-                <div class="col-sm-4 col-sm-push-2">
-                    <label for="phone">Cambiar Telefono:</label>
-                    <input type="text" class="form-control" value="<?php echo $phone?>" name="phone" placeholder="Telefono Nuevo">
-                </div>
-                <div class="col-sm-4 col-sm-push-2">
-                    <label for="mail">Cambiar Correo:</label>
-                    <input type="email" class="form-control" value="<?php echo $mail?>" name="mail" placeholder="Correo Nuevo">
-                </div>
-                <div class="col-sm-4 col-sm-offset-5">
-                    <br><input type="submit" class="btn btn-primary" value="Guardar todo" name="save-submit">
-                    
-                </div>
-            </div>
-	</form>
-        </div>
-        <div class='modal-footer'>
-            <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
-        </div>
     </div>
 </body>
 </html>

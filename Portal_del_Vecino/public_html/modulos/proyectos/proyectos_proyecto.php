@@ -33,7 +33,7 @@
                     echo 'Fallo la conexion:'.$e->GetMessage();
             }
         }
-        if(isset($_REQUEST['submit-add'])){
+        if(isset($_REQUEST['add_proyecto'])){
             try{
                 $sentencia = $conn->prepare("INSERT INTO proyectos (ID_ORGANIZACION, NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_TERMINO)
                 VALUES(1, :NOMBRE, :DESCRIPCION,:FECHA_INICIO,:FECHA_TERMINO)");
@@ -228,7 +228,7 @@
                     <h4 class='modal-title'>Agregar Proyecto</h4>
                 </div>
                 <div class='modal-body'>
-                    <form name="form" action="proyectos_add_proyectos.php" method="post">
+                    <form name="form" action="proyectos_proyecto.php" method="post">
                         <label for="fecha_in">Fecha Inicio:</label>
                         <input type="date" class="form-control" id="fecha_in" name="fecha_in" onblur=form.fecha_ter.min=form.fecha_in.value required><br>
                         <label for="fecha_ter">Fecha Termino:</label><br>

@@ -122,7 +122,7 @@
             </ul>
         </li>
         <li><a href="modulos/proyectos/proyectos_proyecto.php">Proyectos</a></li>
-        <li><a href="modulos/foro">Foro</a></li>
+        <li><a href="modulos/foro" target="_blank">Foro</a></li>
       </ul>
     </div>
   </div>

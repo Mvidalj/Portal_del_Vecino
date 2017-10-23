@@ -124,7 +124,7 @@
             </ul>
         </li>
         <li class="active"><a href="proyectos_proyecto.php">Proyectos</a></li>
-        <li><a href="../foro">Foro</a></li>
+        <li><a href="../foro" target="_blank">Foro</a></li>
       </ul>
     </div>
   </div>

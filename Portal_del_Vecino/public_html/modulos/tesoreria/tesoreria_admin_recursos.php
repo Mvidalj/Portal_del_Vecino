@@ -121,7 +121,7 @@
                                     <li><a href="../proyectos/proyectos_add_proyectos.php">Añadir Proyectos</a></li>
                                 </ul>
                             </li>
-                            <li><a href="../foro">Foro</a></li>
+                            <li><a href="../foro" target="_blank">Foro</a></li>
                         </ul>
                     </div>
                 </div>

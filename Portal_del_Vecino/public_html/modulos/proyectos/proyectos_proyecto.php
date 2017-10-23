@@ -86,11 +86,12 @@
                 <div class="row">
                 <div class="col-sm-3 col-sm-push-9">
                     <br><a type="button" class="btn btn-success conf" href="../../home.php" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                </div>
                 </div>';}?>
             </div>
         </div>
     </div>
-</div>
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -123,7 +124,7 @@
             </ul>
         </li>
         <li class="active"><a href="proyectos_proyecto.php">Proyectos</a></li>
-        <li><a href="../foro">Foro</a></li>
+        <li><a href="../foro" target="_blank">Foro</a></li>
       </ul>
     </div>
   </div>
@@ -133,10 +134,9 @@
         <h1>Proyectos<small> (Vigentes)</small> <?php if ($_SESSION['id_rol'] == "1"){echo '<button type="button" class="btn pull-right btn-success" id="add_proyectos" name="add_proyectos" data-toggle="modal" data-target="#new_proyecto">Agregar proyectos <i class="fa fa-edit"></i></button>';}?></h1>
     </div>
     <div class="table-responsive">
-        <table id="example" class="table table-bordered">
+    <table id="example" class="table table-bordered">
             <thead>
                 <tr>
-                    <th class="col-sm-1 text-center">N°</th>
                     <th class="col-sm-4">Nombre</th>
                     <th class="col-sm-3 ">Fecha Inicio</th>
                     <th class="col-sm-3">Fecha Termino</th>
@@ -152,7 +152,6 @@
                             if($result['ELIMINADO'] == '0'){
                                 if($_SESSION['id_rol'] == "1"){
                                     echo "<tr>                                       
-                                        <td class='text-center'>".$result['ID_PROYECTO']."</td>
                                         <td>".$result['NOMBRE']."</td>
                                         <td class='text-center'>".$result['FECHA_INICIO']."</td>
                                         <td class='text-center'>".$result['FECHA_TERMINO']."</td>
@@ -188,7 +187,6 @@
                                     </tr>";} # por cada dato crea una columna
                                 else{
                                     echo "<tr>                                       
-                                        <td class='text-center'>".$result['ID_PROYECTO']."</td>
                                         <td>".$result['NOMBRE']."</td>
                                         <td class='text-center'>".$result['FECHA_INICIO']."</td>
                                         <td class='text-center'>".$result['FECHA_TERMINO']."</td>
@@ -233,6 +231,7 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
 <script type="text/javascript" language="javascript" class="init">

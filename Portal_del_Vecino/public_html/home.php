@@ -44,6 +44,21 @@
     <script src="librerias/jquery-3.2.1.js"></script>
     <script src="librerias/bootstrap.js"></script>
     <script src="librerias/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#news").modal();
+        });
+        $(document).ready(function(){
+            $("#createorg").click(function(){
+                $("#form-createorg").show();
+                $("#form-uniteorg").hide();
+            });
+            $("#uniteorg").click(function(){
+                $("#form-uniteorg").show();
+                $("#form-createorg").hide();
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="container">
@@ -107,18 +122,24 @@
             </ul>
         </li>
         <li><a href="modulos/proyectos/proyectos_proyecto.php">Proyectos</a></li>
-        <li><a href="modulos/foro">Foro</a></li>
+        <li><a href="modulos/foro" target="_blank">Foro</a></li>
       </ul>
     </div>
   </div>
 </nav>
 <?php   
     if(isset($_REQUEST['submit-create'])){
+        
         echo "<script>alert('Estamos trabajando para usted')</script>";
     }
     
-    if(isset($_REQUEST['submit-join'])){
-        echo "<script>alert('Estamos trabajando para usted')</script>";
+    if(isset($_REQUEST['submit_join'])){
+        $orgID = $_POST['select_org'];
+        $stmt = $conn->prepare("UPDATE usuarios set ID_ORGANIZACION = :id WHERE CORREO= :correo");
+        $stmt->bindparam(":id", $orgID);
+        $stmt->bindparam(":correo", $_SESSION['correo']);
+        $stmt->execute();
+        $_SESSION['id_org']=$orgID;
     }
     
     if($_SESSION['id_org'] == ""){
@@ -143,7 +164,12 @@
                                     <label for="comorg" >Comuna: </label>
                                     <select class="form-control" id="comorg" name="comorg">
                                         <option value="" disabled selected>Comuna</option>
-                                        <option value="0">Agregar dinamicamente</option>
+                                        <?php  $sql = $conn->prepare("SELECT * FROM COMUNA ");
+                                            $sql->execute();
+                                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                                echo "<option value=".$result['ID_COMUNA'].">".$result['COMUNA']."</option>";
+                                            }
+                                         ?>
                                     </select><br>
                                     <input type="submit" id="submit-create" name="submit-create" class="btn btn-success" value="Registrar organización">
                                 </fieldset>
@@ -153,9 +179,8 @@
                             <form action="home.php" method="POST">
                                 <fieldset>
                                     <legend>Unirse a organización</legend>
-                                    <label for="select-org" >Comuna: </label>
-                                    <select class="form-control" id="select-org" name="select-org">
-                                        <option value="" disabled selected>Organización</option>
+                                    <label for="select-org" >Organizacion: </label>
+                                    <select class="form-control" id="select-org" name="select_org">
                                 <?php  $sql = $conn->prepare("SELECT * FROM organizaciones");
                                        $sql->execute();
                                        while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
@@ -163,7 +188,7 @@
                                        }
                                 ?>
                                     </select><br>
-                                    <input type="submit" id="submit-join" name="submit-join" class="btn btn-success" value="Unirse a organización">
+                                    <input type="submit" id="submit-join" name="submit_join" class="btn btn-success" value="Unirse a organización">
                                 </fieldset>
                             </form>
                         </div>

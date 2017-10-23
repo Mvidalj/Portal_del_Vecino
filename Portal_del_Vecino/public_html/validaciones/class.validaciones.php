@@ -84,6 +84,7 @@
                         if($stmt->rowCount() > 0){
                             $_SESSION['id_rol'] = $userRow['ID_ROL'];
                             $_SESSION['id_org'] = $userRow['ID_ORGANIZACION'];
+                            $_SESSION['correo'] = $userRow['CORREO'];
                         } else {return false;}
                         
                         return true;

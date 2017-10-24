@@ -143,7 +143,7 @@
                         <th class="col-sm-4">Nombre</th>
                         <th class="col-sm-3 ">Fecha Inicio</th>
                         <th class="col-sm-3">Fecha Termino</th>
-                        <?php if($_SESSION['id_rol'] == "1"){echo '<th class="col-sm-1">Acción</th>';}?>
+                        <?php if($_SESSION['id_rol'] == "1"){echo '<th class="col-sm-2">Acción</th>';}?>
                     </tr>
                 </thead>
                 <tbody>
@@ -158,7 +158,7 @@
                                             <td class='text-center'>".$result['FECHA_INICIO']."</td>
                                             <td class='text-center'>".$result['FECHA_TERMINO']."</td>";
                                             if($_SESSION['id_rol'] == "1"){echo
-                                                "<td>
+                                                "<td class='text-center'>
                                                     <form action='actividades_historial.php' method='POST'>
                                                         <input type='hidden' id='id_actividad' name='id_actividad' value='".$result['ID_ACTIVIDAD']."'>
                                                         <button type='button' class='btn btn-info' id='edit_reunion' name='edit_reunion' data-toggle='modal' data-target='#".$result['ID_ACTIVIDAD']."'><i class='fa fa-edit'></i></button>
@@ -181,9 +181,6 @@
                                                                         <label>Descripción: </label>
                                                                         <textarea class='form-control' id='edit_desc' name='edit_desc' required>".$result['DESCRIPCION']."</textarea><br>
                                                                         <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
-                                                                    </div>
-                                                                    <div class='modal-footer'>
-                                                                        <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

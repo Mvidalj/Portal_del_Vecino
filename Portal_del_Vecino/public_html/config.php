@@ -16,7 +16,7 @@
         $pass = $_POST['pass'];
         $npass = $_POST['npass'];
         $mail = $_POST['mail'];
-        $phone = $_POST['phone'];
+        $phone = $_POST['tel'];
         try{
             $stmt = $conn->prepare("SELECT PASSWORD FROM LOGIN WHERE ID_USUARIO=".$_SESSION['id_usuario']."");
             $stmt->execute();
@@ -51,7 +51,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
-    <link href="css/bootstrap-imageupload.css" rel="stylesheet">
+    <script src="librerias/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/validate-user-register.js"></script>
 </head>
 <body>
 <div class="container">
@@ -88,23 +90,23 @@
             <div class="row">
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="fname">Nombre:</label>
-                    <input type="text" class="form-control" value="<?php echo $fname?>" name="fname" placeholder="Nombre">
+                    <input type="text" class="form-control" value="<?php echo $fname?>" name="fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')">
                 </div>
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="lname">Apellido:</label>
-                    <input type="text" class="form-control" value="<?php echo $lname?>" name="lname" placeholder="Correo Nuevo">
+                    <input type="text" class="form-control" value="<?php echo $lname?>" name="lname" id="lname" placeholder="Apellido" onchange="validateInputs('lname')" required>
                 </div><br><br><br><br>
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="pass">Contraseña Actual:</label>
-                    <input type="password" class="form-control" name="pass" placeholder="Contraseña">
+                    <input type="password" class="form-control" name="pass" placeholder="Contraseña" required>
                 </div>
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="npass">Contraseña Nueva:</label>
-                    <input type="password" class="form-control" name="npass" placeholder="Contraseña Nueva">
+                    <input type="password" class="form-control" name="npass" placeholder="Contraseña Nueva" required>
                 </div><br><br><br><br>
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="phone">Cambiar Telefono:</label>
-                    <input type="text" class="form-control" value="<?php echo $phone?>" name="phone" placeholder="Telefono Nuevo">
+                    <input type="tel" class="form-control" name="tel" id="tel" placeholder="Teléfono Nuevo" pattern="[0-9]{9}"required>
                 </div>
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="mail">Cambiar Correo:</label>

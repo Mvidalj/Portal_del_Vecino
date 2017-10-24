@@ -121,13 +121,13 @@
                         <div class="page-header">
                             <h1>Libro caja</h1>
                         </div>
-                        <form action="tesoreria_balances.php" method="POST">
+                        <form name="form "action="tesoreria_balances.php" method="POST">
                             <div class="row">
                                 <div class="col-sm-1">
                                     <label>Búsqueda:</label>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="date" class="form-control" id="fecha_desde" name="fecha_desde">
+                                    <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" onblur=form.fecha_hasta.min=form.fecha_desde.value >
                                 </div>
                                 <div class="col-sm-2">
                                     <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta">

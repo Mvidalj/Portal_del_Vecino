@@ -84,7 +84,7 @@
                     echo '
                 <div class="row">
                 <div class="col-sm-3 col-sm-push-9">
-                    <br><a type="button" class="btn btn-success conf" href="../../home.php" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
                 </div>
                 </div>';}?>
             </div>
@@ -230,6 +230,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div>	
+                        <?php include("../../modal_accept_user.php");?>	
                     </div>
                 </body>
             </html>

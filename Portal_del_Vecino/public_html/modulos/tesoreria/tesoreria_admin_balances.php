@@ -56,13 +56,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-	<title>Administración de balances</title>
+	<title>Portal del Vecino</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="../../css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../css/bootstrap.css">
+        <link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
 	<script src="../../librerias/jquery-3.2.1.js"></script>
 	<script src="../../librerias/bootstrap.js"></script>
+        <script src="../../librerias/jquery.dataTables.min.js"></script>
     </head>
     <body>
         <div class="container">
@@ -84,7 +86,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-sm-push-9">
-                            <br><a class="btn btn-success conf" href="../../home.php" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                            <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
                         </div>
                     </div>
                 </div>
@@ -246,6 +248,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div>	
+            <?php include("../../modal_accept_user.php");?>		
         </div>
     </body>
 </html>

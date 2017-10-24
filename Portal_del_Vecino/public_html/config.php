@@ -51,9 +51,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
     <script src="librerias/jquery-3.2.1.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/validate-user-register.js"></script>
+    <script src="librerias/bootstrap.js"></script>
+    <script src="librerias/jquery.dataTables.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -75,7 +76,7 @@
 			    </div>
 			    <div class="row">
 			    	<div class="col-sm-3 col-sm-push-9">
-			    		<br><a type="button" class="btn btn-success conf" href="home.php" rel>Aceptar Miembros (*) <span class="fa fa-user-plus"></span></a>
+			    		<br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
 			    	</div>
 			    </div>
 			</div>
@@ -117,28 +118,10 @@
                     
                 </div>
             </div>
-        <!--<div class="col-sm-6">
-            <div class="imageupload panel panel-default">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Cambiar Imagen</h3>
-                </div>
-                <div class="file-tab panel-body">
-                    <label class="btn btn-default btn-file">
-                        <span>Browse</span>
-                        <input type="file" name="image-file">
-                    </label>
-                </div>
-            </div>-->	
 	</form>
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="js/bootstrap-imageupload.js"></script>
-
-    <!--<script>
-        var $imageupload = $('.imageupload');
-        $imageupload.imageupload();
-    </script>-->
-
+</div>
+<div>	
+    <?php include("modal_accept_user.php");?>		
 </div>
 </body>
 </html>

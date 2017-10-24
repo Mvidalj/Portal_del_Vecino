@@ -83,7 +83,7 @@
                     echo '
                 <div class="row">
                 <div class="col-sm-3 col-sm-push-9">
-                    <br><a type="button" class="btn btn-success conf" href="home.php" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
                 </div>
                 </div>';}?>
             </div>
@@ -137,6 +137,17 @@
             VALUES(:com,:nom)');
             $stmt->bindParam(':com', $_POST['comorg']);
             $stmt->bindParam(':nom', $_POST['nameorg']);
+            $stmt->execute();
+            $stmt =$conn->prepare('SELECT ID_ORGANIZACION FROM organizaciones WHERE NOMBRE = :nom');
+            $stmt->bindParam(':nom', $_POST['nameorg']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $conn->prepare('UPDATE usuarios SET ID_ORGANIZACION = :id_org, ID_ROL = 1 WHERE ID_USUARIO = :id_usr');
+            $stmt->bindParam(':id_org', $result['ID_ORGANIZACION']);
+            $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
+            $stmt->execute();
+            $_SESSION['id_org']=$result['ID_ORGANIZACION'];
+            $_SESSION['id_rol']=1;
             echo "<script>alert('Organización creada correctamente.')</script>";
         }
         else{
@@ -145,14 +156,13 @@
     }
     
     if(isset($_REQUEST['submit_join'])){
-        $orgID = $_POST['select_org'];
-        $stmt = $conn->prepare("UPDATE usuarios set ID_ORGANIZACION = :id WHERE CORREO= :correo");
-        $stmt->bindparam(":id", $orgID);
-        $stmt->bindparam(":correo", $_SESSION['correo']);
+        $stmt = $conn->prepare("INSERT INTO solicitudes(ID_USUARIO,ID_ORGANIZACION,ESTADO)
+                                VALUES (:id_usr,:id_org,2)");
+        $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
+        $stmt->bindParam(':id_org', $_POST['select_org']);
         $stmt->execute();
-        $_SESSION['id_org']=$orgID;
     }
-    
+       
     if($_SESSION['id_org'] == ""){
 ?>
         <!-- Modal -->
@@ -258,6 +268,9 @@
               <span class="sr-only">Next</span>
             </a>
           </div>
+    </div>
+    <div>	
+	<?php include("modal_accept_user.php");?>		
     </div>
 </body>
 </html>

@@ -149,7 +149,8 @@
                 <tbody>
                     <?php
                         try {
-                            $sql = $conn->prepare("SELECT * FROM actividades");
+                            $sql = $conn->prepare("SELECT * FROM actividades WHERE ID_ORGANIZACION = :IDORG");
+                            $sql->bindparam(":IDORG", $_SESSION['id_org']);
                             $sql->execute();
                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                 if($result['ELIMINADO'] == '0'){

@@ -183,7 +183,7 @@
                                                                                     <label>Fecha: </label>
                                                                                     <input type='text' class='form-control' id='edit_date' name='edit_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_REUNION']."' required><br>
                                                                                     <label>Descripción: </label>
-                                                                                    <input type='text' class='form-control' id='edit_desc' name='edit_desc' value='".$result['DESCRIPCION']."' required><br>
+                                                                                    <textarea class='form-control' id='edit_desc' rows='5' name='edit_desc'>".$result['DESCRIPCION']."</textarea><br>
                                                                                     <label>Estado: </label>
                                                                                     <select class='form-control' id='edit_state' name='edit_state' required>
                                                                                         ".$options."

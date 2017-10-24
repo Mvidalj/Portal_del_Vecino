@@ -179,7 +179,7 @@
                                                                         <label>Fecha de termino: </label>
                                                                         <input type='text' class='form-control' id='edit_dateto' name='edit_dateto' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_TERMINO']."' required><br>
                                                                         <label>Descripción: </label>
-                                                                        <textarea class='form-control' id='edit_desc' name='edit_desc' required>".$result['DESCRIPCION']."</textarea><br>
+                                                                        <textarea class='form-control' id='edit_desc' rows='5' name='edit_desc' required>".$result['DESCRIPCION']."</textarea><br>
                                                                         <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                                     </div>
                                                                 </div>

@@ -16,8 +16,8 @@
                 $sentencia = $conn->prepare("UPDATE actividades SET NOMBRE = :NOMBRE, DESCRIPCION= :DESC, FECHA_INICIO = :FECHFROM, FECHA_TERMINO = :FECHTO WHERE ID_ACTIVIDAD = :ID");
                 $sentencia->bindParam(':NOMBRE', $_POST['edit_nom']);
                 $sentencia->bindParam(':DESC', $_POST['edit_desc']);
-                $sentencia->bindParam(':FECHFROM', date('Y-m-d', strtotime($_POST['edit_datefrom'])));
-                $sentencia->bindParam(':FECHTO', date('Y-m-d', strtotime($_POST['edit_dateto'])));
+                $sentencia->bindParam(':FECHFROM', $_POST['edit_datefrom']);
+                $sentencia->bindParam(':FECHTO', $_POST['edit_dateto']);
                 $sentencia->bindParam(':ID', $_POST['id_actividad']);
                 $sentencia->execute();
             }catch(PDOException $e){
@@ -180,7 +180,7 @@
                                                                         <input type='text' class='form-control' id='edit_dateto' name='edit_dateto' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_TERMINO']."' required><br>
                                                                         <label>Descripción: </label>
                                                                         <textarea class='form-control' id='edit_desc' name='edit_desc' required>".$result['DESCRIPCION']."</textarea><br>
-                                                                        <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
+                                                                        <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -217,7 +217,7 @@
                         <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre"><br>
                         <label for="desc">Descripcion:</label>
                         <textarea name="desc" class="form-control" id="desc" rows="5" placeholder="Descripcion"></textarea><br>
-                        <br><button type="submit" class="btn btn-primary btn-md" name="submit-add">Guardar <span class="fa fa-save"></span></button>
+                        <br><button type="submit" class="btn btn-success btn-md" name="submit-add">Guardar <span class="fa fa-save"></span></button>
                     </form>
                 </div>
             </div>

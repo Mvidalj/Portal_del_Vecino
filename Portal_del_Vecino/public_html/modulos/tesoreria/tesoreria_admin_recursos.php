@@ -74,7 +74,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-sm-push-9">
-                            <br><a class="btn btn-primary conf" href="../../config.html" rel>Configuración <span class="fa fa-cog"></span></a>
+                            <br><a class="btn btn-primary conf" href="../../config.php" rel>Configuración <span class="fa fa-cog"></span></a>
                         </div>
                     </div>
                     <div class="row">
@@ -114,7 +114,7 @@
                                     <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
                                 </ul>
                             </li>
-                            <li><a href="proyectos_proyecto.php">Proyectos</a></li>
+                            <li><a href="../proyectos/proyectos_proyecto.php">Proyectos</a></li>
                             <li><a href="../foro" target="_blank">Foro</a></li>
                         </ul>
                     </div>
@@ -168,7 +168,7 @@
                                                                 <input type='text' class='form-control' id='edit_name' name='edit_name' value='".$result['NOMBRE']."' required><br>
                                                                 <label>Descripción: </label>
                                                                 <input type='text' class='form-control' id='edit_desc' name='edit_desc' value='".$result['DESCRIPCION']."' required><br>
-                                                                <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este recurso?')\">
+                                                                <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -202,7 +202,7 @@
                                 <input type="text" class="form-control" id="nombre-recurso" name="nombre-recurso"><br>
                                 <label>Descripción de recurso:</label>
                                 <input type="text" class="form-control" id="desc-recurso" name="desc-recurso"><br>
-                                <input type="submit" class="btn btn-success" id="submit-recurso" name="submit-recurso" value="Añadir recurso">
+                                <button type='submit' class='btn btn-success' id='submit-recurso' name='submit-recurso'>Añadir recurso <span class='fa fa-save'></span></button>
                             </form>
                         </div>
                     </div>

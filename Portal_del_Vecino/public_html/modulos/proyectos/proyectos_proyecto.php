@@ -173,7 +173,7 @@
                                                             <input type='date' class='form-control' id='fecha_ter' name='fecha_ter' value='".$result['FECHA_TERMINO']."' required><br>
                                                             <input type='text' class='form-control' id='nombre' name='nombre' value= '".$result['NOMBRE']."' required><br>
                                                             <textarea class='form-control' id='desc' rows='5' name='desc'>".$result['DESCRIPCION']."</textarea><br>
-                                                            <button type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">editar</button>
+                                                            <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -219,7 +219,7 @@
                         <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre" required><br>
                         <label for="desc">Descripcion:</label><br>
                         <textarea class="form-control" id="desc" rows="5" placeholder="Descripcion" name="desc"></textarea><br>
-                        <button type="submit" class="btn btn-primary btn-md" name="add_proyecto">Guardar <span class="fa fa-save"></span></button>
+                        <button type="submit" class="btn btn-success btn-md" name="add_proyecto">Guardar <span class="fa fa-save"></span></button>
                     </form>
                 </div>
             </div>

@@ -188,7 +188,7 @@
                                                                                     <select class='form-control' id='edit_state' name='edit_state' required>
                                                                                         ".$options."
                                                                                     </select><br>
-                                                                                    <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
+                                                                                    <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -224,7 +224,7 @@
                                             <input type="date" class="form-control" id="fecha_in" name='fecha_in'>
                                             <label for="desc">Descripcion:</label>
                                             <textarea class="form-control" id="desc" rows="5" placeholder="Descripcion" name="desc"></textarea>
-                                            <br><button type="submit" class="btn btn-primary btn-md" name="submit-add">Guardar <span class="fa fa-save"></span></button>
+                                            <br><button type="submit" class="btn btn-success btn-md" name="submit-add">Guardar <span class="fa fa-save"></span></button>
                                         </form>
                                     </div>
                                 </div>

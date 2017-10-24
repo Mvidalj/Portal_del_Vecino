@@ -79,7 +79,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-sm-push-9">
-                            <br><a class="btn btn-primary conf" href="../../config.html" rel>Configuración <span class="fa fa-cog"></span></a>
+                            <br><a class="btn btn-primary conf" href="../../config.php" rel>Configuración <span class="fa fa-cog"></span></a>
                         </div>
                     </div>
                     <div class="row">
@@ -119,7 +119,7 @@
                                     <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
                                 </ul>
                             </li>
-                            <li><a href="proyectos_proyecto.php">Proyectos</a></li>
+                            <li><a href="../proyectos/proyectos_proyecto.php">Proyectos</a></li>
                             <li><a href="../foro" target="_blank">Foro</a></li>
                         </ul>
                     </div>
@@ -197,7 +197,7 @@
                                                                 </select><br>
                                                                 <label>Monto: </label>
                                                                 <input type='number' class='form-control' id='edit_ammount' name='edit_ammount' value='".$result['MONTO']."' required><br>
-                                                                <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
+                                                                <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -240,7 +240,7 @@
                                 </select><br>
                                 <label>Monto:</label>
                                 <input type="number" class="form-control" id="monto" name="monto"><br>
-                                <input type="submit" class="btn btn-success" id="submit-entrada" name="submit-entrada" value="Añadir entrada">
+                                <button type='submit' class='btn btn-success' id='submit-entrada' name='submit-entrada'>Añadir entrada <span class='fa fa-save'></span></button>
                             </form> 
                         </div>
                     </div>

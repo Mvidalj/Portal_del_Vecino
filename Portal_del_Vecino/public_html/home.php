@@ -128,9 +128,20 @@
   </div>
 </nav>
 <?php   
-    if(isset($_REQUEST['submit-create'])){
-        
-        echo "<script>alert('Estamos trabajando para usted')</script>";
+    if(isset($_REQUEST['submit-create'])){ 
+        $stmt =$conn->prepare('SELECT NOMBRE FROM organizaciones WHERE NOMBRE = :nom');
+        $stmt->bindParam(':nom', $_POST['nameorg']);
+        $stmt->execute();
+        if($stmt->rowCount() == 0){
+            $stmt = $conn->prepare('INSERT INTO organizaciones (id_comuna, nombre)
+            VALUES(:com,:nom)');
+            $stmt->bindParam(':com', $_POST['comorg']);
+            $stmt->bindParam(':nom', $_POST['nameorg']);
+            echo "<script>alert('Organización creada correctamente.')</script>";
+        }
+        else{
+            echo "<script>alert('Nombre de organización ya en uso')</script>";
+        }
     }
     
     if(isset($_REQUEST['submit_join'])){

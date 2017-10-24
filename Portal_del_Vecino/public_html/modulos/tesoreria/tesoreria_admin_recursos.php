@@ -114,13 +114,7 @@
                                     <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Proyectos <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="../proyectos/proyectos_proyecto.php">Proyectos</a></li>
-                                    <li><a href="../proyectos/proyectos_add_proyectos.php">Añadir Proyectos</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="proyectos_proyecto.php">Proyectos</a></li>
                             <li><a href="../foro" target="_blank">Foro</a></li>
                         </ul>
                     </div>
@@ -156,7 +150,7 @@
                                         <td class='text-center'>".$result['NOMBRE']."</td>
                                         <td>".$result['DESCRIPCION']."</td>
                                         <td>".$estado."</td>
-                                        <td>
+                                        <td class='text-center'>
                                             <form action='tesoreria_admin_recursos.php' method='POST'>
                                                 <input type='hidden' id='id_recurso' name='id_recurso' value='".$result['ID_RECURSO']."'>
                                                 <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'><i class='fa fa-edit'></i></button>
@@ -175,9 +169,6 @@
                                                                 <label>Descripción: </label>
                                                                 <input type='text' class='form-control' id='edit_desc' name='edit_desc' value='".$result['DESCRIPCION']."' required><br>
                                                                 <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este recurso?')\">
-                                                            </div>
-                                                            <div class='modal-footer'>
-                                                                <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -213,9 +204,6 @@
                                 <input type="text" class="form-control" id="desc-recurso" name="desc-recurso"><br>
                                 <input type="submit" class="btn btn-success" id="submit-recurso" name="submit-recurso" value="Añadir recurso">
                             </form>
-                        </div>
-                        <div class='modal-footer'>
-                            <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                         </div>
                     </div>
                 </div>

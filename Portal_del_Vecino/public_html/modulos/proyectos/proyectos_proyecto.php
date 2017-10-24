@@ -155,7 +155,7 @@
                                         <td>".$result['NOMBRE']."</td>
                                         <td class='text-center'>".$result['FECHA_INICIO']."</td>
                                         <td class='text-center'>".$result['FECHA_TERMINO']."</td>
-                                        <td> 
+                                        <td class='text-center'> 
                                         <form name='form' action='proyectos_proyecto.php' method='POST'>
                                             <button type='button' class='btn btn-info' id='lol' name='lol' data-toggle='modal' data-target='#".$result['ID_PROYECTO']."'><i class='fa fa-edit'></i></button>
                                             <!-- Modal -->
@@ -174,9 +174,6 @@
                                                             <input type='text' class='form-control' id='nombre' name='nombre' value= '".$result['NOMBRE']."' required><br>
                                                             <textarea class='form-control' id='desc' rows='5' name='desc'>".$result['DESCRIPCION']."</textarea><br>
                                                             <button type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">editar</button>
-                                                        </div>
-                                                        <div class='modal-footer'>
-                                                            <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -224,9 +221,6 @@
                         <textarea class="form-control" id="desc" rows="5" placeholder="Descripcion" name="desc"></textarea><br>
                         <button type="submit" class="btn btn-primary btn-md" name="add_proyecto">Guardar <span class="fa fa-save"></span></button>
                     </form>
-                </div>
-                <div class='modal-footer'>
-                    <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                 </div>
             </div>
         </div>

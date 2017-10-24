@@ -119,13 +119,7 @@
                                     <li><a href="../actividades/actividades_historial.php">Historial de Actividades</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Proyectos <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="../proyectos/proyectos_proyecto.php">Proyectos</a></li>
-                                    <li><a href="../proyectos/proyectos_add_proyectos.php">Añadir Proyectos</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="proyectos_proyecto.php">Proyectos</a></li>
                             <li><a href="../foro" target="_blank">Foro</a></li>
                         </ul>
                     </div>
@@ -179,7 +173,7 @@
                                         <td>".$result['CONCEPTO']."</td>
                                         <td>".$actividad."</td>
                                         <td>".$result['MONTO']."</td>
-                                        <td>
+                                        <td class='text-center'>
                                             <form action='tesoreria_admin_balances.php' method='POST'>
                                                 <input type='hidden' id='id_actividad' name='id' value='".$result['ID_TESORERIA']."'>
                                                 <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_TESORERIA']."'><i class='fa fa-edit'></i></button>
@@ -204,9 +198,6 @@
                                                                 <label>Monto: </label>
                                                                 <input type='number' class='form-control' id='edit_ammount' name='edit_ammount' value='".$result['MONTO']."' required><br>
                                                                 <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
-                                                            </div>
-                                                            <div class='modal-footer'>
-                                                                <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -251,9 +242,6 @@
                                 <input type="number" class="form-control" id="monto" name="monto"><br>
                                 <input type="submit" class="btn btn-success" id="submit-entrada" name="submit-entrada" value="Añadir entrada">
                             </form> 
-                        </div>
-                        <div class='modal-footer'>
-                            <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                         </div>
                     </div>
                 </div>

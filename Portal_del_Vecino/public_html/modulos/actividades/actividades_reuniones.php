@@ -166,7 +166,7 @@
                                                                             ";
                                                             }
                                                             echo
-                                                            "<td>
+                                                            "<td class='text-center'>
                                                                 <form action='actividades_reuniones.php' method='POST'>
                                                                     <input type='hidden' id='id_reunion' name='id_reunion' value='".$result['ID_REUNION']."'>
                                                                     <button type='button' class='btn btn-info' id='edit_reunion' name='edit_reunion' data-toggle='modal' data-target='#".$result['ID_REUNION']."'><i class='fa fa-edit'></i></button>
@@ -189,9 +189,6 @@
                                                                                         ".$options."
                                                                                     </select><br>
                                                                                     <input type='submit' class='btn btn-success' id='submit-edit' name='submit-edit' value='Editar' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">
-                                                                                </div>
-                                                                                <div class='modal-footer'>
-                                                                                    <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -229,9 +226,6 @@
                                             <textarea class="form-control" id="desc" rows="5" placeholder="Descripcion" name="desc"></textarea>
                                             <br><button type="submit" class="btn btn-primary btn-md" name="submit-add">Guardar <span class="fa fa-save"></span></button>
                                         </form>
-                                    </div>
-                                    <div class='modal-footer'>
-                                        <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                                     </div>
                                 </div>
                             </div>

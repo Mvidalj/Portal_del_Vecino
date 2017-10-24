@@ -220,9 +220,6 @@
                         <br><button type="submit" class="btn btn-primary btn-md" name="submit-add">Guardar <span class="fa fa-save"></span></button>
                     </form>
                 </div>
-                <div class='modal-footer'>
-                    <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
-                </div>
             </div>
         </div>
     </div>

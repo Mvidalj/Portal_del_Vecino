@@ -129,7 +129,7 @@
                                             $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                             $sql->execute();
                                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
-                                                $solicitar = "<form action='tesoreria_recursos.php' method='POST'>
+                                                $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
                                                                 <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
                                                                 <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
                                                                 <!-- Modal -->
@@ -143,13 +143,10 @@
                                                                             </div>
                                                                             <div class='modal-body'>
                                                                                 <label>Desde:</label>
-                                                                                <input type='text' class='form-control' id='from_date' name='from_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" placeholder='Seleccione una fecha' required><br>
+                                                                                <input type='date' class='form-control' id='from_date' name='from_date' onblur=form.to_date.min=form.from_date.value placeholder='Seleccione una fecha' required><br>
                                                                                 <label>Hasta:</label>
-                                                                                <input type='text' class='form-control' id='to_date' name='to_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" placeholder='Seleccione una fecha' required><br>
+                                                                                <input type='date' class='form-control' id='to_date' name='to_date' placeholder='Seleccione una fecha' required><br>
                                                                                 <input type='submit' class='btn btn-success' id='submit-request' name='submit-request' value='Solicitar'>
-                                                                            </div>
-                                                                            <div class='modal-footer'>
-                                                                                <button class='btn btn-danger btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>

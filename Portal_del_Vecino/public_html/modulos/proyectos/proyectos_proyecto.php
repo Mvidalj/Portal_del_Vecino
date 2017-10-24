@@ -169,9 +169,13 @@
                                                         </div>
                                                         <div class='modal-body'>
                                                             <input type='hidden' id='id' name='id' value='".$result['ID_PROYECTO']."'>
+                                                            <label>Fecha de inicio:</label>
                                                             <input type='date' class='form-control' id='fecha_in' name='fecha_in' onblur=form.fecha_ter.min=form.fecha_in.value value='".$result['FECHA_INICIO']."' required><br>
+                                                            <label>Fecha de termino:</label>
                                                             <input type='date' class='form-control' id='fecha_ter' name='fecha_ter' value='".$result['FECHA_TERMINO']."' required><br>
+                                                            <label>Nombre de proyecto:</label>
                                                             <input type='text' class='form-control' id='nombre' name='nombre' value= '".$result['NOMBRE']."' required><br>
+                                                            <label>Descripción del proyecto:</label>
                                                             <textarea class='form-control' id='desc' rows='5' name='desc'>".$result['DESCRIPCION']."</textarea><br>
                                                             <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                         </div>

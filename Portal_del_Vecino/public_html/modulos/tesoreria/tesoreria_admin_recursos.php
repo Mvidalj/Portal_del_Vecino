@@ -167,7 +167,7 @@
                                                                 <label>Recurso: </label>
                                                                 <input type='text' class='form-control' id='edit_name' name='edit_name' value='".$result['NOMBRE']."' required><br>
                                                                 <label>Descripción: </label>
-                                                                <input type='text' class='form-control' id='edit_desc' name='edit_desc' value='".$result['DESCRIPCION']."' required><br>
+                                                                <textarea class='form-control' name='edit_desc' id='edit_desc' rows='5' placeholder='Descripcion'>".$result['DESCRIPCION']."</textarea><br>
                                                                 <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                             </div>
                                                         </div>
@@ -201,7 +201,7 @@
                                 <label>Nombre de recurso:</label>
                                 <input type="text" class="form-control" id="nombre-recurso" name="nombre-recurso"><br>
                                 <label>Descripción de recurso:</label>
-                                <input type="text" class="form-control" id="desc-recurso" name="desc-recurso"><br>
+                                <textarea class="form-control" name="desc-recurso" id="desc-recurso" rows="5" placeholder="Descripcion"></textarea><br>
                                 <button type='submit' class='btn btn-success' id='submit-recurso' name='submit-recurso'>Añadir recurso <span class='fa fa-save'></span></button>
                             </form>
                         </div>

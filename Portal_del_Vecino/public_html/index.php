@@ -153,7 +153,8 @@
                                                 <div class="row">
                                                     <div class="col-sm-4 col-sm-push-4">
                                                         <img src="validaciones/phpcaptcha/captcha.php?rand=<?php echo rand();?>" id='captchaimg'>
-                                                        <input id="captcha_code" class="form-control" name="captcha_code" type="text"> <a href='javascript: refreshCaptcha();'><i class="fa fa-refresh"></i></a>
+                                                        <input id="captcha_code" class="form-control" name="captcha_code" type="text">
+                                                        <a href='javascript: refreshCaptcha();'><i class="fa fa-refresh"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="row">

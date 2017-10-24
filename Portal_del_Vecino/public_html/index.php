@@ -126,7 +126,7 @@
                                                         <label for="com">Comuna:</label>
                                                         <select class="form-control" id="com" name="register-com">
                                                             <option value="" selected disabled>Comuna</option>
-                                                            <?php  $sql = $conn->prepare("SELECT * FROM COMUNA");
+                                                            <?php  $sql = $conn->prepare("SELECT * FROM COMUNA ORDER BY COMUNA ASC");
                                                                 $sql->execute();
                                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                                     echo "<option value=".$result['ID_COMUNA'].">".$result['COMUNA']."</option>";

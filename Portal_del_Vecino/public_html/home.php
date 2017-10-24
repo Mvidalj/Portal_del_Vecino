@@ -175,7 +175,7 @@
                                     <label for="comorg" >Comuna: </label>
                                     <select class="form-control" id="comorg" name="comorg">
                                         <option value="" disabled selected>Comuna</option>
-                                        <?php  $sql = $conn->prepare("SELECT * FROM COMUNA ");
+                                        <?php  $sql = $conn->prepare("SELECT * FROM COMUNA ORDER BY COMUNA ASC ");
                                             $sql->execute();
                                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                 echo "<option value=".$result['ID_COMUNA'].">".$result['COMUNA']."</option>";
@@ -192,7 +192,7 @@
                                     <legend>Unirse a organización</legend>
                                     <label for="select-org" >Organizacion: </label>
                                     <select class="form-control" id="select-org" name="select_org">
-                                <?php  $sql = $conn->prepare("SELECT * FROM organizaciones");
+                                <?php  $sql = $conn->prepare("SELECT * FROM organizaciones ORDER BY NOMBRE ASC");
                                        $sql->execute();
                                        while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                            echo "<option value='".$result['ID_ORGANIZACION']."'>".$result['NOMBRE']."</option>";

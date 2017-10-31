@@ -14,6 +14,9 @@
                 $Finicio_act = $userRow['FECHA_INICIO'];
                 $Ftermino_act = $userRow['FECHA_TERMINO'];
                 $Feach_act = "Desde el".$Finicio_act."Hasta el".$Ftermino_act;
+            }else{
+            $Titulo_act = "Lo sentimos no hay información disponible";
+            $Fecha_act = "";
             }
             $stmt = $conn->prepare("SELECT * FROM PROYECTOS WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
             $stmt->execute();
@@ -23,6 +26,9 @@
                 $Finicio_pro = $userRow['FECHA_INICIO'];
                 $Ftermino_pro = $userRow['FECHA_TERMINO'];
                 $Fecha_pro = "Desde el ".$Finicio_pro." Hasta el ".$Ftermino_pro;
+            }else{
+            $Titulo_pro = "Lo sentimos no hay información disponible";
+            $Fecha_pro = "";
             }
             $stmt = $conn->prepare("SELECT * FROM REUNIONES WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
             $stmt->execute();
@@ -30,6 +36,9 @@
             if($stmt->rowCount() > 0){
                 $Titulo_reu = $userRow['DESCRIPCION'];
                 $Fecha_reu = "Se realizara el dia".$userRow['FECHA_REUNION'];
+            }else{
+            $Titulo_reu = "Lo sentimos no hay información disponible";
+            $Fecha_reu = "";
             }
         }else{
             $Titulo_act = "Lo sentimos no hay información disponible";
@@ -162,6 +171,7 @@
         else{
             echo "<script>alert('Nombre de organización ya en uso')</script>";
         }
+        header("location:home.php");
     }
     
     if(isset($_REQUEST['submit_join'])){
@@ -170,6 +180,7 @@
         $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
         $stmt->bindParam(':id_org', $_POST['select_org']);
         $stmt->execute();
+        header("location:home.php");
     }
        
     if($_SESSION['id_org'] == ""){
@@ -222,6 +233,7 @@
                                 </fieldset>
                             </form>
                         </div>
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>

@@ -85,14 +85,27 @@
             <div class="col-sm-2">
                 <img class="img-responsive" src="imagenes/home.jpg" width="130" height="130">
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-6 col-sm-push-1">
                 <div class="row">
-                    <div class="col-sm-3 col-sm-push-9">
+                    <div class="col-sm-3">
+                        <img src="imagenes/testimage.jpg" width="100" height="100">
+                    </div>
+                    <div class="col-sm-9">
+                        <h3>Bienvenido <?php echo $_SESSION["nombre"]." ". $_SESSION["apellido"]?></h3>
+                    </div>
+                    <div class="col-sm-9">
+                        <h4>Organización: <?php echo $_SESSION["org"]?></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-sm-push-1">
+                <div class="row">
+                    <div class="col-sm-10 col-sm-push-2">
                         <br><a type="button" class="btn btn-danger conf" href="cerrar_sesion.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3 col-sm-push-9">
+                    <div class="col-sm-10 col-sm-push-2">
                         <br><a type="button" class="btn btn-primary conf" href="config.php" rel>Configuración <span class="fa fa-cog"></span></a>
                     </div>
                 </div>
@@ -100,7 +113,7 @@
                 if($_SESSION['id_rol'] == "1"){
                     echo '
                 <div class="row">
-                <div class="col-sm-3 col-sm-push-9">
+                <div class="col-sm-10 col-sm-push-2">
                     <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
                 </div>
                 </div>';}?>

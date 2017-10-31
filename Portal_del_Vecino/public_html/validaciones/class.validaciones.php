@@ -85,6 +85,14 @@
                             $_SESSION['id_rol'] = $userRow['ID_ROL'];
                             $_SESSION['id_org'] = $userRow['ID_ORGANIZACION'];
                             $_SESSION['correo'] = $userRow['CORREO'];
+                            $_SESSION['nombre'] = $userRow['NOMBRE'];
+                            $_SESSION['apellido'] = $userRow['APELLIDO'];
+                            $stmt = $this->db->prepare("SELECT NOMBRE FROM organizaciones WHERE ID_ORGANIZACION = :oid LIMIT 1");
+                            $stmt->execute(array(':oid'=>$_SESSION["id_org"]));
+                            $orgrow=$stmt->fetch(PDO::FETCH_ASSOC);
+                            if($stmt->rowCount() > 0){
+                                $_SESSION["org"] = $orgrow['NOMBRE'];
+                            }else{$_SESSION["org"] = "Sin Organización";}
                         } else {return false;}
                         
                         return true;

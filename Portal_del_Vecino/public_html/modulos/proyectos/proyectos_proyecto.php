@@ -146,7 +146,8 @@
             <tbody>
                 <?php
                     try {
-                        $sql = $conn->prepare("SELECT * FROM proyectos");#se prepara la consulta
+                        $sql = $conn->prepare("SELECT * FROM proyectos WHERE ID_ORGANIZACION = :IDORG");#se prepara la consulta
+                        $sql->bindparam(":IDORG", $_SESSION['id_org']);
                         $sql->execute();                                 #se ejecuta la consulta
                         while ($result = $sql->fetch(PDO::FETCH_ASSOC)){ #obtiene los datos de la consulta
                             if($result['ELIMINADO'] == '0'){

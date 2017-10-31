@@ -13,6 +13,7 @@
                 $Titulo_act = $userRow['NOMBRE'];
                 $Finicio_act = $userRow['FECHA_INICIO'];
                 $Ftermino_act = $userRow['FECHA_TERMINO'];
+                $Feach_act = "Desde el".$Finicio_act."Hasta el".$Ftermino_act;
             }
             $stmt = $conn->prepare("SELECT * FROM PROYECTOS WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
             $stmt->execute();
@@ -21,14 +22,22 @@
                 $Titulo_pro = $userRow['NOMBRE'];
                 $Finicio_pro = $userRow['FECHA_INICIO'];
                 $Ftermino_pro = $userRow['FECHA_TERMINO'];
+                $Fecha_pro = "Desde el ".$Finicio_pro." Hasta el ".$Ftermino_pro;
             }
             $stmt = $conn->prepare("SELECT * FROM REUNIONES WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
             $stmt->execute();
             $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
             if($stmt->rowCount() > 0){
                 $Titulo_reu = $userRow['DESCRIPCION'];
-                $Fecha_reu = $userRow['FECHA_REUNION'];
+                $Fecha_reu = "Se realizara el dia".$userRow['FECHA_REUNION'];
             }
+        }else{
+            $Titulo_act = "Lo sentimos no hay información disponible";
+            $Fecha_act = "";
+            $Titulo_pro = "Lo sentimos no hay información disponible";
+            $Fecha_pro = "";
+            $Titulo_reu = "Lo sentimos no hay información disponible";
+            $Fecha_reu = "";
         }
     }
 ?>
@@ -237,7 +246,7 @@
                 <img class="center-image" src="imagenes/prueba.png" alt="Fiestas patrias">
                 <div class="carousel-caption">
                     <h3><?php echo $Titulo_act;?></h3>
-                  <p><?php echo "Desde el".$Finicio_act."Hasta el".$Ftermino_act;?></p>
+                  <p><?php echo $Fecha_act;?></p>
                 </div>
               </div>
             
@@ -245,7 +254,7 @@
                 <img class="center-image" src="imagenes/prueba.png" alt="Fiestas patrias">
                 <div class="carousel-caption">
                   <h3><?php echo $Titulo_pro;?></h3>
-                  <p><?php echo "Desde el ".$Finicio_pro." Hasta el ".$Ftermino_pro;?></p>
+                  <p><?php echo $Fecha_pro;?></p>
                 </div>
               </div>
             
@@ -253,7 +262,7 @@
                 <img class="center-image" src="imagenes/prueba.png" alt="Fiestas patrias">
                 <div class="carousel-caption">
                   <h3><?php echo $Titulo_reu;?></h3>
-                  <p><?php echo "Se realizara el dia".$Fecha_reu?></p>
+                  <p><?php echo $Fecha_reu;?></p>
                 </div>
               </div>
             </div>

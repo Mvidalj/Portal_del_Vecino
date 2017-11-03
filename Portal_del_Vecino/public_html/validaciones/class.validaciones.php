@@ -28,28 +28,29 @@
             }
         }
         // Función para guardar datos de un nuevo usuario
-        public function RegisterUser($fname,$lname,$umail,$phone,$dir){
+        public function RegisterUser($fname,$lname,$umail,$phone,$com,$dir){
             try
             {   
+                echo "<script>alert(".$umail.")</script>";
                 $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE CORREO = :umail LIMIT 1");
                 $stmt->bindparam(":umail", $umail);
                 $stmt->execute();
                 if($stmt->rowCount() > 0){
-                    return false;
+                    echo "<script>alert(".$umail.")</script>";
                 }
 
-                $stmt = $this->db->prepare("INSERT INTO usuarios(NOMBRE,APELLIDO,CORREO,TELEFONO,ID_ROL,ID_COMUNA,DIRECCION,ELIMINADO)"
-                        . "VALUES(:fname, :lname, :umail, :phone, 2, 9101, :dir, 0)");
+                $stmt = $this->db->prepare("INSERT INTO usuarios (NOMBRE, APELLIDO, CORREO, TELEFONO, ID_ROL, ID_COMUNA, DIRECCION, ELIMINADO) VALUES (:fname, :lname, :umail, :phone, 2, :com, :dir, 0)");
 
                 $stmt->bindparam(":fname", $fname);
                 $stmt->bindparam(":lname", $lname);
                 $stmt->bindparam(":umail", $umail);
                 $stmt->bindparam(":phone", $phone);
-                $stmt->bindparam(":dir", $dir);
+                $stmt->bindparam(":com"  , $com);
+                $stmt->bindparam(":dir"  , $dir);
                 $stmt->execute();
                 return true;             
             }catch(PDOException $e){
-                return false;
+                echo $e->getMessage();
             } 
 
         }
@@ -57,11 +58,11 @@
         public function GetUserId($umail){
             try{
                 $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE CORREO = :umail LIMIT 1");
-                $stmt->execute(array(':umail'=>$umail));
-                $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-                if($stmt->rowCount() > 0){
+                $stmt->bindparam(":umail", $umail);
+                $stmt->execute();
+                if ($userRow = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     return $userRow['ID_USUARIO'];
-                } else {return false;}
+                }else {return 0;}
             }
             catch(PDOException $e){
                 echo $e->getMessage();

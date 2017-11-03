@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-10-2017 a las 09:41:24
+-- Tiempo de generación: 03-11-2017 a las 05:30:01
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `vecino`
 --
-CREATE DATABASE IF NOT EXISTS `vecino` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `vecino`;
 
 -- --------------------------------------------------------
 
@@ -39,13 +37,6 @@ CREATE TABLE `actividades` (
   `FECHA_TERMINO` date NOT NULL,
   `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `actividades`
---
-
-INSERT INTO `actividades` (`ID_ACTIVIDAD`, `ID_ORGANIZACION`, `NOMBRE`, `DESCRIPCION`, `FECHA_INICIO`, `FECHA_TERMINO`, `ELIMINADO`) VALUES
-(1, 1, 'Celebración día del padre', 'Todos los padres y familias invitadas al quincho de la junta de vecinos para celebrar este día', '2017-06-17', '2017-06-17', 0);
 
 -- --------------------------------------------------------
 
@@ -428,16 +419,8 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`) VALUES
-(1, 1, '$2y$10$NIpBGb2cKBhQ9ngz1dXFeeynvrr2BNAsyQNhECnPQ1QtqOJ.NoF3i'),
-(2, 2, '$2y$10$YLvpUlwAxtiuzSGGO3Pv3.JeYe/FBztspIKqbCxBW0NFA0jiZCxZ.'),
-(3, 3, '$2y$10$SjK39amr.J3cK6Bdj0TAu.RTpGvThVVQTHlTAtmBe8ZaIy4.Lxfmu'),
-(4, 4, '$2y$10$S3kcubot33MzP.IEoXS8CeV1UKvY6hBNhjh6ugCRoG/PXObKD9ReO'),
-(5, 5, '$2y$10$xN0S5cxbA4FQuytUhy7BdeUUNLgvTTkMw1J5wbI/8n1Nbax/p3LIC'),
-(6, 6, '$2y$10$Br8PVNC1tq8xdh6j9pDkXO.YhtGUAbP5G6y1JNXioNUZCies6Hpf6'),
-(7, 7, '$2y$10$OttYVgKpR70Nm4aJi.Z8oO3T6T21nDOfgsp.UwK1JmNcQCE.d/K8C'),
-(8, 8, '$2y$10$7AXk6ZYjc7FxbFj4K9Xepe0D8m00S.vrTjXO.ylQlvqpKWangBuEm'),
-(9, 9, '$2y$10$NxsayiASxpsD9H5JXwvR.OSj52cNQEUEuMhr95BKNAiRExWY.o9dq'),
-(10, 10, '$2y$10$oXPG0qoRP14GdhxtmCZ2tuKYwNCXAxg.KQhYx.ttfrR6Vt82yjk4S');
+(1, 1, '$2y$10$uFVCfn499oR5RKvM6RYgYu6NkCFDl2WeEL95tpYZIRrgx8olZsB9u'),
+(2, 2, '$2y$10$ZYS5ae87YGZr63pNLk6IL.I50bVfwpZIK7YMD.RUwSi19MUamv4XW');
 
 -- --------------------------------------------------------
 
@@ -447,7 +430,7 @@ INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`) VALUES
 
 CREATE TABLE `organizaciones` (
   `ID_ORGANIZACION` int(3) NOT NULL,
-  `ID_COMUNA` int(3) NOT NULL,
+  `ID_COMUNA` int(5) NOT NULL,
   `NOMBRE` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -456,13 +439,7 @@ CREATE TABLE `organizaciones` (
 --
 
 INSERT INTO `organizaciones` (`ID_ORGANIZACION`, `ID_COMUNA`, `NOMBRE`) VALUES
-(1, 9101, 'Junta de vecinos de prueba'),
-(5, 13502, 'zxdszdsadsadsadasx43'),
-(6, 1401, '123'),
-(12, 1107, '1234'),
-(13, 4103, '12345'),
-(14, 15101, '123456'),
-(15, 8303, '1234567');
+(1, 9101, 'Prueba Junta Vecinal');
 
 -- --------------------------------------------------------
 
@@ -643,13 +620,6 @@ CREATE TABLE `reuniones` (
   `ACTA_REUNION` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `reuniones`
---
-
-INSERT INTO `reuniones` (`ID_REUNION`, `ID_ORGANIZACION`, `FECHA_REUNION`, `DESCRIPCION`, `ESTADO`, `ACTA_REUNION`) VALUES
-(2, 1, '2017-10-01', 'Reunión de prueba', 'PENDIENTE', ' ');
-
 -- --------------------------------------------------------
 
 --
@@ -679,17 +649,8 @@ CREATE TABLE `solicitudes` (
   `ID_SOLICITUD` int(3) NOT NULL,
   `ID_USUARIO` int(3) NOT NULL,
   `ID_ORGANIZACION` int(3) NOT NULL,
-  `ESTADO` enum('ACEPTADO','PENDIENTE','RECHAZADO','') NOT NULL
+  `ESTADO` enum('ACEPTADO','PENDIENTE','RECHAZADO') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `solicitudes`
---
-
-INSERT INTO `solicitudes` (`ID_SOLICITUD`, `ID_USUARIO`, `ID_ORGANIZACION`, `ESTADO`) VALUES
-(2, 7, 1, 'ACEPTADO'),
-(3, 9, 15, 'ACEPTADO'),
-(4, 10, 1, 'RECHAZADO');
 
 -- --------------------------------------------------------
 
@@ -707,16 +668,6 @@ CREATE TABLE `tesoreria` (
   `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `tesoreria`
---
-
-INSERT INTO `tesoreria` (`ID_TESORERIA`, `ID_ORGANIZACION`, `FECHA`, `CONCEPTO`, `MONTO`, `E_S`, `ELIMINADO`) VALUES
-(1, 1, '2017-10-01', 'Saldo inicial', 500000, 3, 0),
-(2, 1, '2017-10-02', 'Pago inscripciÃ³n en portal del vecino', 180000, 0, 0),
-(3, 1, '2017-10-03', 'Pago gastos comunes', 32399, 0, 0),
-(4, 1, '2017-10-04', 'Pago de participantes de la junta de vecinos', 45000, 1, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -731,9 +682,8 @@ CREATE TABLE `usuarios` (
   `CORREO` varchar(50) NOT NULL,
   `TELEFONO` varchar(12) NOT NULL,
   `ID_ROL` int(3) NOT NULL,
-  `ID_COMUNA` int(3) NOT NULL,
+  `ID_COMUNA` int(5) NOT NULL,
   `DIRECCION` varchar(70) NOT NULL,
-  `HABILITADO` tinyint(1) NOT NULL,
   `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -741,17 +691,9 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`ID_USUARIO`, `ID_ORGANIZACION`, `NOMBRE`, `APELLIDO`, `CORREO`, `TELEFONO`, `ID_ROL`, `ID_COMUNA`, `DIRECCION`, `HABILITADO`, `ELIMINADO`) VALUES
-(1, 1, 'Admin', 'Administrador', 'admin@admin', '+56912345678', 1, 9101, 'Address', 1, 0),
-(2, 1, 'Invitado', 'Invitado', 'guess@guess', '+56987654321', 1, 9101, 'Address', 1, 0),
-(3, 1, 'Nuevo', 'Usuario', 'user@user', '+56965487123', 1, 9101, 'Address', 1, 0),
-(4, 1, 'prueba', 'prueba', 'prueba@prueba.prueba', '123123123', 1, 9101, 'prueba', 1, 0),
-(5, NULL, 'pruebauno', 'pruebauno', 'pruebauno@pruebauno.cl', '123123123', 1, 9101, 'pruebauno', 1, 0),
-(6, 6, 'pruebados', 'pruebados', 'pruebados@pruebados.pruebados', '123123123', 1, 9101, 'pruebados', 0, 0),
-(7, 1, 'pruebatres', 'pruebatres', 'pruebatres@pruebatres.cl', '123123123', 1, 9101, 'pruebatres', 0, 0),
-(8, 15, 'pruebagral', 'pruebagral', 'pruebagral@pruebagral.cl', '123123123', 1, 9101, 'pruebagral', 0, 0),
-(9, 15, 'pruebagraluno', 'pruebagraluno', 'pruebagraluno@pruebagraluno.cl', '123123123', 2, 9101, 'pruebagraluno', 0, 0),
-(10, NULL, 'pruebagraldos', 'pruebagraldos', 'pruebagraldos@pruebagraldos.cl', '123123123', 2, 9101, 'pruebagraldos', 0, 0);
+INSERT INTO `usuarios` (`ID_USUARIO`, `ID_ORGANIZACION`, `NOMBRE`, `APELLIDO`, `CORREO`, `TELEFONO`, `ID_ROL`, `ID_COMUNA`, `DIRECCION`, `ELIMINADO`) VALUES
+(1, 1, 'admin', 'admin', 'admin@admin.com', '987654321', 1, 9101, 'Universidad Católica de Temuco', 0),
+(2, NULL, 'user', 'user', 'user@user.com', '123456789', 2, 9101, 'Universidad Católica de Temuco', 0);
 
 --
 -- Índices para tablas volcadas
@@ -837,9 +779,7 @@ ALTER TABLE `roles`
 -- Indices de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  ADD PRIMARY KEY (`ID_SOLICITUD`),
-  ADD KEY `ID_ORGANIZACION` (`ID_ORGANIZACION`),
-  ADD KEY `ID_USUARIO` (`ID_USUARIO`);
+  ADD PRIMARY KEY (`ID_SOLICITUD`);
 
 --
 -- Indices de la tabla `tesoreria`
@@ -865,7 +805,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `actividades`
 --
 ALTER TABLE `actividades`
-  MODIFY `ID_ACTIVIDAD` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_ACTIVIDAD` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `comuna`
 --
@@ -875,12 +815,12 @@ ALTER TABLE `comuna`
 -- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
-  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `organizaciones`
 --
 ALTER TABLE `organizaciones`
-  MODIFY `ID_ORGANIZACION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ID_ORGANIZACION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
@@ -910,7 +850,7 @@ ALTER TABLE `regiones`
 -- AUTO_INCREMENT de la tabla `reuniones`
 --
 ALTER TABLE `reuniones`
-  MODIFY `ID_REUNION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_REUNION` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
@@ -920,17 +860,17 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `ID_SOLICITUD` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_SOLICITUD` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tesoreria`
 --
 ALTER TABLE `tesoreria`
-  MODIFY `ID_TESORERIA` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_TESORERIA` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Restricciones para tablas volcadas
 --
@@ -991,13 +931,6 @@ ALTER TABLE `reuniones`
   ADD CONSTRAINT `reuniones_ibfk_1` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`);
 
 --
--- Filtros para la tabla `solicitudes`
---
-ALTER TABLE `solicitudes`
-  ADD CONSTRAINT `solicitudes_ibfk_1` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`),
-  ADD CONSTRAINT `solicitudes_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`ID_USUARIO`);
-
---
 -- Filtros para la tabla `tesoreria`
 --
 ALTER TABLE `tesoreria`
@@ -1009,7 +942,7 @@ ALTER TABLE `tesoreria`
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`ID_ROL`) REFERENCES `roles` (`ID_ROL`),
   ADD CONSTRAINT `usuarios_ibfk_3` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`),
-  ADD CONSTRAINT `usuarios_ibfk_4` FOREIGN KEY (`ID_COMUNA`) REFERENCES `organizaciones` (`ID_COMUNA`),
+  ADD CONSTRAINT `usuarios_ibfk_4` FOREIGN KEY (`ID_COMUNA`) REFERENCES `comuna` (`ID_COMUNA`),
   ADD CONSTRAINT `usuarios_ibfk_5` FOREIGN KEY (`ID_ROL`) REFERENCES `roles` (`ID_ROL`);
 COMMIT;
 

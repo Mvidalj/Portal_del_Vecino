@@ -24,12 +24,14 @@
         $lname = $_POST['register-lname'];
         $pass = $_POST['register-pass'];
         $mail = $_POST['register-mail'];
-        $dir = $_POST['register-dir'];
         $phone = $_POST['register-phone'];
+        $com = $_POST['register-com'];
+        $dir = $_POST['register-dir'];
+        
         if(empty($_SESSION['captcha_code'] ) || strcasecmp($_SESSION['captcha_code'], $_POST['captcha_code']) != 0){  
             $msg = "<script>alert('Los codigos nos coinciden, intente nuevamente.')</script>";// Captcha verification is incorrect.		
 	}else{// Captcha verification is Correct. Final Code Execute here!		
-            if($user->RegisterUser($fname, $lname, $mail, $phone, $dir)){
+            if($user->RegisterUser($fname, $lname, $mail, $phone, $com, $dir)){
                 $user->EncryptPass(($user->GetUserId($mail)),$pass);
                 $msg = "<script>alert('Registrado correctamente.')</script>";
             }else{
@@ -74,23 +76,30 @@
                             echo $msg;
                         }?>
                         <div class="col-sm-8 col-sm-push-2">
-                        <form action="index.php" method="POST">
-                            <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
-                            <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus><br>
-                            <label for="login-pswd"><i class="fa fa-lock"></i> Contraseña:</label>
-                            <input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña">
-                            <a href="#">¿Olvido su Contraseña <i class="fa fa-unlock-alt"></i> ?</a>
-                            <div class="row">
-                                <div class="col-sm-1"><br>
-                                    <button type="submit" id="login-user-submit" class="btn btn-primary" name="login-submit">Iniciar sesión</button>
-                                </div>
-                            </div>
-                        </form>
-                            <div class="row">
-                                <div class="col-sm-1"><br>
-                                    <button type="submit" id="register-user-submit" class="btn btn-success">Registrarse como usuario</button>
-                                </div>
-                            </div>
+                            <form action="index.php" method="POST">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
+                                        <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus>
+                                    </div>
+                                </div>&nbsp;
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label for="login-pswd"><i class="fa fa-lock"></i> Contraseña:</label>
+                                        <input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña">
+                                        <a href="#">¿Olvido su Contraseña <i class="fa fa-unlock-alt"></i> ?</a>
+                                    </div>
+                                </div>&nbsp;
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" id="login-user-submit" class="btn btn-primary form-control" name="login-submit">Iniciar sesión</button>
+                                    </div>&nbsp;
+                                    <div class="col-sm-12">
+                                        <button type="button" id="register-user-submit" class="btn btn-success form-control">Registrarse como usuario</button>
+                                    </div>
+                                </div>&nbsp;&nbsp;
+                            </form>
+
                             <div class="modal fade" id="myModal" role="dialog">
                                 <div class="modal-dialog">
                                     <!-- Modal content-->
@@ -153,8 +162,14 @@
                                                 <div class="row">
                                                     <div class="col-sm-4 col-sm-push-4">
                                                         <img src="validaciones/phpcaptcha/captcha.php?rand=<?php echo rand();?>" id='captchaimg'>
+                                                    </div>
+                                                </div>
+                                                <div class="row">   
+                                                    <div class="col-sm-4 col-sm-push-4">
                                                         <input id="captcha_code" class="form-control" name="captcha_code" type="text">
-                                                        <a href='javascript: refreshCaptcha();'><i class="fa fa-refresh"></i></a>
+                                                    </div>
+                                                    <div class="col-sm-1 col-sm-push-4">
+                                                        <a href='javascript: refreshCaptcha();'><i class="fa fa-refresh fa-lg"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="row">

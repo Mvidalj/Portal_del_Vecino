@@ -114,7 +114,7 @@
                     echo '
                 <div class="row">
                 <div class="col-sm-10 col-sm-push-2">
-                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Administrar Miembros <span class="fa fa-user-plus"></span></a>
                 </div>
                 </div>';}?>
             </div>

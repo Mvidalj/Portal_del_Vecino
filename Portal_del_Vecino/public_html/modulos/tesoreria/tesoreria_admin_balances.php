@@ -25,7 +25,7 @@
         if (isset($_REQUEST['submit-edit'])){
             try {
                 $sql = $conn->prepare("UPDATE tesoreria SET FECHA = :EDITFECHA, CONCEPTO = :EDITCONCEPTO, MONTO = :EDITOMONTO, E_S = :EDITACTIVIDAD WHERE ID_TESORERIA = :ID");
-                $sql->bindParam(':EDITFECHA', date('Y-m-d', strtotime($_POST['edit_date'])));
+                $sql->bindParam(':EDITFECHA', $_POST['edit_date']);
                 $sql->bindParam(':EDITCONCEPTO', $_POST['edit_caption']);
                 $sql->bindParam(':EDITOMONTO', $_POST['edit_ammount']);
                 $sql->bindParam(':EDITACTIVIDAD', $_POST['edit_activity']);
@@ -41,7 +41,7 @@
             try {
                 $sql = $conn->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO)
                 VALUES(1, :FECHA, :CONCEPTO, :E_S, :MONTO)");
-                $sql->bindParam(':FECHA', date('Y-m-d', strtotime($_POST['fecha_ingreso'])));
+                $sql->bindParam(':FECHA', $_POST['fecha_ingreso']);
                 $sql->bindParam(':CONCEPTO', $_POST['concepto']);
                 $sql->bindParam(':E_S', $_POST['select_actividad']);
                 $sql->bindParam(':MONTO', $_POST['monto']);

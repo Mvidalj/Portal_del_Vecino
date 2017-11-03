@@ -31,12 +31,11 @@
         public function RegisterUser($fname,$lname,$umail,$phone,$com,$dir){
             try
             {   
-                echo "<script>alert(".$umail.")</script>";
                 $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE CORREO = :umail LIMIT 1");
                 $stmt->bindparam(":umail", $umail);
                 $stmt->execute();
                 if($stmt->rowCount() > 0){
-                    echo "<script>alert(".$umail.")</script>";
+                    return false;
                 }
 
                 $stmt = $this->db->prepare("INSERT INTO usuarios (NOMBRE, APELLIDO, CORREO, TELEFONO, ID_ROL, ID_COMUNA, DIRECCION, ELIMINADO) VALUES (:fname, :lname, :umail, :phone, 2, :com, :dir, 0)");

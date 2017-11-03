@@ -1,5 +1,8 @@
 <?php
     SESSION_START();
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+    
     class USER {
 
         private $db;
@@ -12,7 +15,7 @@
         //  IMPORTANTE MODIFICAR PARA QUE SEA FUNCIONAL RESPECTO A BD Y CAMPOS
           
         // Función para Encriptar la contraseña
-        public function EncryptPass($id,$pass){
+        public function EncryptPass($id,$umail,$pass){
             try{
                 
                 $stmt = $this->db->prepare("INSERT INTO login(ID_USUARIO,PASSWORD)"
@@ -21,6 +24,36 @@
                 $stmt->bindparam(":id", $id);
                 $stmt->bindparam(":pass", $epass);
                 $stmt->execute();
+                
+                require 'vendor/autoload.php';
+                //Correo:     portaldelvecino@gmail.com
+                //Contraseña: juntavecinal
+                $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+                try {
+                    //Server settings
+                    $mail->isSMTP();                                      // Set mailer to use SMTP
+                    $mail->Host = 'in-v3.mailjet.com';  // Specify main and backup SMTP servers
+                    $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                    $mail->Username = 'b38c4baf0a6e52d7a04781a9b83caa3b';                 // SMTP username
+                    $mail->Password = 'cf6adbb5a21655f233b788f57bae81d1';                           // SMTP password
+                    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                    $mail->Port = 587;                                    // TCP port to connect to
+
+                    //Recipients
+                    $mail->setFrom('portaldelvecino@gmail.com', 'Portal del vecino');
+                    $mail->addAddress($umail);               // Name is optional
+                    $mail->addReplyTo('no-reply@vecinos.cl', 'No responder a este correo');
+
+                    //Content
+                    $mail->isHTML(true);                                  // Set email format to HTML
+                    $mail->Subject = 'Confirmación de cuenta';
+                    $mail->Body    = 'Por favor click aquí para activar tu cuenta: <a href="http://localhost/Portal_del_Vecino/Portal_del_vecino/public_html/validaciones/verify.php?email='.$umail.'&hash='.$epass.'">Confirmar mi cuenta!</a>';
+                    $mail->AltBody = 'Por favor click aquí para activar tu cuenta: <a href="http://localhost/Portal_del_Vecino/Portal_del_vecino/public_html/validaciones/verify.php?email='.$umail.'&hash='.$epass.'">Confirmar mi cuenta!</a>';
+                    
+                    $mail->send();
+                } catch (Exception $e) {
+                    echo "<script>alert('No se pudo enviar el mensaje.')</script>";
+                }
                 return $stmt;
 
             } catch (Exception $e) {

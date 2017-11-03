@@ -32,8 +32,8 @@
             $msg = "<script>alert('Los codigos nos coinciden, intente nuevamente.')</script>";// Captcha verification is incorrect.		
 	}else{// Captcha verification is Correct. Final Code Execute here!		
             if($user->RegisterUser($fname, $lname, $mail, $phone, $com, $dir)){
-                $user->EncryptPass(($user->GetUserId($mail)),$pass);
-                $msg = "<script>alert('Registrado correctamente.')</script>";
+                $user->EncryptPass(($user->GetUserId($mail)), $mail, $pass);
+                $msg = "<script>alert('Por favor revise correo y confirme su cuenta.')</script>";
             }else{
                 $msg = "<script>alert('Este correo ya esta en uso.')</script>";
             }

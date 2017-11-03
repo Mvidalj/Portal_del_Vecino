@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-11-2017 a las 05:30:01
+-- Tiempo de generación: 03-11-2017 a las 22:30:57
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -411,16 +411,17 @@ INSERT INTO `comuna` (`ID_COMUNA`, `COMUNA`, `ID_PROVINCIA`) VALUES
 CREATE TABLE `login` (
   `ID` int(3) NOT NULL,
   `ID_USUARIO` int(3) NOT NULL,
-  `PASSWORD` varchar(100) NOT NULL
+  `PASSWORD` varchar(100) NOT NULL,
+  `ACTIVO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `login`
 --
 
-INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`) VALUES
-(1, 1, '$2y$10$uFVCfn499oR5RKvM6RYgYu6NkCFDl2WeEL95tpYZIRrgx8olZsB9u'),
-(2, 2, '$2y$10$ZYS5ae87YGZr63pNLk6IL.I50bVfwpZIK7YMD.RUwSi19MUamv4XW');
+INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`, `ACTIVO`) VALUES
+(1, 1, '$2y$10$uFVCfn499oR5RKvM6RYgYu6NkCFDl2WeEL95tpYZIRrgx8olZsB9u', 1),
+(2, 2, '$2y$10$qfGVjVmxayezh56tJ0zuPu5fes0Hm19ohC6CPDGLTtGqm07p8LgR6', 0);
 
 -- --------------------------------------------------------
 
@@ -642,19 +643,6 @@ INSERT INTO `roles` (`ID_ROL`, `ROL`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `solicitudes`
---
-
-CREATE TABLE `solicitudes` (
-  `ID_SOLICITUD` int(3) NOT NULL,
-  `ID_USUARIO` int(3) NOT NULL,
-  `ID_ORGANIZACION` int(3) NOT NULL,
-  `ESTADO` enum('ACEPTADO','PENDIENTE','RECHAZADO') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tesoreria`
 --
 
@@ -693,7 +681,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `ID_ORGANIZACION`, `NOMBRE`, `APELLIDO`, `CORREO`, `TELEFONO`, `ID_ROL`, `ID_COMUNA`, `DIRECCION`, `ELIMINADO`) VALUES
 (1, 1, 'admin', 'admin', 'admin@admin.com', '987654321', 1, 9101, 'Universidad Católica de Temuco', 0),
-(2, NULL, 'user', 'user', 'user@user.com', '123456789', 2, 9101, 'Universidad Católica de Temuco', 0);
+(2, NULL, 'Usuario', 'usuario', 'user@user.com', '654987321', 2, 8303, 'address', 0);
 
 --
 -- Índices para tablas volcadas
@@ -776,12 +764,6 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`ID_ROL`);
 
 --
--- Indices de la tabla `solicitudes`
---
-ALTER TABLE `solicitudes`
-  ADD PRIMARY KEY (`ID_SOLICITUD`);
-
---
 -- Indices de la tabla `tesoreria`
 --
 ALTER TABLE `tesoreria`
@@ -856,11 +838,6 @@ ALTER TABLE `reuniones`
 --
 ALTER TABLE `roles`
   MODIFY `ID_ROL` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `solicitudes`
---
-ALTER TABLE `solicitudes`
-  MODIFY `ID_SOLICITUD` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tesoreria`
 --

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-11-2017 a las 22:30:57
+-- Tiempo de generación: 03-11-2017 a las 22:49:43
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -643,6 +643,19 @@ INSERT INTO `roles` (`ID_ROL`, `ROL`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `solicitudes`
+--
+
+CREATE TABLE `solicitudes` (
+  `ID_SOLICITUD` int(3) NOT NULL,
+  `ID_USUARIO` int(3) NOT NULL,
+  `ID_ORGANIZACION` int(3) NOT NULL,
+  `ESTADO` enum('ACEPTADO','PENDIENTE','RECHAZADO') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tesoreria`
 --
 
@@ -764,6 +777,14 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`ID_ROL`);
 
 --
+-- Indices de la tabla `solicitudes`
+--
+ALTER TABLE `solicitudes`
+  ADD PRIMARY KEY (`ID_SOLICITUD`),
+  ADD KEY `USUARIO_REL` (`ID_USUARIO`),
+  ADD KEY `ORGANIZACION_REL` (`ID_ORGANIZACION`);
+
+--
 -- Indices de la tabla `tesoreria`
 --
 ALTER TABLE `tesoreria`
@@ -839,6 +860,11 @@ ALTER TABLE `reuniones`
 ALTER TABLE `roles`
   MODIFY `ID_ROL` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT de la tabla `solicitudes`
+--
+ALTER TABLE `solicitudes`
+  MODIFY `ID_SOLICITUD` int(3) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `tesoreria`
 --
 ALTER TABLE `tesoreria`
@@ -906,6 +932,13 @@ ALTER TABLE `recursos`
 --
 ALTER TABLE `reuniones`
   ADD CONSTRAINT `reuniones_ibfk_1` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`);
+
+--
+-- Filtros para la tabla `solicitudes`
+--
+ALTER TABLE `solicitudes`
+  ADD CONSTRAINT `ORGANIZACION_REL` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`),
+  ADD CONSTRAINT `USUARIO_REL` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`ID_USUARIO`);
 
 --
 -- Filtros para la tabla `tesoreria`

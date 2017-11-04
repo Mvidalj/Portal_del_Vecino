@@ -17,7 +17,6 @@
         // Función para Encriptar la contraseña
         public function EncryptPass($id,$umail,$pass){
             try{
-                
                 $stmt = $this->db->prepare("INSERT INTO login(ID_USUARIO,PASSWORD)"
                         . "VALUES(:id, :pass)");
                 $epass = password_hash($pass,PASSWORD_DEFAULT);

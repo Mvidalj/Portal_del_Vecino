@@ -33,7 +33,7 @@
 	}else{// Captcha verification is Correct. Final Code Execute here!		
             if($user->RegisterUser($fname, $lname, $mail, $phone, $com, $dir)){
                 $user->EncryptPass(($user->GetUserId($mail)), $mail, $pass);
-                $msg = "<script>alert('Por favor revise correo y confirme su cuenta.')</script>";
+                $msg = "<script>alert('Por favor revise su correo y confirme su cuenta.')</script>";
             }else{
                 $msg = "<script>alert('Este correo ya esta en uso.')</script>";
             }
@@ -80,14 +80,14 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
-                                        <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus>
+                                        <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus required>
                                     </div>
                                 </div>&nbsp;
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <label for="login-pswd"><i class="fa fa-lock"></i> Contraseña:</label>
-                                        <input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña">
-                                        <a href="#">¿Olvido su Contraseña <i class="fa fa-unlock-alt"></i> ?</a>
+                                        <input type="password" id="login-pswd" class="form-control" name="login-pswd" placeholder="Contraseña" required>
+                                        <a href="validaciones/recoverpass.php">¿Olvido su Contraseña <i class="fa fa-unlock-alt"></i> ?</a>
                                     </div>
                                 </div>&nbsp;
                                 <div class="row">
@@ -123,11 +123,11 @@
                                                 <div class="row">
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="pass">Contraseña:</label>
-                                                        <input type="password" class="form-control" name="register-pass" id="pass" placeholder="Contraseña" required onchange="validatePassword()">
+                                                        <input type="password" class="form-control" name="register-pass" id="pass" placeholder="Contraseña" required onchange="validatePassword('pass','cpass')">
                                                     </div>
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="cpass">Confirmar Contraseña:</label>
-                                                        <input type="password" class="form-control" id="cpass" placeholder="Confirmar Contraseña" required onkeyup="validatePassword()">
+                                                        <input type="password" class="form-control" id="cpass" placeholder="Confirmar Contraseña" required onkeyup="validatePassword('pass','cpass')">
                                                     </div>
                                                 </div><br><br>
                                                 <div class="row">

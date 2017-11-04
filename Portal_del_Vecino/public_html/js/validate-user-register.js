@@ -1,6 +1,6 @@
-function validatePassword(){
-    var password = document.getElementById("pass");
-    var confirm_password = document.getElementById("cpass");
+function validatePassword(pid, cid){
+    var password = document.getElementById(pid);
+    var confirm_password = document.getElementById(cid);
     if(password.value != confirm_password.value) {
         confirm_password.setCustomValidity("Las contraseñas no coinciden");
     } else {

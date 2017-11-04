@@ -19,7 +19,7 @@
                     }
                 }
             }
-            $user->Redirect('../index.php');
+            echo "<script>alert('Tu cuenta ha sido verificada correctamente');window.location.href='../index.php';</script>";
         }catch(PDOException $e){
             echo $e->getMessage();
         }

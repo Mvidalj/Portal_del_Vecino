@@ -28,6 +28,8 @@
                 //Correo:     portaldelvecino@gmail.com
                 //Contraseña: juntavecinal
                 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+                $mail->setLanguage('es');
+                $mail->CharSet = 'UTF-8';
                 try {
                     //Server settings
                     $mail->isSMTP();                                      // Set mailer to use SMTP

@@ -89,7 +89,7 @@
                     echo '
                 <div class="row">
                 <div class="col-sm-3 col-sm-push-9">
-                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Administrar Miembros <span class="fa fa-user-plus"></span></a>
                 </div>
                 </div>';}?>
             </div>
@@ -114,7 +114,7 @@
             <li><a href="../tesoreria/tesoreria_balances.php">Ver libro caja</a></li>
             <li><a href="../tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
             <?php
-            if($_SESSION['id_rol'] == "1"){
+            if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
                 echo '      
             <li><a href="../tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
             <li><a href="../tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 
@@ -134,7 +134,7 @@
   </div>
 </nav>
 <div class="page-header">
-    <h1>Historial de actividades <?php if ($_SESSION['id_rol'] == "1"){echo '<button type="button" class="btn pull-right btn-success" id="add_activity" name="add_activity" data-toggle="modal" data-target="#new_activity">Agregar actividad <i class="fa fa-edit"></i></button>';}?></h1>
+    <h1>Historial de actividades <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){echo '<button type="button" class="btn pull-right btn-success" id="add_activity" name="add_activity" data-toggle="modal" data-target="#new_activity">Agregar actividad <i class="fa fa-edit"></i></button>';}?></h1>
 </div>
     <div class="table-responsive">
             <table id="example" class="table table-bordered">
@@ -143,7 +143,7 @@
                         <th class="col-sm-4">Nombre</th>
                         <th class="col-sm-3 ">Fecha Inicio</th>
                         <th class="col-sm-3">Fecha Termino</th>
-                        <?php if($_SESSION['id_rol'] == "1"){echo '<th class="col-sm-2">Acción</th>';}?>
+                        <?php if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){echo '<th class="col-sm-2">Acción</th>';}?>
                     </tr>
                 </thead>
                 <tbody>
@@ -158,7 +158,7 @@
                                             <td>".$result['NOMBRE']."</td>
                                             <td class='text-center'>".$result['FECHA_INICIO']."</td>
                                             <td class='text-center'>".$result['FECHA_TERMINO']."</td>";
-                                            if($_SESSION['id_rol'] == "1"){echo
+                                            if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){echo
                                                 "<td class='text-center'>
                                                     <form name='form' action='actividades_historial.php' method='POST'>
                                                         <input type='hidden' id='id_actividad' name='id_actividad' value='".$result['ID_ACTIVIDAD']."'>

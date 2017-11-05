@@ -84,7 +84,7 @@
                     echo '
                 <div class="row">
                 <div class="col-sm-3 col-sm-push-9">
-                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Administrar Miembros <span class="fa fa-user-plus"></span></a>
                 </div>
                 </div>';}?>
             </div>
@@ -109,7 +109,7 @@
             <li><a href="../tesoreria/tesoreria_balances.php">Ver libro caja</a></li>
             <li><a href="../tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
             <?php
-            if($_SESSION['id_rol'] == "1"){
+            if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
                 echo '      
             <li><a href="../tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
             <li><a href="../tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 
@@ -129,7 +129,7 @@
   </div>
 </nav>
                         <div class="page-header">
-                            <h1>Reuniones <?php if ($_SESSION['id_rol'] == "1"){echo '<button type="button" class="btn pull-right btn-success" id="add_reunion" name="add_reunion" data-toggle="modal" data-target="#new_reunion">Agregar reunión <i class="fa fa-edit"></i></button>';}?></h1>
+                            <h1>Reuniones <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){echo '<button type="button" class="btn pull-right btn-success" id="add_reunion" name="add_reunion" data-toggle="modal" data-target="#new_reunion">Agregar reunión <i class="fa fa-edit"></i></button>';}?></h1>
                         </div>
 			<div class="table-responsive">
                             <form action="actividades_reuniones.php" method='POST'>
@@ -139,7 +139,7 @@
                                             <th>Descripcion</th>
                                             <th>Fecha</th>
                                             <th>Estado</th>
-                                            <?php if($_SESSION['id_rol'] == "1"){echo '<th>Acción</th>';}?>
+                                            <?php if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){echo '<th>Acción</th>';}?>
 				      	</tr>
 				    </thead>
 				    <tbody>

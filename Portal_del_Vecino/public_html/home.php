@@ -222,12 +222,15 @@
             $stmt->execute();
             $_SESSION['id_org']=$result['ID_ORGANIZACION'];
             $_SESSION['id_rol']=1;
-            echo "<script>alert('Organización creada correctamente.')</script>";
+            $stmt = $conn->prepare("INSERT INTO asociados (ID_USUARIO, ID_ORGANIZACION, ID_ROL) values (:id_usr, :id_org, 1)");
+            $stmt->bindparam(":id_usr", $_SESSION['id_usuario']);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute();
+            echo "<script>alert('Organización creada correctamente.');window.location.href='home.php';</script>";
         }
         else{
             echo "<script>alert('Nombre de organización ya en uso')</script>";
         }
-        header("location:home.php");
     }
     
     if(isset($_REQUEST['submit_join'])){

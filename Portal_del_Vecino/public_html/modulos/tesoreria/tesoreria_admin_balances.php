@@ -5,7 +5,7 @@
     {
         $user->Redirect('../../index.php');
     } else {
-        if($_SESSION['id_rol'] != "1"){
+        if($_SESSION['id_rol'] != "1" && $_SESSION['id_rol'] != "3"){
             $user->Redirect('../../index.php');
         }
         if($_SESSION['id_org'] == ""){

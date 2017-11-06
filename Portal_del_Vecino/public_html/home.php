@@ -76,6 +76,9 @@
                 $("#form-createorg").hide();
             });
         });
+        function reSend() {
+            document.querySelectorAll("button[type=submit]")[0].click();
+        }
     </script>
 </head>
 <body>
@@ -93,8 +96,47 @@
                     <div class="col-sm-9">
                         <h3>Bienvenido <?php echo $_SESSION["nombre"]." ". $_SESSION["apellido"]?></h3>
                     </div>
-                    <div class="col-sm-9">
-                        <h4>Organización: <?php echo $_SESSION["org"]?></h4>
+                    <div class="col-sm-3">
+                        <h4>Organización:</h4> 
+                    </div>
+                    <div class="col-sm-6">
+                        <form name="form" action="home.php" method="POST">
+                            <button type="submit" id="submit-buscar" name="submit-buscar" hidden></button>
+                            <select class="form-control" id="morg" name="morg" onchange="reSend()">
+                                <?php  $stmt = $conn->prepare("SELECT * FROM ASOCIADOS, ORGANIZACIONES WHERE "
+                                        . "ASOCIADOS.ID_ORGANIZACION = ORGANIZACIONES.ID_ORGANIZACION and ID_USUARIO = :id_usr");
+                                    $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
+                                    $stmt->execute();
+                                    $data = array();$count = 0;
+                                    while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        array_push($data,$result['ID_USUARIO'],$result['ID_ORGANIZACION'],$result['ID_ROL']);
+                                        if ($result['ID_ORGANIZACION'] == $_SESSION['id_org']){
+                                            echo "<option value='".$count."' selected>".$result['NOMBRE']."</option>";
+                                        }else{
+                                            echo "<option value='".$count."'>".$result['NOMBRE']."</option>";
+                                        }
+                                        $count += 3;
+                                    }
+                                    if(isset($_REQUEST['submit-buscar'])){
+                                        $cont = $_POST['morg'];
+                                        try{
+                                            $stmt = $conn->prepare("UPDATE usuarios SET ID_ORGANIZACION = :id_org, ID_ROL = :id_rol "
+                                                    . "WHERE usuarios.ID_USUARIO = :id_usr");
+                                            $stmt->bindParam(':id_usr', $data[$cont+0]);
+                                            $stmt->bindParam(':id_org', $data[$cont+1]);
+                                            $stmt->bindParam(':id_rol', $data[$cont+2]);
+                                            if($stmt->execute()){
+                                                $_SESSION['id_org'] = $data[$cont+1];
+                                                $_SESSION['id_rol'] = $data[$cont+2];
+                                                $user->Redirect('home.php');
+                                            }
+                                        }catch(PDOException $e){
+                                            echo "<script>alert('Hubo un error, intentelo nuevamentes')</script>";
+                                        }
+                                    }
+                                 ?>
+                            </select>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -139,7 +181,7 @@
             <li><a href="modulos/tesoreria/tesoreria_balances.php">Ver libro caja</a></li>
             <li><a href="modulos/tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
             <?php
-            if($_SESSION['id_rol'] == "1"){
+            if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
                 echo '      
             <li><a href="modulos/tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
             <li><a href="modulos/tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 
@@ -154,6 +196,7 @@
         </li>
         <li><a href="modulos/proyectos/proyectos_proyecto.php">Proyectos</a></li>
         <li><a href="modulos/foro" target="_blank">Foro</a></li>
+        <li><form><button type="submit" class="btn btn-primary" name="join-create-org" data-toggle="modal" data-target="#news">+</button></form></li>
       </ul>
     </div>
   </div>
@@ -193,10 +236,9 @@
         $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
         $stmt->bindParam(':id_org', $_POST['select_org']);
         $stmt->execute();
-        header("location:home.php");
     }
        
-    if($_SESSION['id_org'] == ""){
+    if($_SESSION['id_org'] == "" || isset($_REQUEST['join-create-org'])){
 ?>
         <!-- Modal -->
         <div class="modal fade" id="news" role="dialog">

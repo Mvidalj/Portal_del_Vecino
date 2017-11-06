@@ -1,10 +1,14 @@
 <?php
     if(isset($_REQUEST['accept_user'])){
         $stmt = $conn->prepare("UPDATE usuarios set ID_ORGANIZACION = :id_org WHERE ID_USUARIO = :id_usr");
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
+        $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute();
         $stmt = $conn->prepare("UPDATE solicitudes set ESTADO = 1 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+        $stmt->bindparam(":id_usr", $_POST['id_usr']);
+        $stmt->bindparam(":id_org", $_SESSION['id_org']);
+        $stmt->execute();
+        $stmt = $conn->prepare("INSERT INTO asociados (ID_USUARIO, ID_ORGANIZACION, ID_ROL) values (:id_usr, :id_org, 2)");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute();
@@ -15,26 +19,38 @@
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute();
     }
-    if(isset($_REQUEST['delete_privilege'])){
-        $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 2 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute(); 
-    }
     if(isset($_REQUEST['add_tesorero'])){
         $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute(); 
+        $stmt->execute();
+        $stmt = $conn->prepare("UPDATE asociados set ID_ROL = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+        $stmt->bindparam(":id_usr", $_POST['id_usr']);
+        $stmt->bindparam(":id_org", $_SESSION['id_org']);
+        $stmt->execute();
     }
     if(isset($_REQUEST['add_activity'])){
         $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute(); 
+        $stmt = $conn->prepare("UPDATE asociados set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+        $stmt->bindparam(":id_usr", $_POST['id_usr']);
+        $stmt->bindparam(":id_org", $_SESSION['id_org']);
+        $stmt->execute(); 
     }
     if(isset($_REQUEST['add_proyect'])){
         $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 5 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+        $stmt->bindparam(":id_usr", $_POST['id_usr']);
+        $stmt->bindparam(":id_org", $_SESSION['id_org']);
+        $stmt->execute(); 
+        $stmt = $conn->prepare("UPDATE asociados set ID_ROL = 5 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+        $stmt->bindparam(":id_usr", $_POST['id_usr']);
+        $stmt->bindparam(":id_org", $_SESSION['id_org']);
+        $stmt->execute(); 
+    }
+    if(isset($_REQUEST['delete_privilege'])){
+        $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 2 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute(); 

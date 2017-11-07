@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2017 a las 14:30:05
+-- Tiempo de generación: 07-11-2017 a las 14:45:26
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -37,6 +37,33 @@ CREATE TABLE `actividades` (
   `FECHA_TERMINO` date NOT NULL,
   `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asociados`
+--
+
+CREATE TABLE `asociados` (
+  `ID_USUARIO` int(3) NOT NULL,
+  `ID_ORGANIZACION` int(3) NOT NULL,
+  `ID_ROL` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `asociados`
+--
+
+INSERT INTO `asociados` (`ID_USUARIO`, `ID_ORGANIZACION`, `ID_ROL`) VALUES
+(1, 1, 1),
+(1, 2, 1),
+(1, 3, 1),
+(1, 4, 1),
+(5, 1, 2),
+(2, 1, 3),
+(5, 2, 3),
+(3, 1, 4),
+(4, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -738,6 +765,14 @@ ALTER TABLE `actividades`
   ADD KEY `ID_ORGANIZACION` (`ID_ORGANIZACION`);
 
 --
+-- Indices de la tabla `asociados`
+--
+ALTER TABLE `asociados`
+  ADD PRIMARY KEY (`ID_USUARIO`,`ID_ORGANIZACION`),
+  ADD KEY `ID_ORGANIZACION` (`ID_ORGANIZACION`),
+  ADD KEY `ID_ROL` (`ID_ROL`);
+
+--
 -- Indices de la tabla `comuna`
 --
 ALTER TABLE `comuna`
@@ -913,6 +948,14 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `actividades`
   ADD CONSTRAINT `actividades_ibfk_1` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`);
+
+--
+-- Filtros para la tabla `asociados`
+--
+ALTER TABLE `asociados`
+  ADD CONSTRAINT `asociados_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`ID_USUARIO`),
+  ADD CONSTRAINT `asociados_ibfk_2` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`),
+  ADD CONSTRAINT `asociados_ibfk_3` FOREIGN KEY (`ID_ROL`) REFERENCES `roles` (`ID_ROL`);
 
 --
 -- Filtros para la tabla `comuna`

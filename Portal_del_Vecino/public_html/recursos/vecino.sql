@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2017 a las 21:08:04
+-- Tiempo de generación: 07-11-2017 a las 14:30:05
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -424,7 +424,7 @@ INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`, `ACTIVO`) VALUES
 (2, 2, '$2y$10$iWfCH91IIv8s78CA.gi8zOTUkjEHyG0K6qHxXvPcQoxwNpT62i9mG', 0),
 (3, 3, '$2y$10$Xq1ZtmjK9/LVvnQR0XoXteB66BreUgkLm3saX//ZswbyTnxrr3ZkK', 0),
 (4, 4, '$2y$10$SnR3bzE9xPHyTdFreeMOP.RZKcHyyPnvUq52OQ6r8AUpQCk33eKky', 0),
-(5, 5, '$2y$10$BVc0q6XMp8fiexPcOUSyUulAuFdcJCNqlGkeSV.jSja0Ixgybg2tC', 0);
+(5, 5, '$2y$10$E7AAyvFdy0qOs2fzsIl5g.RfwGslZMJ7L0a0a181d6ePFrIhnW0vG', 0);
 
 -- --------------------------------------------------------
 
@@ -677,7 +677,8 @@ INSERT INTO `solicitudes` (`ID_SOLICITUD`, `ID_USUARIO`, `ID_ORGANIZACION`, `EST
 (1, 2, 1, 'ACEPTADO'),
 (2, 3, 1, 'ACEPTADO'),
 (3, 4, 1, 'ACEPTADO'),
-(4, 5, 1, 'ACEPTADO');
+(4, 5, 1, 'ACEPTADO'),
+(5, 5, 2, 'ACEPTADO');
 
 -- --------------------------------------------------------
 
@@ -719,11 +720,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `ID_ORGANIZACION`, `NOMBRE`, `APELLIDO`, `CORREO`, `TELEFONO`, `ID_ROL`, `ID_COMUNA`, `DIRECCION`, `ELIMINADO`) VALUES
-(1, 1, 'admin', 'admin', 'admin@admin.com', '987654321', 1, 9101, 'UCT', 0),
+(1, 2, 'admin', 'admin', 'admin@admin.com', '987654321', 1, 9101, 'UCT', 0),
 (2, 1, 'Matias', 'Bahamonde', 'mbahamonde2016@alu.uct.cl', '976203559', 3, 9101, 'UCT', 0),
 (3, 1, 'Matias', 'Mellado', 'mmellado2016@alu.uct.cl', '987654321', 4, 9101, 'UCT', 0),
 (4, 1, 'Mathias', 'Muñoz', 'mathias.munoz2016@alu.uct.cl', '961666539', 5, 9101, 'UCT', 0),
-(5, 1, 'Alonso', 'Salazar', 'asalazar2016@alu.uct.cl', '986281260', 2, 9101, 'UCT', 0);
+(5, 2, 'Alonso', 'Salazar', 'asalazar2016@alu.uct.cl', '986281260', 3, 9101, 'UCT', 0);
 
 --
 -- Índices para tablas volcadas
@@ -892,7 +893,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `ID_SOLICITUD` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_SOLICITUD` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `tesoreria`
 --

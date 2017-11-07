@@ -74,7 +74,7 @@
                     echo '
                 <div class="row">
                 <div class="col-sm-3 col-sm-push-9">
-                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
+                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Administrar Miembros <span class="fa fa-user-plus"></span></a>
                 </div>
                 </div>';}?>
             </div>
@@ -99,7 +99,7 @@
             <li class="active"><a href="tesoreria_balances.php">Ver libro caja</a></li>
             <li><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
             <?php
-            if($_SESSION['id_rol'] == "1"){
+            if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
                 echo '      
             <li><a href="tesoreria_admin_balances.php">Administrar libro caja</a></li>
             <li><a href="tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 

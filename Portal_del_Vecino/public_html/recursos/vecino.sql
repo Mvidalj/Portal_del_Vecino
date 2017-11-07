@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-11-2017 a las 22:49:43
+-- Tiempo de generación: 06-11-2017 a las 21:08:04
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -420,8 +420,11 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`, `ACTIVO`) VALUES
-(1, 1, '$2y$10$uFVCfn499oR5RKvM6RYgYu6NkCFDl2WeEL95tpYZIRrgx8olZsB9u', 1),
-(2, 2, '$2y$10$qfGVjVmxayezh56tJ0zuPu5fes0Hm19ohC6CPDGLTtGqm07p8LgR6', 0);
+(1, 1, '$2y$10$2snzZF44qP6x1Xy.GrojHOtAYfl7TVdC7f2Y5jJ6PsfqcGDiYjR22', 0),
+(2, 2, '$2y$10$iWfCH91IIv8s78CA.gi8zOTUkjEHyG0K6qHxXvPcQoxwNpT62i9mG', 0),
+(3, 3, '$2y$10$Xq1ZtmjK9/LVvnQR0XoXteB66BreUgkLm3saX//ZswbyTnxrr3ZkK', 0),
+(4, 4, '$2y$10$SnR3bzE9xPHyTdFreeMOP.RZKcHyyPnvUq52OQ6r8AUpQCk33eKky', 0),
+(5, 5, '$2y$10$BVc0q6XMp8fiexPcOUSyUulAuFdcJCNqlGkeSV.jSja0Ixgybg2tC', 0);
 
 -- --------------------------------------------------------
 
@@ -440,7 +443,10 @@ CREATE TABLE `organizaciones` (
 --
 
 INSERT INTO `organizaciones` (`ID_ORGANIZACION`, `ID_COMUNA`, `NOMBRE`) VALUES
-(1, 9101, 'Prueba Junta Vecinal');
+(1, 9101, 'Junta Vecinal'),
+(2, 9101, 'Organizacion de prueba'),
+(3, 9101, 'Organizacion de prueba 2'),
+(4, 9101, 'Organizacion de prueba 3');
 
 -- --------------------------------------------------------
 
@@ -621,6 +627,13 @@ CREATE TABLE `reuniones` (
   `ACTA_REUNION` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `reuniones`
+--
+
+INSERT INTO `reuniones` (`ID_REUNION`, `ID_ORGANIZACION`, `FECHA_REUNION`, `DESCRIPCION`, `ESTADO`, `ACTA_REUNION`) VALUES
+(1, 1, '2017-11-16', 'NO C', 'PENDIENTE', ' ');
+
 -- --------------------------------------------------------
 
 --
@@ -638,7 +651,10 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`ID_ROL`, `ROL`) VALUES
 (1, 'Administrador'),
-(2, 'Invitado');
+(2, 'Invitado'),
+(3, 'Tesoreria'),
+(4, 'Actividad'),
+(5, 'Proyecto');
 
 -- --------------------------------------------------------
 
@@ -652,6 +668,16 @@ CREATE TABLE `solicitudes` (
   `ID_ORGANIZACION` int(3) NOT NULL,
   `ESTADO` enum('ACEPTADO','PENDIENTE','RECHAZADO') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `solicitudes`
+--
+
+INSERT INTO `solicitudes` (`ID_SOLICITUD`, `ID_USUARIO`, `ID_ORGANIZACION`, `ESTADO`) VALUES
+(1, 2, 1, 'ACEPTADO'),
+(2, 3, 1, 'ACEPTADO'),
+(3, 4, 1, 'ACEPTADO'),
+(4, 5, 1, 'ACEPTADO');
 
 -- --------------------------------------------------------
 
@@ -693,8 +719,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `ID_ORGANIZACION`, `NOMBRE`, `APELLIDO`, `CORREO`, `TELEFONO`, `ID_ROL`, `ID_COMUNA`, `DIRECCION`, `ELIMINADO`) VALUES
-(1, 1, 'admin', 'admin', 'admin@admin.com', '987654321', 1, 9101, 'Universidad Católica de Temuco', 0),
-(2, NULL, 'Usuario', 'usuario', 'user@user.com', '654987321', 2, 8303, 'address', 0);
+(1, 1, 'admin', 'admin', 'admin@admin.com', '987654321', 1, 9101, 'UCT', 0),
+(2, 1, 'Matias', 'Bahamonde', 'mbahamonde2016@alu.uct.cl', '976203559', 3, 9101, 'UCT', 0),
+(3, 1, 'Matias', 'Mellado', 'mmellado2016@alu.uct.cl', '987654321', 4, 9101, 'UCT', 0),
+(4, 1, 'Mathias', 'Muñoz', 'mathias.munoz2016@alu.uct.cl', '961666539', 5, 9101, 'UCT', 0),
+(5, 1, 'Alonso', 'Salazar', 'asalazar2016@alu.uct.cl', '986281260', 2, 9101, 'UCT', 0);
 
 --
 -- Índices para tablas volcadas
@@ -818,12 +847,12 @@ ALTER TABLE `comuna`
 -- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
-  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `organizaciones`
 --
 ALTER TABLE `organizaciones`
-  MODIFY `ID_ORGANIZACION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_ORGANIZACION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
@@ -853,17 +882,17 @@ ALTER TABLE `regiones`
 -- AUTO_INCREMENT de la tabla `reuniones`
 --
 ALTER TABLE `reuniones`
-  MODIFY `ID_REUNION` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_REUNION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `ID_ROL` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_ROL` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `ID_SOLICITUD` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_SOLICITUD` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `tesoreria`
 --
@@ -873,7 +902,7 @@ ALTER TABLE `tesoreria`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Restricciones para tablas volcadas
 --

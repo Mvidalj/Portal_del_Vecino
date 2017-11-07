@@ -4,13 +4,6 @@
     if($user->Is_Loggedin() != true)
     {
         $user->Redirect('index.php');
-    } else {
-        if($_SESSION['id_rol'] != "1"){
-            $user->Redirect('index.php');
-        }
-        if($_SESSION['id_org'] == ""){
-            $user->Redirect('home.php');
-        }
     }
 ?>
 <!DOCTYPE html>

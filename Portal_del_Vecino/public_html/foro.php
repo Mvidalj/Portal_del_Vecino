@@ -25,6 +25,22 @@
     <script src="librerias/jquery-3.2.1.js"></script>
     <script src="librerias/bootstrap.js"></script>
     <script src="librerias/jquery.dataTables.min.js"></script>
+    <style>
+        #demo-frame  { /* necessary because it for some reason doesn't work with the iframe */
+        position: absolute;
+        width: 85%;
+        height: 100%;
+        
+        border: 0;
+        }
+
+        #demo-frame iframe {
+	    position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        }
+      </style>
 </head>
 <body>
 <div class="container">
@@ -89,8 +105,12 @@
         </div>
       </div>
     </nav>
-        <script type="text/javascript" src="http://127.0.0.1/Portal_del_Vecino/Portal_del_Vecino/public_html/modulos/foro/js/embed.js"></script>  
+    <div id="demo-frame">
+        <iframe id="frame" src="modulos/foro"></iframe>
+    </div>
 </div>
+    
+    
 <div>	
     <?php include("modal_accept_user.php");?>		
 </div>

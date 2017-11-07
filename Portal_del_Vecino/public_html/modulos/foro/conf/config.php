@@ -58,15 +58,19 @@ $Configuration['Garden']['Version'] = '2.3.1';
 $Configuration['Garden']['Cdns']['Disable'] = false;
 $Configuration['Garden']['CanProcessImages'] = true;
 $Configuration['Garden']['Installed'] = true;
-$Configuration['Garden']['Theme'] = 'bittersweet';
+$Configuration['Garden']['Theme'] = 'bootstrap';
+$Configuration['Garden']['MobileTheme'] = 'Bootstrap';
 $Configuration['Garden']['Locale'] = 'es';
 $Configuration['Garden']['Embed']['Allow'] = true;
-$Configuration['Garden']['Embed']['RemoteUrl'] = '';
+$Configuration['Garden']['Embed']['RemoteUrl'] = '/Portal_del_Vecino/Portal_del_Vecino/public_html/foro.php';
 $Configuration['Garden']['Embed']['ForceDashboard'] = false;
-$Configuration['Garden']['Embed']['ForceForum'] = false;
+$Configuration['Garden']['Embed']['ForceForum'] = '1';
 $Configuration['Garden']['Embed']['ForceMobile'] = false;
-$Configuration['Garden']['TrustedDomains'] = '';
+$Configuration['Garden']['TrustedDomains'] = '127.0.0.1';
 $Configuration['Garden']['SignIn']['Popup'] = false;
+$Configuration['Garden']['ThemeOptions']['Name'] = 'Bootstrap';
+$Configuration['Garden']['ThemeOptions']['Styles']['Key'] = 'Lumen';
+$Configuration['Garden']['ThemeOptions']['Styles']['Value'] = '%s_lumen';
 
 // Plugins
 $Configuration['Plugins']['GettingStarted']['Dashboard'] = '1';
@@ -81,4 +85,4 @@ $Configuration['Routes']['DefaultController'] = 'discussions';
 // Vanilla
 $Configuration['Vanilla']['Version'] = '2.3.1';
 
-// Last edited by admin (127.0.0.1)2017-11-06 01:56:32
+// Last edited by admin (127.0.0.1)2017-11-07 03:12:15

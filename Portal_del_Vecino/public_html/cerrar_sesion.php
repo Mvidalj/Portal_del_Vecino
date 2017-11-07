@@ -1,6 +1,6 @@
 <?php
     require_once 'validaciones/conexion_bd.php';
     if($user->Logout()){
-        $user->Redirect('index.php');
+        $user->Redirect('modulos/foro/entry/signout');
     }
 ?>

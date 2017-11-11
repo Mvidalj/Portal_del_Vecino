@@ -8,6 +8,46 @@
         if($_SESSION['id_org'] == ""){
             $user->Redirect('../../home.php');
         }
+        
+        if (isset($_REQUEST['delete_actividad'])){
+            try {
+                $sql = $conn->prepare("UPDATE tesoreria SET ELIMINADO = 1 WHERE ID_TESORERIA = :id");
+                $sql->bindParam(':id', $_POST['id']);
+                $sql->execute();
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+
+        if (isset($_REQUEST['submit-edit'])){
+            try {
+                $sql = $conn->prepare("UPDATE tesoreria SET FECHA = :EDITFECHA, CONCEPTO = :EDITCONCEPTO, MONTO = :EDITOMONTO, E_S = :EDITACTIVIDAD WHERE ID_TESORERIA = :ID");
+                $sql->bindParam(':EDITFECHA', $_POST['edit_date']);
+                $sql->bindParam(':EDITCONCEPTO', $_POST['edit_caption']);
+                $sql->bindParam(':EDITOMONTO', $_POST['edit_ammount']);
+                $sql->bindParam(':EDITACTIVIDAD', $_POST['edit_activity']);
+                $sql->bindParam(':ID', $_POST['id']);
+                $sql->execute();
+            } 
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+        
+        if(isset($_REQUEST['submit-entrada'])){
+            try {
+                $sql = $conn->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO)
+                VALUES(1, :FECHA, :CONCEPTO, :E_S, :MONTO)");
+                $sql->bindParam(':FECHA', $_POST['fecha_ingreso']);
+                $sql->bindParam(':CONCEPTO', $_POST['concepto']);
+                $sql->bindParam(':E_S', $_POST['select_actividad']);
+                $sql->bindParam(':MONTO', $_POST['monto']);
+                $sql->execute();
+            } 
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
     }
 ?>
 <html>
@@ -100,9 +140,7 @@
             <li><a href="tesoreria_recursos.php">Solicitar recursos</a></li>
             <?php
             if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
-                echo '      
-            <li><a href="tesoreria_admin_balances.php">Administrar libro caja</a></li>
-            <li><a href="tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 
+                echo '<li><a href="tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 
           </ul>
         </li>
         <li class="dropdown">
@@ -119,7 +157,7 @@
   </div>
 </nav>
                         <div class="page-header">
-                            <h1>Libro caja</h1>
+                            <h1>Libro caja <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){echo '<button type="button" class="btn pull-right btn-success" id="add_entry" name="add_entry" data-toggle="modal" data-target="#new_entry">Nueva entrada <i class="fa fa-edit"></i></button>';}?></h1>
                         </div>
                         <form name="form "action="tesoreria_balances.php" method="POST">
                             <div class="row">
@@ -157,6 +195,7 @@
                                         <th>Entrada</th>
                                         <th>Salida</th>
                                         <th>Saldo</th>
+                                        <?php if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){echo '<th class="col-sm-2">Opciones</th>';}?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -190,22 +229,101 @@
                                                 $sql->execute();
                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                     if($result['E_S'] == 1 || $result['E_S'] == 3){
+                                                        $actividad = 'Entrada';
+                                                        $options = "<option value='3'>Registro de saldo</option>
+                                                                    <option value='1' selected>Ingreso</option>
+                                                                    <option value='0'>Egreso</option>
+                                                                    ";
+                                                        if($result['E_S'] == 3){
+                                                            $options = "<option value='3' selected>Registro de saldo</option>
+                                                                    <option value='1'>Ingreso</option>
+                                                                    <option value='0'>Egreso</option>
+                                                                    ";
+                                                        }
+                                                        echo "<tr>                          
+                                                                <td>".$result['FECHA']."</td>
+                                                                <td>".$result['CONCEPTO']."</td>
+                                                                <td class='text-right'>".$result['MONTO']."</td>
+                                                                <td></td>
+                                                                <td class='text-right'>".$result['MONTO']."</td>
+                                                                <td class='text-center'>
+                                                                    <form action='tesoreria_balances.php' method='POST'>
+                                                                        <input type='hidden' id='id_actividad' name='id' value='".$result['ID_TESORERIA']."'>
+                                                                        <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_TESORERIA']."'><i class='fa fa-edit'></i></button>
+                                                                        <!-- Modal -->
+                                                                        <div id='".$result['ID_TESORERIA']."' class='modal fade' role='dialog'>
+                                                                            <div class='modal-dialog'>
+                                                                            <!-- Modal content-->
+                                                                                <div class='modal-content'>
+                                                                                    <div class='modal-header'>
+                                                                                        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                                        <h4 class='modal-title'>Editar entrada</h4>
+                                                                                    </div>
+                                                                                    <div class='modal-body'>
+                                                                                        <label>Fecha: </label>
+                                                                                        <input type='text' class='form-control' id='edit_date' name='edit_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA']."' required><br>
+                                                                                        <label>Concepto: </label>
+                                                                                        <input type='text' class='form-control' id='edit_caption' name='edit_caption' value='".$result['CONCEPTO']."' required><br>
+                                                                                        <label>Actividad: </label>
+                                                                                        <select class='form-control' id='edit_activity' name='edit_activity' required>
+                                                                                            ".$options."
+                                                                                        </select><br>
+                                                                                        <label>Monto: </label>
+                                                                                        <input type='number' class='form-control' id='edit_ammount' name='edit_ammount' value='".$result['MONTO']."' required><br>
+                                                                                        <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type='submit' class='btn btn-danger' id='delete_actividad' name='delete_actividad' onclick=\"return confirm('¿Está seguro de que desea eliminar este dato?')\"><i class='fa fa-trash-o'></i></button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>";
+                                                    } else {
+                                                        $actividad = 'Salida';
+                                                        $options = "<option value='3'>Registro de saldo</option>
+                                                                    <option value='1'>Ingreso</option>
+                                                                    <option value='0' selected>Egreso</option>
+                                                                    ";
                                                         echo "<tr>                                       
-                                                            <td>".$result['FECHA']."</td>
-                                                            <td>".$result['CONCEPTO']."</td>
-                                                            <td class='text-right'>".$result['MONTO']."</td>
-                                                            <td></td>
-                                                            <td class='text-right'>".$result['MONTO']."</td>
-                                                        </tr>";    
-                                                    }
-                                                    else{
-                                                        echo "<tr>                                       
-                                                            <td>".$result['FECHA']."</td>
-                                                            <td>".$result['CONCEPTO']."</td>
-                                                            <td></td>
-                                                            <td class='text-right'>".$result['MONTO']."</td>
-                                                            <td class='text-right'>".$result['MONTO']."</td>
-                                                        </tr>";
+                                                                <td>".$result['FECHA']."</td>
+                                                                <td>".$result['CONCEPTO']."</td>
+                                                                <td></td>
+                                                                <td class='text-right'>".$result['MONTO']."</td>
+                                                                <td class='text-right'>".$result['MONTO']."</td>
+                                                                <td class='text-center'>
+                                                                    <form action='tesoreria_balances.php' method='POST'>
+                                                                        <input type='hidden' id='id_actividad' name='id' value='".$result['ID_TESORERIA']."'>
+                                                                        <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_TESORERIA']."'><i class='fa fa-edit'></i></button>
+                                                                        <!-- Modal -->
+                                                                        <div id='".$result['ID_TESORERIA']."' class='modal fade' role='dialog'>
+                                                                            <div class='modal-dialog'>
+                                                                            <!-- Modal content-->
+                                                                                <div class='modal-content'>
+                                                                                    <div class='modal-header'>
+                                                                                        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                                        <h4 class='modal-title'>Editar entrada</h4>
+                                                                                    </div>
+                                                                                    <div class='modal-body'>
+                                                                                        <label>Fecha: </label>
+                                                                                        <input type='text' class='form-control' id='edit_date' name='edit_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA']."' required><br>
+                                                                                        <label>Concepto: </label>
+                                                                                        <input type='text' class='form-control' id='edit_caption' name='edit_caption' value='".$result['CONCEPTO']."' required><br>
+                                                                                        <label>Actividad: </label>
+                                                                                        <select class='form-control' id='edit_activity' name='edit_activity' required>
+                                                                                            ".$options."
+                                                                                        </select><br>
+                                                                                        <label>Monto: </label>
+                                                                                        <input type='number' class='form-control' id='edit_ammount' name='edit_ammount' value='".$result['MONTO']."' required><br>
+                                                                                        <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type='submit' class='btn btn-danger' id='delete_actividad' name='delete_actividad' onclick=\"return confirm('¿Está seguro de que desea eliminar este dato?')\"><i class='fa fa-trash-o'></i></button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>";
                                                     }
                                                 }
                                                 echo "<tr class='info'>
@@ -226,21 +344,102 @@
                                                 $sql->execute();
                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                     if($result['E_S'] == 1 || $result['E_S'] == 3){
+                                                        $actividad = 'Entrada';
+                                                        $options = "<option value='3'>Registro de saldo</option>
+                                                                    <option value='1' selected>Ingreso</option>
+                                                                    <option value='0'>Egreso</option>
+                                                                    ";
+                                                        if($result['E_S'] == 3){
+                                                            $options = "<option value='3' selected>Registro de saldo</option>
+                                                                    <option value='1'>Ingreso</option>
+                                                                    <option value='0'>Egreso</option>
+                                                                    ";
+                                                        }
+                                                        
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
                                                             <td>".$result['CONCEPTO']."</td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
                                                             <td></td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
-                                                        </tr>";    
+                                                            <td class='text-center'>
+                                                                <form action='tesoreria_balances.php' method='POST'>
+                                                                    <input type='hidden' id='id_actividad' name='id' value='".$result['ID_TESORERIA']."'>
+                                                                    <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_TESORERIA']."'><i class='fa fa-edit'></i></button>
+                                                                    <!-- Modal -->
+                                                                    <div id='".$result['ID_TESORERIA']."' class='modal fade' role='dialog'>
+                                                                        <div class='modal-dialog'>
+                                                                        <!-- Modal content-->
+                                                                            <div class='modal-content'>
+                                                                                <div class='modal-header'>
+                                                                                    <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                                    <h4 class='modal-title'>Editar entrada</h4>
+                                                                                </div>
+                                                                                <div class='modal-body'>
+                                                                                    <label>Fecha: </label>
+                                                                                    <input type='text' class='form-control' id='edit_date' name='edit_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA']."' required><br>
+                                                                                    <label>Concepto: </label>
+                                                                                    <input type='text' class='form-control' id='edit_caption' name='edit_caption' value='".$result['CONCEPTO']."' required><br>
+                                                                                    <label>Actividad: </label>
+                                                                                    <select class='form-control' id='edit_activity' name='edit_activity' required>
+                                                                                        ".$options."
+                                                                                    </select><br>
+                                                                                    <label>Monto: </label>
+                                                                                    <input type='number' class='form-control' id='edit_ammount' name='edit_ammount' value='".$result['MONTO']."' required><br>
+                                                                                    <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button type='submit' class='btn btn-danger' id='delete_actividad' name='delete_actividad' onclick=\"return confirm('¿Está seguro de que desea eliminar este dato?')\"><i class='fa fa-trash-o'></i></button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>"; 
                                                     }
                                                     else{
+                                                        $actividad = 'Salida';
+                                                        $options = "<option value='3'>Registro de saldo</option>
+                                                                    <option value='1'>Ingreso</option>
+                                                                    <option value='0' selected>Egreso</option>
+                                                                    ";
                                                         echo "<tr>                                       
                                                             <td>".$result['FECHA']."</td>
                                                             <td>".$result['CONCEPTO']."</td>
                                                             <td></td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
                                                             <td class='text-right'>".$result['MONTO']."</td>
+                                                            <td class='text-center'>
+                                                                    <form action='tesoreria_balances.php' method='POST'>
+                                                                        <input type='hidden' id='id_actividad' name='id' value='".$result['ID_TESORERIA']."'>
+                                                                        <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_TESORERIA']."'><i class='fa fa-edit'></i></button>
+                                                                        <!-- Modal -->
+                                                                        <div id='".$result['ID_TESORERIA']."' class='modal fade' role='dialog'>
+                                                                            <div class='modal-dialog'>
+                                                                            <!-- Modal content-->
+                                                                                <div class='modal-content'>
+                                                                                    <div class='modal-header'>
+                                                                                        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                                        <h4 class='modal-title'>Editar entrada</h4>
+                                                                                    </div>
+                                                                                    <div class='modal-body'>
+                                                                                        <label>Fecha: </label>
+                                                                                        <input type='text' class='form-control' id='edit_date' name='edit_date' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA']."' required><br>
+                                                                                        <label>Concepto: </label>
+                                                                                        <input type='text' class='form-control' id='edit_caption' name='edit_caption' value='".$result['CONCEPTO']."' required><br>
+                                                                                        <label>Actividad: </label>
+                                                                                        <select class='form-control' id='edit_activity' name='edit_activity' required>
+                                                                                            ".$options."
+                                                                                        </select><br>
+                                                                                        <label>Monto: </label>
+                                                                                        <input type='number' class='form-control' id='edit_ammount' name='edit_ammount' value='".$result['MONTO']."' required><br>
+                                                                                        <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type='submit' class='btn btn-danger' id='delete_actividad' name='delete_actividad' onclick=\"return confirm('¿Está seguro de que desea eliminar este dato?')\"><i class='fa fa-trash-o'></i></button>
+                                                                    </form>
+                                                                </td>
                                                         </tr>";
                                                     }
                                                 }
@@ -261,6 +460,37 @@
                                     ?>
                                 </tbody>
                             </table>
+                        </div>
+                        &nbsp;
+                        <!-- Modal -->
+                        <div id="new_entry" class='modal fade' role='dialog'>
+                            <div class='modal-dialog'>
+                            <!-- Modal content-->
+                                <div class='modal-content'>
+                                    <div class='modal-header'>
+                                        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                        <h4 class='modal-title'>Agregar entrada</h4>
+                                    </div>
+                                    <div class='modal-body'>
+                                       <form action="tesoreria_balances.php" method="POST">
+                                            <label>Fecha:</label>
+                                            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso"><br>
+                                            <label>Concepto:</label>
+                                            <input type="text" class="form-control" id="concepto" name="concepto"><br>
+                                            <label>Actividad:</label>
+                                            <select class="form-control" id="select_actividad" name="select_actividad">
+                                                <option value="" disabled selected>Ingreso/Egreso</option>
+                                                <option value="3">Registro de saldo</option>
+                                                <option value="1">Ingreso</option>
+                                                <option value="0">Egreso</option>
+                                            </select><br>
+                                            <label>Monto:</label>
+                                            <input type="number" class="form-control" id="monto" name="monto"><br>
+                                            <button type='submit' class='btn btn-success' id='submit-entrada' name='submit-entrada'>Añadir entrada <span class='fa fa-save'></span></button>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <script>

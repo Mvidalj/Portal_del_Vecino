@@ -182,9 +182,7 @@
             <li><a href="modulos/tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
             <?php
             if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
-                echo '      
-            <li><a href="modulos/tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
-            <li><a href="modulos/tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 
+                echo '<li><a href="modulos/tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 
           </ul>
         </li>
         <li class="dropdown">

@@ -32,7 +32,8 @@
         if(isset($_REQUEST['submit-recurso'])){
             try {
                 $sql = $conn->prepare("INSERT INTO recursos (ID_ORGANIZACION, NOMBRE, DESCRIPCION, ESTADO, ELIMINADO)
-                VALUES(1, :NOMBRE, :DESCRIPCION, 0, 0)");
+                VALUES(:IDORG, :NOMBRE, :DESCRIPCION, 0, 0)");
+                $sql->bindParam(':IDORG', $_SESSION['id_org']);
                 $sql->bindParam(':NOMBRE', $_POST['nombre-recurso']);
                 $sql->bindParam(':DESCRIPCION', $_POST['desc-recurso']);  
                 $sql->execute();
@@ -199,7 +200,8 @@
                                                         <td>".$result['DESCRIPCION']."</td>
                                                         <td>".$estado."</td>
                                                         <td>".$solicitar."</td>
-                                                        <td class='text-center'>
+                                                    "; if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
+                                                        echo "<td class='text-center'>
                                                             <form action='tesoreria_recursos.php' method='POST'>
                                                                 <input type='hidden' id='id_recurso' name='id_recurso' value='".$result['ID_RECURSO']."'>
                                                                 <button type='button' class='btn btn-info' id='edit_actividad' name='edit_actividad' data-toggle='modal' data-target='#".$result['ID_RECURSO']."edit'><i class='fa fa-edit'></i></button>
@@ -224,8 +226,8 @@
                                                                 </div>
                                                                 <button type='submit' class='btn btn-danger' id='delete_resource' name='delete_resource' onclick=\"return confirm('¿Está seguro de que desea eliminar este recurso?')\"><i class='fa fa-trash-o'></i></button>
                                                             </form>
-                                                        </td>
-                                                    </tr>";
+                                                        </td>";
+                                                    }echo "</tr>";
                                             }
                                         } 
                                         catch (Exception $e) {

@@ -108,11 +108,6 @@
           <ul class="dropdown-menu">
             <li><a href="../tesoreria/tesoreria_balances.php">Ver libro caja</a></li>
             <li><a href="../tesoreria/tesoreria_recursos.php">Solicitar recursos</a></li>
-            <?php
-            if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
-                echo '      
-            <li><a href="../tesoreria/tesoreria_admin_balances.php">Administrar libro caja</a></li>
-            <li><a href="../tesoreria/tesoreria_admin_recursos.php">Administrar recursos</a></li>';}?> 
           </ul>
         </li>
         <li class="dropdown active">

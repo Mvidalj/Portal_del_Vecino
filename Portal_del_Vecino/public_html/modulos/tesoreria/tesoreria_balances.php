@@ -37,7 +37,8 @@
         if(isset($_REQUEST['submit-entrada'])){
             try {
                 $sql = $conn->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO)
-                VALUES(1, :FECHA, :CONCEPTO, :E_S, :MONTO)");
+                VALUES(:IDORG, :FECHA, :CONCEPTO, :E_S, :MONTO)");
+                $sql->bindParam(':IDORG', $_SESSION['id_org']);
                 $sql->bindParam(':FECHA', $_POST['fecha_ingreso']);
                 $sql->bindParam(':CONCEPTO', $_POST['concepto']);
                 $sql->bindParam(':E_S', $_POST['select_actividad']);
@@ -156,7 +157,7 @@
                         <div class="page-header">
                             <h1>Libro caja <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){echo '<button type="button" class="btn pull-right btn-success" id="add_entry" name="add_entry" data-toggle="modal" data-target="#new_entry">Nueva entrada <i class="fa fa-edit"></i></button>';}?></h1>
                         </div>
-                        <form name="form "action="tesoreria_balances.php" method="POST">
+                        <form name="form" action="tesoreria_balances.php" method="POST">
                             <div class="row">
                                 <div class="col-sm-1">
                                     <label>Búsqueda:</label>

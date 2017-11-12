@@ -17,23 +17,13 @@
         $npass = $_POST['npass'];
         $mail = $_POST['mail'];
         $phone = $_POST['tel'];
-        //$img = $_POST['image'];
-        //$img = "../imagenes/home.jpg";
-        //$target_dir = "imagenes/";
-        //$name = $_FILES['image']['name'];
-        //$uploadOk = 1;
-        //$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-        // Check if image file is a actual image or fake image
-        //    $check = getimagesize($_FILES["image"]["tmp_name"]);
-        //if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_dir.$name)) {
-        //        echo "The file ". basename( $name). " has been uploaded.";
-        //    }
-        //$input = 'http://images.websnapr.com/?size=size&key=Y64Q44QLt12u&url=http://google.com';
-        //$output = 'google.com.jpg';
-        //file_put_contents($output, file_get_contents($input));
-        //$image = imagecreatefromjpeg("C:\Usuarios\Mathias\Imágenes\Eevee.png");
-        //imagecopy($image, $image, 0, 140, 0, 0, imagesx($image), imagesy($image));
-        //imagejpeg($image, "imagenes/file.jpg");
+        
+        $destino = 'imagenes' ; // Carpeta donde se guardata 
+        $sep=explode('image/',$_FILES["file"]["type"]); // Separamos image/ 
+        $tipo=$sep[1]; // Optenemos el tipo de imagen que es 
+        if($tipo == "pjpeg" || $tipo == "bmp" || $tipo == "png"){
+            move_uploaded_file ( $_FILES [ 'file' ][ 'tmp_name' ], $destino . '/' .$_SESSION['id_usuario'].'.'.$tipo);  // Subimos el archivo 
+        }
         try{
             $stmt = $conn->prepare("SELECT PASSWORD FROM LOGIN WHERE ID_USUARIO=".$_SESSION['id_usuario']."");
             $stmt->execute();
@@ -104,7 +94,7 @@
   		<h1><a href="home.php"><span class="fa fa-arrow-left"></span></a> Configuración</h1>
 	</div>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="fname">Nombre:</label>
@@ -124,7 +114,7 @@
                 </div><br><br><br><br>
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="phone">Cambiar Telefono:</label>
-                    <input type="tel" class="form-control" name="tel" id="tel" placeholder="Teléfono Nuevo" pattern="[0-9]{9}"required>
+                    <input type="tel" class="form-control" value="<?php echo $phone?>" name="tel" id="tel" placeholder="Teléfono Nuevo" pattern="[0-9]{9}"required>
                 </div>
                 <div class="col-sm-4 col-sm-push-2">
                     <label for="mail">Cambiar Correo:</label>
@@ -132,7 +122,7 @@
                 </div>
                 <div class="col-sm-6 col-sm-push-2">
                     <br><label class="btn btn-info btn-file">
-                        Perfil <i class="fa fa-picture-o" aria-hidden="true"></i><input type="file" name="image" style="display: none;" accept="image/*">
+                        Perfil <i class="fa fa-picture-o" aria-hidden="true"></i><input name="file" type="file" style="display: none;" accept="image/*">
                     </label>
                 </div>
                 <div class="col-sm-4 col-sm-push-2">

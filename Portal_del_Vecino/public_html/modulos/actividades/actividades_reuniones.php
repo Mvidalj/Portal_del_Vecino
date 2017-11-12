@@ -12,10 +12,11 @@
         
         if(isset($_REQUEST['submit-edit'])){
             try{   
-                $sql = $conn->prepare("UPDATE reuniones SET DESCRIPCION = :DESC, FECHA_REUNION = :FECHIN, ESTADO = :STATE, ACTA_REUNION = ' ' WHERE ID_REUNION = :ID");
+                $sql = $conn->prepare("UPDATE reuniones SET DESCRIPCION = :DESC, FECHA_REUNION = :FECHIN, ESTADO = :STATE, ACTA_REUNION = :ACTA WHERE ID_REUNION = :ID");
                 $sql->bindParam(':FECHIN', date('Y-m-d', strtotime($_POST['edit_date'])));
                 $sql->bindParam(':STATE', $_POST['edit_state']);
                 $sql->bindParam(':DESC', $_POST['edit_desc']);
+                $sql->bindParam(':ACTA', $_POST['acta']);
                 $sql->bindParam(':ID', $_POST['id_reunion']);
                 $sql->execute();
             }catch(PDOException $e){
@@ -36,7 +37,8 @@
         if(isset($_REQUEST['submit-add'])){
             try{
                 $sentencia = $conn->prepare("INSERT INTO reuniones (ID_ORGANIZACION, FECHA_REUNION, DESCRIPCION, ESTADO, ACTA_REUNION)
-                VALUES(1, :FECHA, :DESCRIPCION,'PENDIENTE',' ')");
+                VALUES(:IDORG, :FECHA, :DESCRIPCION,'PENDIENTE',' ')");
+                $sentencia->bindParam(':IDORG', $_SESSION['id_org']);
                 $date = date('Y-m-d', strtotime($_POST['fecha_in']));
                 $sentencia->bindParam(':FECHA', $date);
                 $sentencia->bindParam(':DESCRIPCION',$_POST['desc'],PDO::PARAM_STR);
@@ -147,9 +149,14 @@
                                                     if($result['ESTADO'] != 'CANCELADO'){
                                                         echo "<tr>
                                                                 <td>".$result['DESCRIPCION']."</td>
-                                                                <td class='text-center'>".$result['FECHA_REUNION']."</td>
-                                                                <td class='text-center'>".$result['ESTADO']."</td>";
-                                                        if($_SESSION['id_rol'] == "1"){
+                                                                <td class='text-center'>".$result['FECHA_REUNION']."</td>";
+                                                        if($result['ESTADO'] == 'PENDIENTE'){
+                                                                echo "<td class='text-center'><a href='#' data-toggle='popover' data-trigger='focus' title='Acta de reunión' data-content='".$result['ACTA_REUNION']."'>".$result['ESTADO']."</a></td>";
+                                                            }
+                                                            if($result['ESTADO'] == 'REALIZADO'){
+                                                                echo "<td class='text-center'><a href='#' data-toggle='popover' data-trigger='focus' title='Acta de reunión' data-content='".$result['ACTA_REUNION']."'>".$result['ESTADO']."</a></td>";
+                                                            }
+                                                        if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){
                                                             if($result['ESTADO'] == 'PENDIENTE'){
                                                                 $options = "<option value='PENDIENTE' selected>Pendiente</option>
                                                                             <option value='REALIZADO'>Realizado</option>
@@ -164,7 +171,7 @@
                                                             "<td class='text-center'>
                                                                 <form action='actividades_reuniones.php' method='POST'>
                                                                     <input type='hidden' id='id_reunion' name='id_reunion' value='".$result['ID_REUNION']."'>
-                                                                    <button type='button' class='btn btn-info' id='edit_reunion' name='edit_reunion' data-toggle='modal' data-target='#".$result['ID_REUNION']."'><i class='fa fa-edit'></i></button>
+                                                                    <button type='button' class='btn btn-info' id='edit_reunion' name='edit_reunion' data-toggle='modal' data-target='#".$result['ID_REUNION']."' onclick=\"DisplayActa('".$result['ID_REUNION']."')\"><i class='fa fa-edit'></i></button>
                                                                     <!-- Modal -->
                                                                     <div id='".$result['ID_REUNION']."' class='modal fade' role='dialog'>
                                                                         <div class='modal-dialog'>
@@ -180,9 +187,13 @@
                                                                                     <label>Descripción: </label>
                                                                                     <textarea class='form-control' id='edit_desc' rows='5' name='edit_desc'>".$result['DESCRIPCION']."</textarea><br>
                                                                                     <label>Estado: </label>
-                                                                                    <select class='form-control' id='edit_state' name='edit_state' required>
+                                                                                    <select class='form-control' id='edit_state".$result['ID_REUNION']."' name='edit_state' required onchange=\"DisplayActa('".$result['ID_REUNION']."')\">
                                                                                         ".$options."
                                                                                     </select><br>
+                                                                                    <div id='dacta".$result['ID_REUNION']."'>
+                                                                                        <label>Acta de reunión: </label>
+                                                                                        <textarea class='form-control' id='acta".$result['ID_REUNION']."' rows='5' name='acta' >".$result['ACTA_REUNION']."</textarea><br>
+                                                                                    </div>
                                                                                     <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                                                 </div>
                                                                             </div>
@@ -231,23 +242,34 @@
                     </div>
                 </body>
             </html>
-<script type="text/javascript" language="javascript" class="init">
-	$(document).ready(function() {
-		$('#example').DataTable( {
-        "language": {
-            "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
-            "zeroRecords"   :   "Lo sentimos, no hay información",
-            "info"          :   "Mostrando _PAGE_ de _PAGES_",
-            "search"        :   "Buscar:",
-            "infoEmpty"     :   "Lo sentimos, no hay información",
-            "infoFiltered"  :   "(filtered from _MAX_ total records)",
-		    "paginate"      : {
-		        "first"     :   "Primero",
-		        "last"      :   "Último",
-		        "next"      :   "Siguiente",
-		        "previous"  :   "Anterior"
-		    }
-        }
-    	} );
-	} );
-</script>
+            <script type="text/javascript" language="javascript" class="init">
+                $(document).ready(function() {
+                    $('[data-toggle="popover"]').popover(); 
+                    
+                    $('#example').DataTable( {
+                        "language": {
+                            "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
+                            "zeroRecords"   :   "Lo sentimos, no hay información",
+                            "info"          :   "Mostrando _PAGE_ de _PAGES_",
+                            "search"        :   "Buscar:",
+                            "infoEmpty"     :   "Lo sentimos, no hay información",
+                            "infoFiltered"  :   "(filtered from _MAX_ total records)",
+                                    "paginate"      : {
+                                        "first"     :   "Primero",
+                                        "last"      :   "Último",
+                                        "next"      :   "Siguiente",
+                                        "previous"  :   "Anterior"
+                                    }
+                        }
+                    } );
+                } );
+
+                function DisplayActa(aid){
+                    if(document.getElementById('edit_state'.concat(aid)).value == 'REALIZADO'){
+                        document.getElementById('dacta'.concat(aid)).style.display = "block";
+                    } else {
+                        document.getElementById('dacta'.concat(aid)).style.display = "none";
+                        document.getElementById('acta'.concat(aid)).value = "";
+                    }
+                }
+            </script>

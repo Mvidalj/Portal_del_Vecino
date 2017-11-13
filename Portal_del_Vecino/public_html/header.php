@@ -3,12 +3,12 @@
     <title>Portal del Vecino</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-    <script src="librerias/jquery-3.2.1.js"></script>
-    <script src="librerias/bootstrap.js"></script>
-    <script src="librerias/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
+    <script src="../../librerias/jquery-3.2.1.js"></script>
+    <script src="../../librerias/bootstrap.js"></script>
+    <script src="../../librerias/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function(){
             $("#news").modal();
@@ -33,12 +33,12 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-sm-2">
-                <img class="img-responsive" src="imagenes/home.jpg" width="130" height="130">
+                <img class="img-responsive" src="../../imagenes/home.jpg" width="130" height="130">
             </div>
             <div class="col-sm-6 col-sm-push-1">
                 <div class="row">
                     <div class="col-sm-3">
-                        <img src="imagenes/testimage.jpg" width="100" height="100">
+                        <img src="../../imagenes/testimage.jpg" width="100" height="100">
                     </div>
                     <div class="col-sm-9">
                         <h3>Bienvenido <?php echo $_SESSION["nombre"]." ". $_SESSION["apellido"]?></h3>

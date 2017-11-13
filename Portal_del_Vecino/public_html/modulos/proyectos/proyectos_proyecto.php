@@ -1,6 +1,6 @@
 <?php
     require_once '../../validaciones/conexion_bd.php';
- 
+    require_once '../../header.php';
     if($user->Is_Loggedin() != true)
     {
         $user->Redirect('../../index.php');
@@ -50,48 +50,6 @@
     }
     
 ?>
-<html>
-<head>
-    <title>Portal del Vecino</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../../css/font-awesome.min.css">
-    <link rel="stylesheet" href="../../css/bootstrap.css">
-    <link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
-    <script src="../../librerias/jquery-3.2.1.js"></script>
-    <script src="../../librerias/bootstrap.js"></script>
-    <script src="../../librerias/jquery.dataTables.min.js"></script>
-</head>
-<body>
-<div class="container">
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-sm-2">
-                <img class="img-responsive" src="../../imagenes/home.jpg" width="130" height="130">
-            </div>
-            <div class="col-sm-10">
-                <div class="row">
-                    <div class="col-sm-3 col-sm-push-9">
-                        <br><a type="button" class="btn btn-danger conf" href="../../cerrar_sesion.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3 col-sm-push-9">
-                        <br><a type="button" class="btn btn-primary conf" href="../../config.php" rel>Configuración <span class="fa fa-cog"></span></a>
-                    </div>
-                </div>
-                <?php
-                if($_SESSION['id_rol'] == "1"){
-                    echo '
-                <div class="row">
-                <div class="col-sm-3 col-sm-push-9">
-                    <br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Administrar Miembros <span class="fa fa-user-plus"></span></a>
-                </div>
-                </div>';}?>
-            </div>
-        </div>
-    </div>
-
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -227,7 +185,8 @@
     </div>
 </div>
 <div>	
-    <?php include("../../modal_accept_user.php");?>	
+    <?php include("../../modal_accept_user.php");
+          include ('../../config.php');?>	
 </div>
 </body>
 </html>

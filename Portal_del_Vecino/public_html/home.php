@@ -148,7 +148,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-10 col-sm-push-2">
-                        <br><a type="button" class="btn btn-primary conf" href="config.php" rel>Configuración <span class="fa fa-cog"></span></a>
+                        <br><a type="button" class="btn btn-primary conf" data-toggle="modal" data-target="#config" rel>Configuración <span class="fa fa-cog"></span></a>
                     </div>
                 </div>
                 <?php
@@ -344,7 +344,8 @@
           </div>
     </div>
     <div>	
-	<?php include("modal_accept_user.php");?>		
+	<?php include("modal_accept_user.php");
+              include("config.php");?>		
     </div>
 </body>
 </html>

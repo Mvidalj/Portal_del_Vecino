@@ -50,50 +50,14 @@
         }
     }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Portal del Vecino</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-    <script src="librerias/jquery-3.2.1.js"></script>
-    <script src="librerias/bootstrap.js"></script>
-    <script src="librerias/jquery.dataTables.min.js"></script>
-</head>
-<body>
-<div class="container">
-	<div class="jumbotron">
-		<div class="row">
-			<div class="col-sm-2">
-	    		<img class="img-responsive" src="imagenes/home.jpg" width="130" height="130">
-	    	</div>
-	    	<div class="col-sm-10">
-	    		<div class="row">
-			    	<div class="col-sm-3 col-sm-push-9">
-			    		<br><a type="button" class="btn btn-danger conf" href="cerrar_sesion.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
-			    	</div>
-			    </div>
-			    <div class="row">
-			    	<div class="col-sm-3 col-sm-push-9">
-			    		<br><a type="button" class="btn btn-primary conf" href="#" rel>Configuración <span class="fa fa-cog"></span></a>
-			    	</div>
-			    </div>
-			    <div class="row">
-			    	<div class="col-sm-3 col-sm-push-9">
-			    		<br><a type="button" class="btn btn-success conf" data-toggle="modal" data-target="#new_user" rel>Aceptar Miembros <span class="fa fa-user-plus"></span></a>
-			    	</div>
-			    </div>
-			</div>
-	    </div>
-	</div>
-
-  	<div class="page-header">
-  		<h1><a href="home.php"><span class="fa fa-arrow-left"></span></a> Configuración</h1>
-	</div>
-
+<div class="modal fade" id="config" role="dialog">
+    <div class="modal-dialog modal-lg">
+<!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configuración de cuenta</h2>
+            </div>
+            <div class="modal-body">
         <form method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-sm-4 col-sm-push-2">
@@ -125,15 +89,16 @@
                         Perfil <i class="fa fa-picture-o" aria-hidden="true"></i><input name="file" type="file" style="display: none;" accept="image/*">
                     </label>
                 </div>
-                <div class="col-sm-4 col-sm-push-2">
+                <div class="col-sm-5 col-sm-push-2">
                     <br><button type="submit" class="btn btn-primary" name="save-submit">Guardar <i class="fa fa-save" aria-hidden="true"></i></button>
                     
                 </div>
             </div>
 	</form>
+            <div class="modal-footer">
+                 <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
-<div>	
-    <?php include("modal_accept_user.php");?>		
 </div>
-</body>
-</html>

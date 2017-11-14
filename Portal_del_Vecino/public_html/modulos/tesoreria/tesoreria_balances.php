@@ -80,7 +80,7 @@
                                     <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta">
                                 </div>
                                 <div class="col-sm-2">
-                                    <select class="form-control" id="select_actividad" name="select_actividad" onchange="reSend()">
+                                    <select class="form-control" id="select_actividad" name="select_actividad" onchange="reSendSearch()">
                                         <option value="" disabled selected>Ingresos/Egresos</option>
                                         <option value="1">Ingresos</option>
                                         <option value="0">Egresos</option>
@@ -417,7 +417,7 @@
                         function PrintPage() {
                             window.print();
                         }
-                        function reSend() {
+                        function reSendSearch() {
                             document.querySelectorAll("button[type=submit]")[1].click(); //
                         }
                     </script>

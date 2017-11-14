@@ -418,7 +418,7 @@
                             window.print();
                         }
                         function reSend() {
-                            document.querySelectorAll("button[type=submit]")[0].click();
+                            document.querySelectorAll("button[type=submit]")[1].click(); //
                         }
                     </script>
                     <div>	

@@ -47,8 +47,8 @@
                         <h4>Organización:</h4> 
                     </div>
                     <div class="col-sm-6">
-                        <form name="form" action="home.php" method="POST">
-                            <button type="submit" id="submit-buscar" name="submit-buscar" hidden></button>
+                        <form name="form" action="" method="POST">
+                            <button type="submit" id="submit-select" name="submit-select" hidden></button>
                             <select class="form-control" id="morg" name="morg" onchange="reSend()">
                                 <?php  $stmt = $conn->prepare("SELECT * FROM ASOCIADOS, ORGANIZACIONES WHERE "
                                         . "ASOCIADOS.ID_ORGANIZACION = ORGANIZACIONES.ID_ORGANIZACION and ID_USUARIO = :id_usr");
@@ -64,7 +64,7 @@
                                         }
                                         $count += 3;
                                     }
-                                    if(isset($_REQUEST['submit-buscar'])){
+                                    if(isset($_REQUEST['submit-select'])){
                                         $cont = $_POST['morg'];
                                         try{
                                             $stmt = $conn->prepare("UPDATE usuarios SET ID_ORGANIZACION = :id_org, ID_ROL = :id_rol "
@@ -90,7 +90,7 @@
             <div class="col-sm-3 col-sm-push-1">
                 <div class="row">
                     <div class="col-sm-10 col-sm-push-2">
-                        <br><a type="button" class="btn btn-danger conf" href="cerrar_sesion.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
+                        <br><a type="button" class="btn btn-danger conf" href="../../cerrar_sesion.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
                     </div>
                 </div>
                 <div class="row">

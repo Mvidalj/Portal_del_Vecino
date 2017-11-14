@@ -43,6 +43,7 @@
                 $stmt->bindparam(":phone", $phone);
                 if($stmt->execute()){
                     echo "<script>alert('Datos Guardados Exitosamente')</script>";
+                    echo 'location.reload();';
                 }
             }else echo "<script>alert('Contraseña Incorrecta')</script>";
         } catch (Exception $e) {

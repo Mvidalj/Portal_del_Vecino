@@ -121,13 +121,17 @@
 <div class="container">
     <div class="jumbotron">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-2 col-xs-6">
                 <img class="img-responsive" src="imagenes/home.jpg" width="130" height="130">
             </div>
-            <div class="col-sm-6 col-sm-push-1">
+            <div class="col-sm-6 col-sm-push-1 col-xs-6">
                 <div class="row">
-                    <div class="col-sm-3">
-                        <img src="imagenes/testimage.jpg" width="100" height="100">
+                    <div class="col-sm-3 col-xs-6">
+                        <?php
+                        if (file_exists("imagenes/".$_SESSION['id_usuario'].".png")){
+                            echo '<img src="imagenes/'.$_SESSION["id_usuario"].'.png" width="100" height="100">';
+                        }else{ echo '<img src="imagenes/testimage.jpg" width="100" height="100">';}
+                        ?>
                     </div>
                     <div class="col-sm-9">
                         <h3>Bienvenido <?php echo $_SESSION["nombre"]." ". $_SESSION["apellido"]?></h3>

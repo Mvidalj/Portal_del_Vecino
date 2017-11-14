@@ -48,6 +48,44 @@
             $Fecha_reu = "";
         }
     }
+    if(isset($_REQUEST['submit-create'])){ 
+        $stmt =$conn->prepare('SELECT NOMBRE FROM organizaciones WHERE NOMBRE = :nom');
+        $stmt->bindParam(':nom', $_POST['nameorg']);
+        $stmt->execute();
+        if($stmt->rowCount() == 0){
+            $stmt = $conn->prepare('INSERT INTO organizaciones (id_comuna, nombre)
+            VALUES(:com,:nom)');
+            $stmt->bindParam(':com', $_POST['comorg']);
+            $stmt->bindParam(':nom', $_POST['nameorg']);
+            $stmt->execute();
+            $stmt =$conn->prepare('SELECT ID_ORGANIZACION FROM organizaciones WHERE NOMBRE = :nom');
+            $stmt->bindParam(':nom', $_POST['nameorg']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $conn->prepare('UPDATE usuarios SET ID_ORGANIZACION = :id_org, ID_ROL = 1 WHERE ID_USUARIO = :id_usr');
+            $stmt->bindParam(':id_org', $result['ID_ORGANIZACION']);
+            $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
+            $stmt->execute();
+            $_SESSION['id_org']=$result['ID_ORGANIZACION'];
+            $_SESSION['id_rol']=1;
+            $stmt = $conn->prepare("INSERT INTO asociados (ID_USUARIO, ID_ORGANIZACION, ID_ROL) values (:id_usr, :id_org, 1)");
+            $stmt->bindparam(":id_usr", $_SESSION['id_usuario']);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute();
+            echo "<script>alert('Organización creada correctamente.');window.location.href='home.php';</script>";
+        }
+        else{
+            echo "<script>alert('Nombre de organización ya en uso')</script>";
+        }
+    }
+    
+    if(isset($_REQUEST['submit_join'])){
+        $stmt = $conn->prepare("INSERT INTO solicitudes(ID_USUARIO,ID_ORGANIZACION,ESTADO)
+                                VALUES (:id_usr,:id_org,2)");
+        $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
+        $stmt->bindParam(':id_org', $_POST['select_org']);
+        $stmt->execute();
+    }
 ?>
 <html>
 <head>
@@ -194,45 +232,6 @@
   </div>
 </nav>
 <?php   
-    if(isset($_REQUEST['submit-create'])){ 
-        $stmt =$conn->prepare('SELECT NOMBRE FROM organizaciones WHERE NOMBRE = :nom');
-        $stmt->bindParam(':nom', $_POST['nameorg']);
-        $stmt->execute();
-        if($stmt->rowCount() == 0){
-            $stmt = $conn->prepare('INSERT INTO organizaciones (id_comuna, nombre)
-            VALUES(:com,:nom)');
-            $stmt->bindParam(':com', $_POST['comorg']);
-            $stmt->bindParam(':nom', $_POST['nameorg']);
-            $stmt->execute();
-            $stmt =$conn->prepare('SELECT ID_ORGANIZACION FROM organizaciones WHERE NOMBRE = :nom');
-            $stmt->bindParam(':nom', $_POST['nameorg']);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $stmt = $conn->prepare('UPDATE usuarios SET ID_ORGANIZACION = :id_org, ID_ROL = 1 WHERE ID_USUARIO = :id_usr');
-            $stmt->bindParam(':id_org', $result['ID_ORGANIZACION']);
-            $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
-            $stmt->execute();
-            $_SESSION['id_org']=$result['ID_ORGANIZACION'];
-            $_SESSION['id_rol']=1;
-            $stmt = $conn->prepare("INSERT INTO asociados (ID_USUARIO, ID_ORGANIZACION, ID_ROL) values (:id_usr, :id_org, 1)");
-            $stmt->bindparam(":id_usr", $_SESSION['id_usuario']);
-            $stmt->bindparam(":id_org", $_SESSION['id_org']);
-            $stmt->execute();
-            echo "<script>alert('Organización creada correctamente.');window.location.href='home.php';</script>";
-        }
-        else{
-            echo "<script>alert('Nombre de organización ya en uso')</script>";
-        }
-    }
-    
-    if(isset($_REQUEST['submit_join'])){
-        $stmt = $conn->prepare("INSERT INTO solicitudes(ID_USUARIO,ID_ORGANIZACION,ESTADO)
-                                VALUES (:id_usr,:id_org,2)");
-        $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
-        $stmt->bindParam(':id_org', $_POST['select_org']);
-        $stmt->execute();
-    }
-       
     if($_SESSION['id_org'] == "" || isset($_REQUEST['join-create-org'])){
 ?>
         <!-- Modal -->

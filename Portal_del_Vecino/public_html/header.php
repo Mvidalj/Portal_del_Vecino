@@ -75,7 +75,7 @@
                                             if($stmt->execute()){
                                                 $_SESSION['id_org'] = $data[$cont+1];
                                                 $_SESSION['id_rol'] = $data[$cont+2];
-                                                $user->Redirect('home.php');
+                                                echo '<script> window.location.replace(location);</script>';
                                             }
                                         }catch(PDOException $e){
                                             echo "<script>alert('Hubo un error, intentelo nuevamentes')</script>";

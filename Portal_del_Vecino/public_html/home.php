@@ -229,7 +229,7 @@
             </ul>
         </li>
         <li><a href="modulos/proyectos/proyectos_proyecto.php">Proyectos</a></li>
-        <li><a href="modulos/foro" target="_blank">Foro</a></li>
+        <li><a href="foro.php">Foro</a></li>
         <li><form><button type="submit" class="btn btn-primary" name="join-create-org" data-toggle="modal" data-target="#news">+</button></form></li>
       </ul>
     </div>

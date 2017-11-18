@@ -19,10 +19,10 @@
         $phone = $_POST['tel'];
         
         $destino = 'imagenes' ; // Carpeta donde se guardata 
-        $sep=explode('image/',$_FILES["file"]["type"]); // Separamos image/ 
+        $sep = explode('image/',$_FILES["file"]["type"]); // Separamos image/ 
         $tipo=$sep[1]; // Optenemos el tipo de imagen que es 
-        if($tipo == "pjpeg" || $tipo == "bmp" || $tipo == "png"){
-            move_uploaded_file ( $_FILES [ 'file' ][ 'tmp_name' ], $destino . '/' .$_SESSION['id_usuario'].'.'.$tipo);  // Subimos el archivo 
+        if($tipo == "jpeg" || $tipo == "jpg" || $tipo == "bmp" || $tipo == "png"){
+            move_uploaded_file ( $_FILES [ 'file' ][ 'tmp_name' ], $destino . '/' .$_SESSION['id_usuario'].'.'."$tipo");  // Subimos el archivo
         }
         try{
             $stmt = $conn->prepare("SELECT PASSWORD FROM LOGIN WHERE ID_USUARIO=".$_SESSION['id_usuario']."");

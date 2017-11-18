@@ -10,7 +10,7 @@ if($user->Is_Loggedin() != true)
         if(isset($_REQUEST['submit-edit'])){
             try{   
                 $sql = $conn->prepare("UPDATE reuniones SET DESCRIPCION = :DESC, FECHA_REUNION = :FECHIN, ESTADO = :STATE, ACTA_REUNION = :ACTA WHERE ID_REUNION = :ID");
-                $sql->bindParam(':FECHIN', date('Y-m-d', strtotime($_POST['edit_date'])));
+                $sql->bindParam(':FECHIN', $_POST['edit_date']);
                 $sql->bindParam(':STATE', $_POST['edit_state']);
                 $sql->bindParam(':DESC', $_POST['edit_desc']);
                 $sql->bindParam(':ACTA', $_POST['acta']);

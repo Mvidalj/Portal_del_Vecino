@@ -202,6 +202,7 @@
             </div>
         </div>
     </div>
+    <form>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -230,11 +231,14 @@
         </li>
         <li><a href="modulos/proyectos/proyectos_proyecto.php">Proyectos</a></li>
         <li><a href="foro.php">Foro</a></li>
-        <li><form><button type="submit" class="btn btn-primary" name="join-create-org" data-toggle="modal" data-target="#news">+</button></form></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li><button type="submit" class="btn btn-primary navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
       </ul>
     </div>
   </div>
 </nav>
+    </form>
 <?php   
     if($_SESSION['id_org'] == "" || isset($_REQUEST['join-create-org'])){
 ?>

@@ -17,12 +17,14 @@
         $npass = $_POST['npass'];
         $mail = $_POST['mail'];
         $phone = $_POST['tel'];
-        
         $destino = 'imagenes' ; // Carpeta donde se guardata 
         $sep = explode('image/',$_FILES["file"]["type"]); // Separamos image/ 
         $tipo=$sep[1]; // Optenemos el tipo de imagen que es 
         if($tipo == "jpeg" || $tipo == "jpg" || $tipo == "bmp" || $tipo == "png"){
-            move_uploaded_file ( $_FILES [ 'file' ][ 'tmp_name' ], $destino . '/' .$_SESSION['id_usuario'].'.'."$tipo");  // Subimos el archivo
+            if($_FILES['file']['size']<1500000){ //Solo sube la imagen si su tamaño en bytes es pequeña(para no ralentizar el server)
+                move_uploaded_file ( $_FILES [ 'file' ][ 'tmp_name' ], $destino . '/' .$_SESSION['id_usuario'].'.'."$tipo");  // Subimos el archivo
+            }
+            else echo "<script>alert('Imagen muy grande')</script>";
         }
         try{
             $stmt = $conn->prepare("SELECT PASSWORD FROM LOGIN WHERE ID_USUARIO=".$_SESSION['id_usuario']."");
@@ -87,7 +89,7 @@
                 </div>
                 <div class="col-sm-6 col-sm-push-2">
                     <br><label class="btn btn-info btn-file">
-                        Perfil <i class="fa fa-picture-o" aria-hidden="true"></i><input name="file" type="file" style="display: none;" accept="image/*">
+                        Perfil <i class="fa fa-picture-o" aria-hidden="true"></i><input id="file" name="file" type="file" style="display: none;" accept="image/*">
                     </label>
                 </div>
                 <div class="col-sm-5 col-sm-push-2">

@@ -70,10 +70,29 @@
                                                                                 <h4 class='modal-title'>Solicitar recurso</h4>
                                                                             </div>
                                                                             <div class='modal-body'>
-                                                                                <label>Desde:</label>
-                                                                                <input type='date' class='form-control' id='from_date' name='from_date' onblur=form.to_date.min=form.from_date.value placeholder='Seleccione una fecha' required><br>
-                                                                                <label>Hasta:</label>
-                                                                                <input type='date' class='form-control' id='to_date' name='to_date' placeholder='Seleccione una fecha' required><br>
+                                                                                <div class='row'>
+                                                                                    <div class='col-sm-2'>
+                                                                                        <label>Desde:</label>
+                                                                                    </div>
+                                                                                    <div class='col-sm-3'>
+                                                                                        <input type='time' class='form-control' id='from_time' oninput='form.to_time.min=form.from_time.value, form.to_time.value=form.from_time.value' name='from_time' value='".$time."' min='09:00:00' max='22:00:00' required>
+                                                                                    </div>
+                                                                                    <div class='col-sm-4'>
+                                                                                        <input type='date' class='form-control' id='from_date' name='from_date' oninput='form.to_date.min=form.from_date.value, form.to_date.max=form.from_date.value, form.to_date.value=form.from_date.value, form.rd_to_date.value=form.from_date.value' min='".$date."' value='".$date."' required><br>
+                                                                                    </div> 
+                                                                                </div>
+                                                                                <div class='row'>
+                                                                                    <div class='col-sm-2'>
+                                                                                        <label>Hasta:</label>
+                                                                                    </div>
+                                                                                    <div class='col-sm-3'>
+                                                                                        <input type='time' class='form-control' id='to_time' name='to_time' min='09:00:00' max='22:00:00' required>
+                                                                                    </div>
+                                                                                    <div class='col-sm-4'>
+                                                                                        <input type='date' class='form-control' id='to_date' name='to_date' value='".$date."' disabled><br>
+                                                                                        <input type='hidden' id='rd_to_date' name='rd_to_date' value='".$date."'><br>
+                                                                                    </div> 
+                                                                                </div>
                                                                                 <input type='submit' class='btn btn-success' id='submit-request' name='submit-request' value='Solicitar'>
                                                                             </div>
                                                                         </div>
@@ -161,24 +180,24 @@
                               include ('../../config.php');?>		
                     </div>
                 </body>
+                <script type="text/javascript" language="javascript" class="init">
+                    $(document).ready(function() {
+                        $('#example').DataTable( {
+                            "language": {
+                                "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
+                                "zeroRecords"   :   "Lo sentimos, no hay información",
+                                "info"          :   "Mostrando _PAGE_ de _PAGES_",
+                                "search"        :   "Buscar:",
+                                "infoEmpty"     :   "Lo sentimos, no hay información",
+                                "infoFiltered"  :   "(filtered from _MAX_ total records)",
+                                        "paginate"      : {
+                                            "first"     :   "Primero",
+                                            "last"      :   "Último",
+                                            "next"      :   "Siguiente",
+                                            "previous"  :   "Anterior"
+                                        }
+                            }
+                        } );
+                    } );
+                </script>
             </html>
-<script type="text/javascript" language="javascript" class="init">
-	$(document).ready(function() {
-		$('#example').DataTable( {
-        "language": {
-            "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
-            "zeroRecords"   :   "Lo sentimos, no hay información",
-            "info"          :   "Mostrando _PAGE_ de _PAGES_",
-            "search"        :   "Buscar:",
-            "infoEmpty"     :   "Lo sentimos, no hay información",
-            "infoFiltered"  :   "(filtered from _MAX_ total records)",
-		    "paginate"      : {
-		        "first"     :   "Primero",
-		        "last"      :   "Último",
-		        "next"      :   "Siguiente",
-		        "previous"  :   "Anterior"
-		    }
-        }
-    	} );
-	} );
-</script>

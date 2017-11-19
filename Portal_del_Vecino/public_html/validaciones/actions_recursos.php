@@ -16,7 +16,7 @@ if($user->Is_Loggedin() != true)
                     $sql->bindparam(":ID", $_POST['id_recurso']);
                     $sql->bindparam(":USER", $_SESSION['id_usuario']);
                     $sql->bindparam(":FROM", date('Y-m-d', strtotime($_POST['from_date'])));
-                    $sql->bindparam(":TO", date('Y-m-d', strtotime($_POST['to_date'])));
+                    $sql->bindparam(":TO", date('Y-m-d', strtotime($_POST['rd_to_date'])));
                     if($sql->execute()){
                         echo "<script>alert('Su solicitud se ha realizado correctamente')</script>";
                     }

@@ -121,6 +121,7 @@
                             $_SESSION['correo'] = $userRow['CORREO'];
                             $_SESSION['nombre'] = $userRow['NOMBRE'];
                             $_SESSION['apellido'] = $userRow['APELLIDO'];
+                            $_SESSION['extensionimage'] = 'jpg';
                             $stmt = $this->db->prepare("SELECT NOMBRE FROM organizaciones WHERE ID_ORGANIZACION = :oid LIMIT 1");
                             $stmt->execute(array(':oid'=>$_SESSION["id_org"]));
                             $orgrow=$stmt->fetch(PDO::FETCH_ASSOC);

@@ -1,6 +1,6 @@
 <?php
     date_default_timezone_set('America/Santiago');
-    $date = date('Y-m-d');
+    $adate = date('Y-m-d');
     $time = date('H:i');
 
     $servername = "localhost";

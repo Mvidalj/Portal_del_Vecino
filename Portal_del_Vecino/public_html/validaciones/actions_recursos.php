@@ -8,6 +8,9 @@ if($user->Is_Loggedin() != true)
         }
         
         if(isset($_REQUEST['submit-request'])){
+            $fecha_desde = $_POST['from_date']." ".$_POST['from_time'];
+            $fecha_hasta = $_POST['to_date']." ".$_POST['to_time'];
+            
             try{
                 $sql = $conn->prepare("UPDATE recursos SET ESTADO = 1 WHERE ID_RECURSO = :id");
                 $sql->bindparam(":id", $_POST['id_recurso']);
@@ -15,8 +18,8 @@ if($user->Is_Loggedin() != true)
                     $sql = $conn->prepare("INSERT INTO prestamos (ID_RECURSO, ID_USUARIO, FECHA_INICIO, FECHA_TERMINO, ELIMINADO) VALUES(:ID, :USER, :FROM, :TO, 0)");
                     $sql->bindparam(":ID", $_POST['id_recurso']);
                     $sql->bindparam(":USER", $_SESSION['id_usuario']);
-                    $sql->bindparam(":FROM", date('Y-m-d', strtotime($_POST['from_date'])));
-                    $sql->bindparam(":TO", date('Y-m-d', strtotime($_POST['rd_to_date'])));
+                    $sql->bindparam(":FROM", date('Y-m-d H:i:s', strtotime($fecha_desde)));
+                    $sql->bindparam(":TO", date('Y-m-d H:i:s', strtotime($fecha_hasta)));
                     if($sql->execute()){
                         echo "<script>alert('Su solicitud se ha realizado correctamente')</script>";
                     }
@@ -25,6 +28,7 @@ if($user->Is_Loggedin() != true)
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
+            
         }
         
         if(isset($_REQUEST['submit-recurso'])){

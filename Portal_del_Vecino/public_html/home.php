@@ -128,8 +128,8 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <?php
-                        if (file_exists("imagenes/".$_SESSION['id_usuario'].".png")){
-                            echo '<img src="imagenes/'.$_SESSION["id_usuario"].'.png" width="100" height="100">';
+                        if (file_exists("imagenes/".$_SESSION["id_usuario"].".".$_SESSION["extensionimage"]."")){
+                            echo '<img src="imagenes/'.$_SESSION["id_usuario"].'.'.$_SESSION["extensionimage"].'" width="100" height="100">';
                         }else{ echo '<img src="imagenes/testimage.jpg" width="100" height="100">';}
                         ?>
                     </div>

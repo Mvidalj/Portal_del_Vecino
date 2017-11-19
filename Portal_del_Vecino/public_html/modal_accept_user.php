@@ -102,9 +102,9 @@
                                             <td class='text-center'>".$direc."</td>
                                             <td class='text-center'>".$phone."</td>
                                             <td>
-                                                    <input type='hidden' id='id_usr' name='id_usr' value='".$result['ID_USUARIO']."'>
-                                                    <button type='submit' class='btn btn-success' id='accept_user' name='accept_user' onclick=\"return confirm('¿Está seguro de que desea aceptar este usuario?')\"><i class='fa fa-check'></i></button>
-                                                    <button type='submit' class='btn btn-danger' id='deny_user' name='deny_user' onclick=\"return confirm('¿Está seguro de que desea eliminar este usuario?')\"><i class='fa fa-trash-o'></i></button>
+                                                <input type='hidden' id='id_usr' name='id_usr' value='".$result['ID_USUARIO']."'>
+                                                <button type='submit' class='btn btn-success' id='accept_user' name='accept_user' onclick=\"return confirm('¿Está seguro de que desea aceptar este usuario?')\"><i class='fa fa-check'></i></button>
+                                                <button type='submit' class='btn btn-danger' id='deny_user' name='deny_user' onclick=\"return confirm('¿Está seguro de que desea eliminar este usuario?')\"><i class='fa fa-trash-o'></i></button>
                                                 </form>
                                             </td></tr>";
                                 }
@@ -180,10 +180,9 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="new_tesorero" role="dialog">
+<!-- Modal Para agregar un Tesorero-->
+<div class="modal fade" id="new_tesorero" role="dialog"> 
     <div class="modal-dialog modal-lg">
-<!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Agregar Tesorero</h2>
@@ -214,18 +213,18 @@
                                     $mail  = $result['CORREO'];
                                     $phone = $result['TELEFONO'];
                                     $direc  = $result['DIRECCION'];
-                                            echo"<tr>
-                                                <form action='home.php' method='POST'>
-                                            <td class='text-center'>".$fname."</td>
-                                            <td class='text-center'>".$lname."</td>
-                                            <td class='text-center'>".$mail."</td>
-                                            <td class='text-center'>".$direc."</td>
-                                            <td class='text-center'>".$phone."</td>
-                                            <td>
-                                                    <input type='hidden' id='id_usr' name='id_usr' value='".$result['ID_USUARIO']."'>
-                                                    <button type='submit' class='btn btn-primary' id='add_tesorero' name='add_tesorero' onclick=\"return confirm('¿Está seguro de que desea asignar este usuario?')\"><i class='fa fa-plus'></i></button>
-                                                </form>
-                                            </td></tr>";
+                                    echo"<tr>
+                                        <form action='home.php' method='POST'>
+                                    <td class='text-center'>".$fname."</td>
+                                    <td class='text-center'>".$lname."</td>
+                                    <td class='text-center'>".$mail."</td>
+                                    <td class='text-center'>".$direc."</td>
+                                    <td class='text-center'>".$phone."</td>
+                                    <td>
+                                            <input type='hidden' id='id_usr' name='id_usr' value='".$result['ID_USUARIO']."'>
+                                            <button type='submit' class='btn btn-primary' id='add_tesorero' name='add_tesorero' onclick=\"return confirm('¿Está seguro de que desea asignar este usuario?')\"><i class='fa fa-plus'></i></button>
+                                        </form>
+                                    </td></tr>";
                                 }
                             } 
                             catch (Exception $e) { echo "Error: " . $e->getMessage();}?>
@@ -239,10 +238,9 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
+<!-- Modal Para agregar un admin de actividades -->
 <div class="modal fade" id="new_activity" role="dialog">
     <div class="modal-dialog modal-lg">
-<!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Agregar Admin Actividades</h2>
@@ -298,10 +296,9 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
+<!-- Modal Para agregar un admin a proyectos -->
 <div class="modal fade" id="new_proyect" role="dialog">
     <div class="modal-dialog modal-lg">
-<!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Agregar Admin Proyectos</h2>
@@ -357,6 +354,7 @@
         </div>
     </div>
 </div>
+<!-- Script para las busquedas en tablas -->
 <script type="text/javascript" language="javascript" class="init">
     $(document).ready(function() {
         $('#modal_accept').DataTable( {

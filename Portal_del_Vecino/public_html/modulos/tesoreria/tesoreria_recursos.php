@@ -62,35 +62,7 @@
                                             $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                             $sql->execute();
                                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
-                                                if($result['ESTADO'] == 1){
-                                                    $estado = 'Se ha solicitado';
-                                                    $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");
-                                                    $query->execute();
-                                                    $data = $query->fetch(PDO::FETCH_ASSOC);
-                                                    $mindate = $data['FECHA_INICIO'];
-                                                    $maxdate = $data['FECHA_TERMINO'];
-                                                    /*
-                                                     * 
-                                                     * OBTENER TODAS LAS HORAS DE SOLICITUD SEGÚN DÍA SELECCIONADO
-                                                    if(in_array($i,[9,10,11])){
-                                                        echo "<option value=".$hora.">";
-                                                    }
-                                                    if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
-                                                        echo "<option value=".$hora.">";
-                                                    }
-                                                    */
-                                                    echo "<datalist id='hourlist'>";
-                                                        for ($i = 9; $i <= 22; $i++) {
-                                                            $hora = ''.strval($i).':00';
-                                                            if($i == 9){
-                                                                $hora = '0'.strval($i).':00';
-                                                            }
-                                                            if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
-                                                                echo "<option value=".$hora.">";
-                                                            }
-                                                        }
-                                                    echo "</datalist>";
-                                                    $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
+                                                $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
                                                                 <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
                                                                 <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
                                                                 <!-- Modal -->

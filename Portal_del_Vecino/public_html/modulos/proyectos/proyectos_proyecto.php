@@ -4,6 +4,7 @@
     require_once '../../validaciones/actions_proyecto.php';
     
 ?>
+<form>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -39,7 +40,7 @@
     </div>
   </div>
 </nav>
-
+</form>
     <div class="page-header">
         <h1>Proyectos<small> (Vigentes)</small> <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "5"){echo '<button type="button" class="btn pull-right btn-success" id="add_proyectos" name="add_proyectos" data-toggle="modal" data-target="#new_proyecto">Agregar proyectos <i class="fa fa-edit"></i></button>';}?></h1>
     </div>

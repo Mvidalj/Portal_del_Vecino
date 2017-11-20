@@ -110,7 +110,7 @@
             </div>
         </div>
     </div>
-    <form>
+<form>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -138,7 +138,7 @@
             </ul>
         </li>
         <li><a href="modulos/proyectos/proyectos_proyecto.php">Proyectos</a></li>
-        <li><a href="foro.php">Foro</a></li>
+        <li class="active" ><a href="foro.php">Foro</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
           <li><button type="submit" class="btn btn-primary navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
@@ -146,11 +146,12 @@
     </div>
   </div>
 </nav>
+</form>
     <div id="demo-frame">
         <iframe id="frame" src="modulos/foro"></iframe>
     </div>
-</div>   
-<div>	
+</div>
+<div>
     	<?php include("modal_accept_user.php");
               include("config.php");
               include("modal_orgs.php");?>			

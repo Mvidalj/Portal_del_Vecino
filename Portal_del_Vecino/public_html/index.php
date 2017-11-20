@@ -5,9 +5,9 @@
     {
         $user->Redirect('home.php');
     }
-    
+    $fname = '';$lname = '';$pass = '';$mail = '';$phone = '';$com = '';$dir = '';$umail='';
     if(isset($_REQUEST['login-submit']))
-    {
+    {//Acciones para loguear al usuario
         $umail = $_POST['login-user'];
         $upass = $_POST['login-pswd'];
         if($user->LoginUser(($user->GetUserId($umail)),$upass))
@@ -19,7 +19,7 @@
             echo "<script>alert('Contraseña incorrecta')</script>";
         } 
     }
-    if(isset($_REQUEST['register-submit'])){
+    if(isset($_REQUEST['register-submit'])){ //Acciones para registrarse como usuario
         $fname = $_POST['register-fname'];
         $lname = $_POST['register-lname'];
         $pass = $_POST['register-pass'];
@@ -30,13 +30,13 @@
         
         // Se verifica si el captcha ingresado coincide si es así el usuario es registrado, en caso contrario se indica el fallo
         if(empty($_SESSION['captcha_code'] ) || strcasecmp($_SESSION['captcha_code'], $_POST['captcha_code']) != 0){  
-            $msg = "<script>alert('Los codigos nos coinciden, intente nuevamente.')</script>";
+            echo "<script>alert('Los codigos nos coinciden, intente nuevamente.')</script>";
 	}else{	
             if($user->RegisterUser($fname, $lname, $mail, $phone, $com, $dir)){
                 $user->EncryptPass(($user->GetUserId($mail)), $mail, $pass);
-                $msg = "<script>alert('Por favor revise su correo y confirme su cuenta.')</script>";
+                echo "<script>alert('Por favor revise su correo y confirme su cuenta.')</script>";
             }else{
-                $msg = "<script>alert('Este correo ya esta en uso.')</script>";
+                echo "<script>alert('Este correo ya esta en uso.')</script>";
             }
 	}
     }
@@ -53,13 +53,6 @@
     <script src="librerias/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/validate-user-register.js"></script>
-    <script>
-    $(document).ready(function(){
-        $("#register-user-submit").click(function(){
-            $("#register").modal();
-        });
-    });
-    </script>
     <script type='text/javascript'>
         // Cambia el captcha
         function refreshCaptcha(){
@@ -75,15 +68,12 @@
                 <div class="jumbotron">
                     <img class="img-responsive center-image" src="imagenes/user-icon.svg" width="200" height="200"><br>
                     <div class="row">
-                        <?php if(isset($msg)){
-                            echo $msg;
-                        }?>
                         <div class="col-sm-8 col-sm-push-2">
                             <form action="index.php" method="POST">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
-                                        <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus required>
+                                        <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus required value= <?php echo $umail; ?>>
                                     </div>
                                 </div>&nbsp;
                                 <div class="row">
@@ -98,11 +88,11 @@
                                         <button type="submit" id="login-user-submit" class="btn btn-primary form-control" name="login-submit">Iniciar sesión</button>
                                     </div>&nbsp;
                                     <div class="col-sm-12">
-                                        <button type="button" id="register-user-submit" class="btn btn-success form-control">Registrarse como usuario</button>
+                                        <button type="button" id="register-user-submit" class="btn btn-success form-control" data-toggle="modal" data-target="#register">Registrarse como usuario</button>
                                     </div>
                                 </div>&nbsp;&nbsp;
                             </form>
-
+                            <!-- Modal para registrarse-->
                             <div class="modal fade" id="register" role="dialog">
                                 <div class="modal-dialog">
                                     <!-- Modal content-->
@@ -112,15 +102,15 @@
                                             <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST">
+                                            <form action="index.php" method="POST">
                                                 <div class="row">
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="fname">Nombre:</label>
-                                                        <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')">
+                                                        <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')" value=<?php echo $fname; ?>>
                                                     </div>
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="lname">Apellido:</label>
-                                                        <input type="text" class="form-control" name="register-lname" id="lname" placeholder="Apellido" required onchange="validateInputs('lname')">
+                                                        <input type="text" class="form-control" name="register-lname" id="lname" placeholder="Apellido" required onchange="validateInputs('lname')" value=<?php echo $lname; ?>>
                                                     </div>
                                                 </div><br><br>
                                                 <div class="row">
@@ -136,11 +126,10 @@
                                                 <div class="row">
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="com">Comuna:</label>
-                                                        <select class="form-control" id="com" name="register-com">
+                                                        <select class="form-control" id="com" name="register-com" value=<?php echo $com; ?>>
                                                             <option value="" selected disabled>Comuna</option>
-                                                            <?php  $sql = $conn->prepare("SELECT * FROM COMUNA ORDER BY COMUNA ASC");
-                                                                $sql->execute();
-                                                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                                            <?php  $stmt = $querys->comunas(); //Consulta a bs las comunas y las pone como opciones
+                                                                while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                                     echo "<option value=".$result['ID_COMUNA'].">".$result['COMUNA']."</option>";
                                                                 }
                                                              ?>
@@ -148,17 +137,17 @@
                                                     </div>
                                                     <div class="col-sm-5 col-sm-push-1">
                                                             <label for="dir">Dirección:</label>
-                                                            <input type="text" class="form-control" name="register-dir" id="dir" placeholder="Dirección" required>
+                                                            <input type="text" class="form-control" name="register-dir" id="dir" placeholder="Dirección" required value=<?php echo $dir; ?>>
                                                     </div>
                                                 </div><br><br>
                                                 <div class="row">
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="cor">Correo:</label>
-                                                        <input type="email" class="form-control" name="register-mail" id="cor" placeholder="Correo" required>
+                                                        <input type="email" class="form-control" name="register-mail" id="cor" placeholder="Correo" required value=<?php echo $mail; ?>>
                                                     </div>
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="tel">Teléfono:</label>
-                                                        <input type="tel" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" pattern="[0-9]{9}"required>
+                                                        <input type="tel" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" pattern="[0-9]{9}"required value=<?php echo $phone; ?>>
                                                     </div>
                                                     
                                                 </div><br>

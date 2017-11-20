@@ -18,7 +18,7 @@
             return $stmt;
         }
         public function Reuniones(){
-            $stmt = $this->db->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
+            $stmt = $this->db->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION=".$_SESSION['id_org']." ORDER BY FECHA_REUNION ASC");
             $stmt -> execute();
             return $stmt;
         }
@@ -100,7 +100,7 @@
             $stmt->execute();
             return $stmt;
         }
-        public function act_delete($id){
+        public function balance_delete($id){
             try {
                 $stmt = $this->db->prepare("UPDATE tesoreria SET ELIMINADO = 1 WHERE ID_TESORERIA = :id");
                 $stmt->bindParam(':id', $id);
@@ -109,7 +109,7 @@
                 echo "Error: " . $e->getMessage();
             }
         }
-        public function tesoreria_edit($date,$caption,$ammount,$activity,$id){
+        public function balance_edit($date,$caption,$ammount,$activity,$id){
             try {
                 $stmt = $this->db->prepare("UPDATE tesoreria SET FECHA = :EDITFECHA, CONCEPTO = :EDITCONCEPTO, MONTO = :EDITOMONTO, E_S = :EDITACTIVIDAD WHERE ID_TESORERIA = :ID");
                 $stmt->bindParam(':EDITFECHA', $date);
@@ -123,7 +123,7 @@
                 echo "Error: " . $e->getMessage();
             }
         }
-        public function tesoreria_insert($date,$concept,$activity,$ammount){
+        public function balance_insert($date,$concept,$activity,$ammount){
             try {
                 $stmt = $this->db->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO) VALUES(:IDORG, :FECHA, :CONCEPTO, :E_S, :MONTO)");
                 $stmt->bindParam(':IDORG', $_SESSION['id_org']);
@@ -135,6 +135,185 @@
             } 
             catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
+            }
+        }
+        public function historial_edit($nom,$desc,$datefrom,$dateto,$actividad){
+            try{   
+                $stmt = $this->db->prepare("UPDATE actividades SET NOMBRE = :NOMBRE, DESCRIPCION= :DESC, FECHA_INICIO = :FECHFROM, FECHA_TERMINO = :FECHTO WHERE ID_ACTIVIDAD = :ID");
+                $stmt->bindParam(':NOMBRE', $nom);
+                $stmt->bindParam(':DESC', $desc);
+                $stmt->bindParam(':FECHFROM', $datefrom);
+                $stmt->bindParam(':FECHTO', $dateto);
+                $stmt->bindParam(':ID', $actividad);
+                $stmt->execute();
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function historial_delete($id){
+            try{   
+                $stmt = $this->db->prepare("UPDATE actividades SET ELIMINADO = 1 WHERE ID_ACTIVIDAD= :ID");
+                $stmt->bindParam(':ID', $id);
+                $stmt->execute();
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function historial_add($date_in,$date_ter,$nombre,$desc){
+            try{
+                $stmt = $this->db->prepare("INSERT INTO actividades (ID_ORGANIZACION, NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_TERMINO, ELIMINADO)
+                VALUES(".$_SESSION['id_org'].", :NOMBRE, :DESCRIPCION,:FECHA_INICIO,:FECHA_TERMINO,0)");
+                $date_in = date('Y-m-d', strtotime($date_in));
+                $date_ter = date('Y-m-d', strtotime($date_ter));
+                $stmt->bindParam(':NOMBRE', $nombre);
+                $stmt->bindParam(':FECHA_INICIO', $date_in);
+                $stmt->bindParam(':FECHA_TERMINO', $date_ter); 
+                $stmt->bindParam(':DESCRIPCION', $desc);
+                if($stmt->execute()){
+                    header("Location: actividades_historial.php");
+                }  
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function proyecto_delete($id){
+            try{
+                $stmt = $this->db->prepare("UPDATE proyectos SET ELIMINADO = 1 WHERE ID_PROYECTO= :ID");
+                $stmt->bindParam(':ID', $id,PDO::PARAM_INT);
+                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+                }catch(PDOException $e){
+                    echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function proyecto_edit($nombre,$date_in,$date_ter,$desc,$id){
+            try{
+                $stmt = $this->db->prepare("UPDATE proyectos SET NOMBRE= :NOMBRE, DESCRIPCION= :DESC,
+                                             FECHA_INICIO= :FECHIN, FECHA_TERMINO= :FECHTER
+                                             WHERE ID_PROYECTO= :ID");
+                $stmt->bindParam(':NOMBRE',$nombre,PDO::PARAM_STR);
+                $stmt->bindParam(':FECHIN', $date_in);
+                $stmt->bindParam(':FECHTER', $date_ter); 
+                $stmt->bindParam(':DESC',$desc,PDO::PARAM_STR);
+                $stmt->bindParam(':ID',$id,PDO::PARAM_INT);
+                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+            }catch(PDOException $e){
+                    echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function proyecto_add($date_in,$date_ter,$nombre,$desc){
+            try{
+                $stmt = $this->db->prepare("INSERT INTO proyectos (ID_ORGANIZACION, NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_TERMINO)
+                VALUES(:ORG, :NOMBRE, :DESCRIPCION,:FECHA_INICIO,:FECHA_TERMINO)");
+                $date_in = date('Y-m-d', strtotime($date_in));
+                $date_ter = date('Y-m-d', strtotime($date_ter));
+                $stmt->bindParam(':ORG',$_SESSION['id_org'],PDO::PARAM_INT);
+                $stmt->bindParam(':NOMBRE', $nombre,PDO::PARAM_STR);
+                $stmt->bindParam(':FECHA_INICIO', $date_in);
+                $stmt->bindParam(':FECHA_TERMINO', $date_ter); 
+                $stmt->bindParam(':DESCRIPCION', $desc,PDO::PARAM_STR);
+                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function recursos_peticion($date_from,$time_from,$date_to,$time_to,$id_resource){
+            $fecha_desde = $date_from." ".$time_from;
+            $fecha_hasta = $date_to." ".$time_to;
+            try{
+                $stmt = $this->db->prepare("UPDATE recursos SET ESTADO = 1 WHERE ID_RECURSO = :id");
+                $stmt->bindparam(":id", $id_resource);
+                if($stmt->execute()){
+                    $stmt = $this->db->prepare("INSERT INTO prestamos (ID_RECURSO, ID_USUARIO, FECHA_INICIO, FECHA_TERMINO, ELIMINADO) VALUES(:ID, :USER, :FROM, :TO, 0)");
+                    $stmt->bindparam(":ID", $id_resource);
+                    $stmt->bindparam(":USER", $_SESSION['id_usuario']);
+                    $stmt->bindparam(":FROM", date('Y-m-d H:i:s', strtotime($fecha_desde)));
+                    $stmt->bindparam(":TO", date('Y-m-d H:i:s', strtotime($fecha_hasta)));
+                    if($stmt->execute()){
+                        echo "<script>alert('Su solicitud se ha realizado correctamente')</script>";
+                    }
+                }
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            } 
+        }
+        public function recursos_add($nombre,$desc){
+            try {
+                $stmt = $this->db->prepare("INSERT INTO recursos (ID_ORGANIZACION, NOMBRE, DESCRIPCION, ESTADO, ELIMINADO)
+                VALUES(:IDORG, :NOMBRE, :DESCRIPCION, 0, 0)");
+                $stmt->bindParam(':IDORG', $_SESSION['id_org']);
+                $stmt->bindParam(':NOMBRE', $nombre);
+                $stmt->bindParam(':DESCRIPCION', $desc);  
+                if($stmt->execute()){
+                    echo "<script>alert('El recurso se ha agregado correctamente')</script>";
+                }
+            } 
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+        public function recursos_edit($name,$desc,$id){
+            try {
+                $stmt = $this->db->prepare("UPDATE recursos SET NOMBRE = :NOMBRE, DESCRIPCION = :DESC WHERE ID_RECURSO = :ID");
+                $stmt->bindParam(':NOMBRE', $name);
+                $stmt->bindParam(':DESC', $desc);
+                $stmt->bindParam(':ID', $id);
+                if($stmt->execute()){
+                    echo "<script>alert('El recurso se ha editado correctamente')</script>";
+                }
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+        public function recursos_delete(){
+            try {
+                $stmt = $this->db->prepare("UPDATE recursos SET ELIMINADO = 1 WHERE ID_RECURSO = :ID");
+                $stmt->bindParam(':ID', $_POST['id_recurso']);  
+                if($stmt->execute()){
+                    echo "<script>alert('El recurso se ha eliminado correctamente')</script>";
+                }
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+        public function reuniones_edit($date,$state,$desc,$acta,$id){
+            try{   
+                $stmt = $this->db->prepare("UPDATE reuniones SET DESCRIPCION = :DESC, FECHA_REUNION = :FECHIN, ESTADO = :STATE, ACTA_REUNION = :ACTA WHERE ID_REUNION = :ID");
+                $stmt->bindParam(':FECHIN', $date);
+                $stmt->bindParam(':STATE', $state);
+                $stmt->bindParam(':DESC', $desc);
+                $stmt->bindParam(':ACTA', $acta);
+                $stmt->bindParam(':ID', $id);
+                if($stmt->execute()){
+                    echo "<script>alert('La reunion se ha editado correctamente')</script>";
+                }
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function reuniones_delete($id){
+            try{   
+                $stmt = $this->db->prepare("UPDATE reuniones SET ESTADO = 'CANCELADO' WHERE ID_REUNION = :ID");
+                $stmt->bindParam(':ID', $id);
+                if($stmt->execute()){
+                    echo "<script>alert('La reunion se ha eliminado correctamente')</script>";
+                }
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function reuniones_add($date,$desc){
+            try{
+                $stmt = $this->db->prepare("INSERT INTO reuniones (ID_ORGANIZACION, FECHA_REUNION, DESCRIPCION, ESTADO, ACTA_REUNION)
+                VALUES(:IDORG, :FECHA, :DESCRIPCION,'PENDIENTE',' ')");
+                $stmt->bindParam(':IDORG', $_SESSION['id_org']);
+                $date = date('Y-m-d', strtotime($date));
+                $stmt->bindParam(':FECHA', $date);
+                $stmt->bindParam(':DESCRIPCION',$desc);
+                if($stmt->execute()){
+                    header("Location: actividades_reuniones.php");
+                }
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
             }
         }
     }

@@ -3,7 +3,7 @@
     require_once '../../validaciones/actions_recursos.php';
     require_once '../../header.php';
 ?>
-
+<form>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -39,7 +39,7 @@
         </div>
     </div>
 </nav>
-
+</form>
     <div class="page-header">
         <h1>Solicitar recursos <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){echo '<button type="button" class="btn pull-right btn-success" id="add_resource" name="add_resource" data-toggle="modal" data-target="#new_resource">Agregar recurso <i class="fa fa-edit"></i></button>';}?></h1>
     </div>

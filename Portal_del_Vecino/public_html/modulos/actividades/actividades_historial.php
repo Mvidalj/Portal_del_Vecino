@@ -58,9 +58,27 @@
                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                 if($result['ELIMINADO'] == '0'){
                                     echo "<tr>
-                                            <td>".$result['NOMBRE']."</td>
+                                            <td><a href='#' data-toggle='modal' data-target='#DESC".$result['ID_ACTIVIDAD']."'>".$result['NOMBRE']."</a></td>
                                             <td class='text-center'>".$result['FECHA_INICIO']."</td>
                                             <td class='text-center'>".$result['FECHA_TERMINO']."</td>";
+                                    echo "
+                                            <!-- Modal -->
+                                            <div id='DESC".$result['ID_ACTIVIDAD']."' class='modal fade' role='dialog'>
+                                                <div class='modal-dialog'>
+                                                <!-- Modal content-->
+                                                    <div class='modal-content'>
+                                                        <div class='modal-header'>
+                                                            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                            <h4 class='modal-title'>Descripción de actividad</h4>
+                                                        </div>
+                                                        <div class='modal-body'>
+                                                            <p>
+                                                                ".$result['DESCRIPCION']."
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>";
                                             if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){echo
                                                 "<td class='text-center'>
                                                     <form name='form' action='actividades_historial.php' method='POST'>
@@ -79,9 +97,9 @@
                                                                         <label>Nombre: </label>
                                                                         <input type='text' class='form-control' id='edit_nom' name='edit_nom' value='".$result['NOMBRE']."' required><br>
                                                                         <label>Fecha de inicio: </label>
-                                                                        <input type='text' class='form-control' id='edit_datefrom' name='edit_datefrom' onfocus=\"(this.type='date')\" onblur=form.edit_dateto.min=form.edit_datefrom.value value='".$result['FECHA_INICIO']."' required><br>
+                                                                        <input type='text' class='form-control' id='edit_datefrom' name='edit_datefrom' onfocus=\"(this.type='date')\" onblur=form.edit_dateto.min=form.edit_datefrom.value value='".$result['FECHA_INICIO']."' min='".$adate."' required><br>
                                                                         <label>Fecha de termino: </label>
-                                                                        <input type='text' class='form-control' id='edit_dateto' name='edit_dateto' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_TERMINO']."' required><br>
+                                                                        <input type='text' class='form-control' id='edit_dateto' name='edit_dateto' onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\" value='".$result['FECHA_TERMINO']."' min='".$adate."' required><br>
                                                                         <label>Descripción: </label>
                                                                         <textarea class='form-control' id='edit_desc' rows='5' name='edit_desc' required>".$result['DESCRIPCION']."</textarea><br>
                                                                         <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
@@ -114,9 +132,9 @@
                 <div class='modal-body'>
                    <form name ="form" action="actividades_historial.php" method="POST">
                         <label for="fecha_in">Fecha Inicio:</label>
-                        <input type="date" class="form-control" id="fecha_in" onblur=form.fecha_ter.min=form.fecha_in.value name="fecha_in"><br>
+                        <input type="date" class="form-control" id="fecha_in" oninput='form.fecha_ter.min=form.fecha_in.value' name="fecha_in" <?php echo 'min='.$adate.''; ?>><br>
                         <label for="fecha_ter">Fecha Termino:</label>
-                        <input type="date" class="form-control" id="fecha_ter" name="fecha_ter"><br>
+                        <input type="date" class="form-control" id="fecha_ter" name="fecha_ter" <?php echo 'min='.$adate.''; ?>><br>
                         <label for="nombre">Nombre Actividad:</label>
                         <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre"><br>
                         <label for="desc">Descripcion:</label>

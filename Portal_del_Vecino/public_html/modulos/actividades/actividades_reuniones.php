@@ -83,8 +83,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </form>";
+                                                                </div>";
                                                         }
                                                         if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){
                                                             if($result['ESTADO'] == 'PENDIENTE'){

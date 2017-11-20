@@ -61,6 +61,16 @@
                                             $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
                                             $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                             $sql->execute();
+                                            echo "<datalist id='hourlist'>";
+                                                    for ($i = 9; $i <= 22; $i++) {
+                                                        if($i == 9){
+                                                            echo "<option value='0".strval($i).":00'>";
+                                                        }else{
+                                                            echo "<option value='".strval($i).":00'>";
+                                                        }
+                                                    }
+                                            echo "</datalist>";
+
                                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
                                                 $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
                                                                 <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
@@ -112,7 +122,7 @@
                                                         array_push($mindate, intval(mb_substr($data['FECHA_INICIO'], 11,2)));
                                                         array_push($maxdate, intval(mb_substr($data['FECHA_TERMINO'], 11,2)));
                                                     }
-                                                   
+                                                    /*
                                                     echo "<datalist id='hourlist'>";
                                                         for ($i = 9; $i <= 22; $i++) {
                                                             $hora = ''.strval($i).':00';
@@ -124,20 +134,11 @@
                                                             }
                                                         }
                                                     echo "</datalist>";
-                                                    #if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
+                                                    if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
+                                                    */
                                                     
                                                 }else{
                                                     $estado = 'Disponible';
-                                                    echo "<datalist id='hourlist'>";
-                                                        for ($i = 9; $i <= 22; $i++) {
-                                                            if($i == 9){
-                                                                echo "<option value='0".strval($i).":00'>";
-                                                            }else{
-                                                                echo "<option value='".strval($i).":00'>";
-                                                            }
-                                                        }
-                                                    echo "</datalist>";
-
                                                 }
                                                 echo "<tr>                                       
                                                         <td class='text-center'>".$result['NOMBRE']."</td>

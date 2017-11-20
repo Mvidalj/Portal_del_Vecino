@@ -1,5 +1,4 @@
 <?php
-require_once '../../validaciones/conexion_bd.php';
 if($user->Is_Loggedin() != true)
     {
         $user->Redirect('../../index.php');
@@ -20,4 +19,5 @@ if($user->Is_Loggedin() != true)
         if(isset($_REQUEST['submit-add'])){
             $querys->historial_add($_POST['fecha_in'],$_POST['fecha_ter'],$_POST['nombre'],$_POST['desc']);
 	}
-    }?>
+    }
+?>

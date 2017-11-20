@@ -176,5 +176,45 @@
                 echo 'Fallo la conexion:'.$e->GetMessage();
             }
         }
+        public function proyecto_delete($id){
+            try{
+                $stmt = $this->db->prepare("UPDATE proyectos SET ELIMINADO = 1 WHERE ID_PROYECTO= :ID");
+                $stmt->bindParam(':ID', $id,PDO::PARAM_INT);
+                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+                }catch(PDOException $e){
+                    echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function proyecto_edit($nombre,$date_in,$date_ter,$desc,$id){
+            try{
+                $stmt = $this->db->prepare("UPDATE proyectos SET NOMBRE= :NOMBRE, DESCRIPCION= :DESC,
+                                             FECHA_INICIO= :FECHIN, FECHA_TERMINO= :FECHTER
+                                             WHERE ID_PROYECTO= :ID");
+                $stmt->bindParam(':NOMBRE',$nombre,PDO::PARAM_STR);
+                $stmt->bindParam(':FECHIN', $date_in);
+                $stmt->bindParam(':FECHTER', $date_ter); 
+                $stmt->bindParam(':DESC',$desc,PDO::PARAM_STR);
+                $stmt->bindParam(':ID',$id,PDO::PARAM_INT);
+                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+            }catch(PDOException $e){
+                    echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function proyecto_add($date_in,$date_ter,$nombre,$desc){
+            try{
+                $stmt = $this->db->prepare("INSERT INTO proyectos (ID_ORGANIZACION, NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_TERMINO)
+                VALUES(:ORG, :NOMBRE, :DESCRIPCION,:FECHA_INICIO,:FECHA_TERMINO)");
+                $date_in = date('Y-m-d', strtotime($date_in));
+                $date_ter = date('Y-m-d', strtotime($date_ter));
+                $stmt->bindParam(':ORG',$_SESSION['id_org'],PDO::PARAM_INT);
+                $stmt->bindParam(':NOMBRE', $nombre,PDO::PARAM_STR);
+                $stmt->bindParam(':FECHA_INICIO', $date_in);
+                $stmt->bindParam(':FECHA_TERMINO', $date_ter); 
+                $stmt->bindParam(':DESCRIPCION', $desc,PDO::PARAM_STR);
+                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
     }
 ?>

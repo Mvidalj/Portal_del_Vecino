@@ -125,7 +125,7 @@
                                                 }
                                             }else{
                                                 if(isset($_POST['select_actividad'])){
-                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND E_S = :actividad OR E_S = 3 AND ID_ORGANIZACION = :IDORG");
+                                                    $sql = $conn->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND E_S in (:actividad, '3') AND ID_ORGANIZACION = :IDORG");
                                                     $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                     $sql->bindparam(":actividad", $_POST['select_actividad']);
                                                 }else{
@@ -391,18 +391,18 @@
                                     <div class='modal-body'>
                                        <form action="tesoreria_balances.php" method="POST">
                                             <label>Fecha:</label>
-                                            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso"><br>
+                                            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required><br>
                                             <label>Concepto:</label>
-                                            <input type="text" class="form-control" id="concepto" name="concepto"><br>
+                                            <input type="text" class="form-control" id="concepto" name="concepto" required><br>
                                             <label>Actividad:</label>
-                                            <select class="form-control" id="select_actividad" name="select_actividad">
+                                            <select class="form-control" id="select_actividad" name="select_actividad" required>
                                                 <option value="" disabled selected>Ingreso/Egreso</option>
                                                 <option value="3">Registro de saldo</option>
                                                 <option value="1">Ingreso</option>
                                                 <option value="0">Egreso</option>
                                             </select><br>
                                             <label>Monto:</label>
-                                            <input type="number" class="form-control" id="monto" name="monto"><br>
+                                            <input type="number" class="form-control" id="monto" name="monto" required><br>
                                             <button type='submit' class='btn btn-success' id='submit-entrada' name='submit-entrada'>Añadir entrada <span class='fa fa-save'></span></button>
                                         </form> 
                                     </div>

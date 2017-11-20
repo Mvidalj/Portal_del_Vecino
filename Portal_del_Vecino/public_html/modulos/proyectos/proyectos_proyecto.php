@@ -47,7 +47,7 @@
                     <th class="col-sm-4">Nombre</th>
                     <th class="col-sm-3 ">Fecha Inicio</th>
                     <th class="col-sm-3">Fecha Termino</th>
-                    <?php if($_SESSION['id_rol'] == "1"){echo '<th class="col-sm-2">Opciones</th>';}?>
+                    <?php if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "5"){echo '<th class="col-sm-2">Opciones</th>';}?>
                 </tr>
             </thead>
             <tbody>
@@ -58,11 +58,30 @@
                         $sql->execute();                                 #se ejecuta la consulta
                         while ($result = $sql->fetch(PDO::FETCH_ASSOC)){ #obtiene los datos de la consulta
                             if($result['ELIMINADO'] == '0'){
-                                if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "5"){
-                                    echo "<tr>                                       
-                                        <td>".$result['NOMBRE']."</td>
+                                echo "<tr>
+                                        <td><a href='#' data-toggle='modal' data-target='#DESC".$result['ID_PROYECTO']."'>".$result['NOMBRE']."</a></td>
                                         <td class='text-center'>".$result['FECHA_INICIO']."</td>
-                                        <td class='text-center'>".$result['FECHA_TERMINO']."</td>
+                                        <td class='text-center'>".$result['FECHA_TERMINO']."</td>";
+                                echo "
+                                        <!-- Modal -->
+                                        <div id='DESC".$result['ID_PROYECTO']."' class='modal fade' role='dialog'>
+                                            <div class='modal-dialog'>
+                                            <!-- Modal content-->
+                                                <div class='modal-content'>
+                                                    <div class='modal-header'>
+                                                        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                        <h4 class='modal-title'>Descripción de actividad</h4>
+                                                    </div>
+                                                    <div class='modal-body'>
+                                                        <p>
+                                                            ".$result['DESCRIPCION']."
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>";
+                                if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "5"){
+                                    echo "
                                         <td class='text-center'> 
                                         <form name='form' action='proyectos_proyecto.php' method='POST'>
                                             <button type='button' class='btn btn-info' id='lol' name='lol' data-toggle='modal' data-target='#".$result['ID_PROYECTO']."'><i class='fa fa-edit'></i></button>
@@ -78,9 +97,9 @@
                                                         <div class='modal-body'>
                                                             <input type='hidden' id='id' name='id' value='".$result['ID_PROYECTO']."'>
                                                             <label>Fecha de inicio:</label>
-                                                            <input type='date' class='form-control' id='fecha_in' name='fecha_in' onblur=form.fecha_ter.min=form.fecha_in.value value='".$result['FECHA_INICIO']."' required><br>
+                                                            <input type='date' class='form-control' id='fecha_in' name='fecha_in' onblur=form.fecha_ter.min=form.fecha_in.value value='".$result['FECHA_INICIO']."' min='".$adate."' required><br>
                                                             <label>Fecha de termino:</label>
-                                                            <input type='date' class='form-control' id='fecha_ter' name='fecha_ter' value='".$result['FECHA_TERMINO']."' required><br>
+                                                            <input type='date' class='form-control' id='fecha_ter' name='fecha_ter' value='".$result['FECHA_TERMINO']."' min='".$adate."' required><br>
                                                             <label>Nombre de proyecto:</label>
                                                             <input type='text' class='form-control' id='nombre' name='nombre' value= '".$result['NOMBRE']."' required><br>
                                                             <label>Descripción del proyecto:</label>
@@ -94,13 +113,6 @@
                                         </form>
                                         </td>
                                     </tr>";} # por cada dato crea una columna
-                                else{
-                                    echo "<tr>                                       
-                                        <td>".$result['NOMBRE']."</td>
-                                        <td class='text-center'>".$result['FECHA_INICIO']."</td>
-                                        <td class='text-center'>".$result['FECHA_TERMINO']."</td>
-                                    </tr>";
-                                }
                             }
                         }
                     }
@@ -124,9 +136,9 @@
                 <div class='modal-body'>
                     <form name="form" action="proyectos_proyecto.php" method="post">
                         <label for="fecha_in">Fecha Inicio:</label>
-                        <input type="date" class="form-control" id="fecha_in" name="fecha_in" onblur=form.fecha_ter.min=form.fecha_in.value required><br>
+                        <input type="date" class="form-control" id="fecha_in" name="fecha_in" oninput='form.fecha_ter.min=form.fecha_in.value' <?php echo 'min='.$adate.''; ?> required><br>
                         <label for="fecha_ter">Fecha Termino:</label><br>
-                        <input type="date" class="form-control" id="fecha_ter" name="fecha_ter" required><br>
+                        <input type="date" class="form-control" id="fecha_ter" name="fecha_ter" <?php echo 'min='.$adate.''; ?> required><br>
                         <label for="nombre">Nombre Proyecto:</label><br>
                         <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre" required><br>
                         <label for="desc">Descripcion:</label><br>
@@ -140,27 +152,27 @@
 </div>
 <div>	
     <?php include("../../modal_accept_user.php");
-          include ('../../config.php');?>	
+          include ('../../config.php');?>
 </div>
 </body>
-</html>
-<script type="text/javascript" language="javascript" class="init">
+    <script type="text/javascript" language="javascript" class="init">
 	$(document).ready(function() {
-		$('#example').DataTable( {
-        "language": {
-            "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
-            "zeroRecords"   :   "Lo sentimos, no hay información",
-            "info"          :   "Mostrando _PAGE_ de _PAGES_",
-            "search"        :   "Buscar:",
-            "infoEmpty"     :   "Lo sentimos, no hay información",
-            "infoFiltered"  :   "(filtered from _MAX_ total records)",
-		    "paginate"      : {
-		        "first"     :   "Primero",
-		        "last"      :   "Último",
-		        "next"      :   "Siguiente",
-		        "previous"  :   "Anterior"
-		    }
-        }
-    	} );
+            $('#example').DataTable( {
+                "language": {
+                    "lengthMenu"    :   "Mostrar _MENU_ registros por pagina",
+                    "zeroRecords"   :   "Lo sentimos, no hay información",
+                    "info"          :   "Mostrando _PAGE_ de _PAGES_",
+                    "search"        :   "Buscar:",
+                    "infoEmpty"     :   "Lo sentimos, no hay información",
+                    "infoFiltered"  :   "(filtered from _MAX_ total records)",
+                    "paginate"      : {
+                        "first"     :   "Primero",
+                        "last"      :   "Último",
+                        "next"      :   "Siguiente",
+                        "previous"  :   "Anterior"
+                    }
+                }
+            } );
 	} );
-</script>
+    </script>
+</html>

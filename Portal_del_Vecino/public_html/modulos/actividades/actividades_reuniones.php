@@ -57,10 +57,8 @@
 				    <tbody>
                                         <?php
                                             try {
-                                                $sql = $conn->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION = :IDORG ORDER BY FECHA_REUNION ASC");
-                                                $sql->bindparam(":IDORG", $_SESSION['id_org']);
-                                                $sql->execute();
-                                                while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                                $stmt = $querys->Reuniones();
+                                                while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                     if($result['ESTADO'] != 'CANCELADO'){
                                                         echo "<tr>
                                                                 <td>".$result['DESCRIPCION']."</td>

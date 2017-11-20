@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.29, created on 2017-11-07 03:45:11
+<?php /* Smarty version 2.6.29, created on 2017-11-20 21:10:45
          compiled from C:%5Cxampp%5Chtdocs%5CPortal_del_Vecino%5CPortal_del_Vecino%5Cpublic_html%5Cmodulos%5Cforo/themes/Bootstrap/views/default.master.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'asset', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 6, false),array('function', 't', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 13, false),array('function', 'link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 18, false),array('function', 'logo', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 18, false),array('function', 'categories_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 23, false),array('function', 'discussions_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 24, false),array('function', 'activity_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 25, false),array('function', 'custom_menu', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 26, false),array('function', 'module', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 30, false),array('function', 'profile_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 33, false),array('function', 'inbox_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 34, false),array('function', 'bookmarks_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 35, false),array('function', 'dashboard_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 36, false),array('function', 'signinout_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 37, false),array('function', 'signin_link', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 41, false),array('function', 'breadcrumbs', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 51, false),array('function', 'searchbox', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 53, false),array('function', 'vanillaurl', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 68, false),array('function', 'event', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 78, false),array('modifier', 'date_format', 'C:\\xampp\\htdocs\\Portal_del_Vecino\\Portal_del_Vecino\\public_html\\modulos\\foro/themes/Bootstrap/views/default.master.tpl', 67, false),)), $this); ?>
@@ -15,7 +15,7 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'asset', 'C:
 " class="<?php echo $this->_tpl_vars['BodyClass']; ?>
  sticky-footer-body">
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only"><?php echo smarty_function_t(array('c' => 'Toggle navigation'), $this);?>
@@ -67,7 +67,7 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'asset', 'C:
       </div>
     </nav>
 
-    <section class="container">
+    <section class="container-fluid">
       <div class="row">
         <main class="page-content" role="main">
           <?php echo smarty_function_breadcrumbs(array(), $this);?>

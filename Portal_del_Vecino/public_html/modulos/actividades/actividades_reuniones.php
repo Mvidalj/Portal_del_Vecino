@@ -33,6 +33,9 @@
         <li><a href="../proyectos/proyectos_proyecto.php">Proyectos</a></li>
         <li><a href="../../foro.php">Foro</a></li>
       </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><button type="submit" class="btn btn-primary navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
+      </ul>
     </div>
   </div>
 </nav>
@@ -168,7 +171,8 @@
                     </div>
                     <div>	
                         <?php include("../../modal_accept_user.php");
-                                include ('../../config.php');?>	
+                                include ('../../config.php');
+                                include("../../modal_orgs.php");?>	
                     </div>
                 </body>
             </html>

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/bootstrap.css">
     <link rel="stylesheet" href="../../css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="estilos/estilo.css">
     <script src="../../librerias/jquery-3.2.1.js"></script>
     <script src="../../librerias/bootstrap.js"></script>
     <script src="../../librerias/jquery.dataTables.min.js"></script>

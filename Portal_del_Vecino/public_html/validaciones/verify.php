@@ -1,6 +1,6 @@
 <?php
     require_once 'conexion_bd.php';
-    
+    // En caso de que el usuario haya ingresado mediante el link enviado a su correo se verifica su cuenta
     if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !empty($_GET['hash'])){
         try{
             $stmt = $conn->prepare("SELECT * FROM usuarios WHERE CORREO = :umail LIMIT 1");
@@ -23,6 +23,7 @@
         }catch(PDOException $e){
             echo $e->getMessage();
         }
+    // De caso contrario se le redirige al index
     }else{
         $user->Redirect('../index.php');
     }

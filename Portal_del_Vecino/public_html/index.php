@@ -28,9 +28,10 @@
         $com = $_POST['register-com'];
         $dir = $_POST['register-dir'];
         
+        // Se verifica si el captcha ingresado coincide si es así el usuario es registrado, en caso contrario se indica el fallo
         if(empty($_SESSION['captcha_code'] ) || strcasecmp($_SESSION['captcha_code'], $_POST['captcha_code']) != 0){  
-            $msg = "<script>alert('Los codigos nos coinciden, intente nuevamente.')</script>";// Captcha verification is incorrect.		
-	}else{// Captcha verification is Correct. Final Code Execute here!		
+            $msg = "<script>alert('Los codigos nos coinciden, intente nuevamente.')</script>";
+	}else{	
             if($user->RegisterUser($fname, $lname, $mail, $phone, $com, $dir)){
                 $user->EncryptPass(($user->GetUserId($mail)), $mail, $pass);
                 $msg = "<script>alert('Por favor revise su correo y confirme su cuenta.')</script>";
@@ -54,14 +55,15 @@
     <script>
     $(document).ready(function(){
         $("#register-user-submit").click(function(){
-            $("#myModal").modal();
+            $("#register").modal();
         });
     });
     </script>
     <script type='text/javascript'>
+        // Cambia el captcha
         function refreshCaptcha(){
-                var img = document.images['captchaimg'];
-                img.src = img.src.substring(0,img.src.lastIndexOf("?"))+"?rand="+Math.random()*1000;
+            var img = document.images['captchaimg'];
+            img.src = img.src.substring(0,img.src.lastIndexOf("?"))+"?rand="+Math.random()*1000;
         }
     </script>
 </head>
@@ -100,7 +102,7 @@
                                 </div>&nbsp;&nbsp;
                             </form>
 
-                            <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal fade" id="register" role="dialog">
                                 <div class="modal-dialog">
                                     <!-- Modal content-->
                                     <div class="modal-content">

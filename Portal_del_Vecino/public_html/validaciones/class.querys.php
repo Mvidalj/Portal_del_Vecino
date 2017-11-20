@@ -162,7 +162,7 @@
         public function historial_add($date_in,$date_ter,$nombre,$desc){
             try{
                 $stmt = $this->db->prepare("INSERT INTO actividades (ID_ORGANIZACION, NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_TERMINO, ELIMINADO)
-                VALUES(1, :NOMBRE, :DESCRIPCION,:FECHA_INICIO,:FECHA_TERMINO,0)");
+                VALUES(".$_SESSION['id_org'].", :NOMBRE, :DESCRIPCION,:FECHA_INICIO,:FECHA_TERMINO,0)");
                 $date_in = date('Y-m-d', strtotime($date_in));
                 $date_ter = date('Y-m-d', strtotime($date_ter));
                 $stmt->bindParam(':NOMBRE', $nombre);

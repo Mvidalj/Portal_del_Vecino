@@ -56,10 +56,8 @@
                 <tbody>
                     <?php
                         try {
-                            $sql = $conn->prepare("SELECT * FROM actividades WHERE ID_ORGANIZACION = :IDORG");
-                            $sql->bindparam(":IDORG", $_SESSION['id_org']);
-                            $sql->execute();
-                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                            $stmt = $querys->Actividades();
+                            while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 if($result['ELIMINADO'] == '0'){
                                     echo "<tr>
                                             <td><a href='#' data-toggle='modal' data-target='#DESC".$result['ID_ACTIVIDAD']."'>".$result['NOMBRE']."</a></td>

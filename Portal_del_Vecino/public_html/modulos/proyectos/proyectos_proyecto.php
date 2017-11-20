@@ -57,10 +57,8 @@
             <tbody>
                 <?php
                     try {
-                        $sql = $conn->prepare("SELECT * FROM proyectos WHERE ID_ORGANIZACION = :IDORG");#se prepara la consulta
-                        $sql->bindparam(":IDORG", $_SESSION['id_org']);
-                        $sql->execute();                                 #se ejecuta la consulta
-                        while ($result = $sql->fetch(PDO::FETCH_ASSOC)){ #obtiene los datos de la consulta
+                        $stmt = $querys->Proyectos();                                #se ejecuta la consulta
+                        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)){ #obtiene los datos de la consulta
                             if($result['ELIMINADO'] == '0'){
                                 echo "<tr>
                                         <td><a href='#' data-toggle='modal' data-target='#DESC".$result['ID_PROYECTO']."'>".$result['NOMBRE']."</a></td>

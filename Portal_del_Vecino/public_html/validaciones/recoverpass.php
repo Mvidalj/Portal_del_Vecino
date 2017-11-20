@@ -1,40 +1,43 @@
 <?php
     require_once 'conexion_bd.php';
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\PHPMailer; // Inicialización para uso de clase
+    use PHPMailer\PHPMailer\Exception; // Inicialización para uso de clase
 
     if(isset($_REQUEST['mail-submit'])){
         $umail = $_POST['recover-mail'];
         $uid   = $user->GetUserId($umail);
-        //Correo:     portaldelvecino@gmail.com
-        //Contraseña: juntavecinal
+        
+        // Cargado de librería para enviar correos
+        
+        // Correo:     portaldelvecino@gmail.com
+        // Contraseña: juntavecinal
         require 'vendor/autoload.php';
-        $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
-        $mail->setLanguage('es');
-        $mail->CharSet = 'UTF-8';
+        $mail = new PHPMailer(true);                              // Inicia variable con añadido de excepciones
+        $mail->setLanguage('es');                                 // Se setea lenguaje de la librería
+        $mail->CharSet = 'UTF-8';                                 // Se setea codificación para tíldes en correo
         try {
-            //Server settings
-            $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'in-v3.mailjet.com';  // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = 'b38c4baf0a6e52d7a04781a9b83caa3b';                 // SMTP username
-            $mail->Password = 'cf6adbb5a21655f233b788f57bae81d1';                           // SMTP password
-            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = 587;                                    // TCP port to connect to
+            // Configuraciones de servidor
+            $mail->isSMTP();                                      // Se indica prótocolo SMTP
+            $mail->Host = 'in-v3.mailjet.com';                    // Se indica servidor SMTP
+            $mail->SMTPAuth = true;                               // Activa autenticación en servidor
+            $mail->Username = 'b38c4baf0a6e52d7a04781a9b83caa3b'; // Key pública Mailjet
+            $mail->Password = 'cf6adbb5a21655f233b788f57bae81d1'; // Key privada Mailjet 
+            $mail->SMTPSecure = 'tls';                            // Habilita encriptación tls si el servidor la posee
+            $mail->Port = 587;                                    // Puerto de conexión TCP
 
             //Recipients
-            $mail->setFrom('portaldelvecino@gmail.com', 'Portal del vecino');
-            $mail->addAddress($umail);               // Name is optional
-            $mail->addReplyTo('no-reply@vecinos.cl', 'No responder a este correo');
+            $mail->setFrom('portaldelvecino@gmail.com', 'Portal del vecino');       // Dirección y nombre del remitente
+            $mail->addAddress($umail);                                              // Dirección del receptor
+            $mail->addReplyTo('no-reply@vecinos.cl', 'No responder a este correo'); // Dirección de correo en caso de respuesta del receptor
 
             //Content
-            $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = 'Recuperación de contraseña';
-            $mail->Body    = 'Por favor click aquí para recuperar tu contraseña: <a href="http://localhost/Portal_del_Vecino/Portal_del_vecino/public_html/validaciones/recoverpass.php?email='.$umail.'&userid='.$uid.'">Recuperar mi contraseña</a>';
-            $mail->AltBody = 'Por favor click aquí para recuperar tu contraseña: <a href="http://localhost/Portal_del_Vecino/Portal_del_vecino/public_html/validaciones/recoverpass.php?email='.$umail.'&userid='.$uid.'">Recuperar mi contraseña</a>';
+            $mail->isHTML(true);                                                     // Se habilita muestra de contenido en formato HTML
+            $mail->Subject = 'Portal del vecino: Recuperación de contraseña';        // Asunto del correo
+            $mail->Body    = 'Por favor click aquí para recuperar tu contraseña: <a href="http://localhost/Portal_del_Vecino/Portal_del_vecino/public_html/validaciones/recoverpass.php?email='.$umail.'&userid='.$uid.'">Recuperar mi contraseña</a>'; // Texto plano a enviar
+            $mail->AltBody = 'Por favor click aquí para recuperar tu contraseña: <a href="http://localhost/Portal_del_Vecino/Portal_del_vecino/public_html/validaciones/recoverpass.php?email='.$umail.'&userid='.$uid.'">Recuperar mi contraseña</a>'; // Contenido HTML
 
-            $mail->send();
-        } catch (Exception $e) {
+            $mail->send(); // Se envía el mensaje
+        } catch (Exception $e) { // En caso de error lo muestra
             echo "<script>alert('No se pudo enviar el mensaje.')</script>";
         }
         echo "<script>alert('Te hemos enviado un correo para recuperar tu contraseña');window.location.href='../index.php';</script>";
@@ -77,7 +80,8 @@
                     <div class="row">
                         <div class="col-sm-8 col-sm-push-2">
                             <?php
-                            if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['userid']) && !empty($_GET['userid'])){
+                                // Si el usuario ingreso mediante el link enviado a su correo se despliega un formulario para actualizar su contraseña
+                                if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['userid']) && !empty($_GET['userid'])){
                             ?>
                             <form action="recoverpass.php" method="POST">
                                 <?php
@@ -102,6 +106,7 @@
                                 </div>
                             </form>
                             <?php
+                                // En caso contrario se despliega un formulario para enviar al correo del usuario la recuperación de contraseña
                             }else{
                             ?>
                                 <form action="recoverpass.php" method="POST">

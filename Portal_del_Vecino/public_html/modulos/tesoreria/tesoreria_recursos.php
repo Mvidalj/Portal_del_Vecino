@@ -57,10 +57,7 @@
             <tbody>
                 <?php
                     try {
-
-                        $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
-                        $sql->bindparam(":IDORG", $_SESSION['id_org']);
-                        $sql->execute();
+                        $usuarios = array();
                         $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
                         $sql->bindparam(":IDORG", $_SESSION['id_org']);
                         $sql->execute();
@@ -73,8 +70,20 @@
                                     }
                                 }
                         echo "</datalist>";
-
                         while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                            $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = :IDREC");
+                            $query->bindparam(":IDREC", $result['ID_RECURSO']);
+                            $query->execute();
+                            while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+                                $stmt = $conn->prepare("SELECT NOMBRE, APELLIDO FROM usuarios WHERE ID_USUARIO = :IDUSR");
+                                $stmt->bindparam(":IDUSR", $data['ID_USUARIO']);
+                                $stmt->execute();
+                                while ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    if(!in_array(($res['NOMBRE']." ".$res['APELLIDO']), $usuarios)){
+                                        array_push($usuarios, ($res['NOMBRE']." ".$res['APELLIDO']));
+                                    }
+                                }
+                            }
                             $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
                                             <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
                                             <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
@@ -118,35 +127,34 @@
                                            </form>";
                             if($result['ESTADO'] == 1){
                                 $estado = 'Se ha solicitado';
-                                $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");
-                                $query->execute();
-                                $mindate = array(); $maxdate = array(); 
-                                while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
-                                    array_push($mindate, intval(mb_substr($data['FECHA_INICIO'], 11,2)));
-                                    array_push($maxdate, intval(mb_substr($data['FECHA_TERMINO'], 11,2)));
-                                }
-                                /*
-                                echo "<datalist id='hourlist'>";
-                                    for ($i = 9; $i <= 22; $i++) {
-                                        $hora = ''.strval($i).':00';
-                                        if($i == 9){
-                                            $hora = '0'.strval($i).':00';
-                                        }
-                                        if(!in_array($i, $mindate) && !in_array($i, $maxdate)){
-                                            echo "<option value=".$hora.">";
-                                        }
-                                    }
-                                echo "</datalist>";
-                                if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
-                                */
-
                             }else{
                                 $estado = 'Disponible';
                             }
-                            echo "<tr>                                       
+                            echo "<tr>
                                     <td class='text-center'>".$result['NOMBRE']."</td>
-                                    <td>".$result['DESCRIPCION']."</td>
-                                    <td>".$estado."</td>
+                                    <td>".$result['DESCRIPCION']."</td>";
+                                   if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
+                                       echo "<td><a href='#' data-toggle='modal' data-target='#ADMIN".$result['ID_RECURSO']."'>".$estado."</a></td>";
+                                       echo "
+                                            <!-- Modal -->
+                                            <div id='ADMIN".$result['ID_RECURSO']."' class='modal fade' role='dialog'>
+                                                <div class='modal-dialog'>
+                                                <!-- Modal content-->
+                                                    <div class='modal-content'>
+                                                        <div class='modal-header'>
+                                                            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                            <h4 class='modal-title'>Administrar recurso</h4>
+                                                        </div>
+                                                        <div class='modal-body'>
+                                                            <p>".$usuarios[0]."</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>";
+                                   }else{
+                                       echo "<td>".$estado."</td>";
+                                   }
+                                   echo "
                                     <td>".$solicitar."</td>
                                 "; if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
                                     echo "<td class='text-center'>

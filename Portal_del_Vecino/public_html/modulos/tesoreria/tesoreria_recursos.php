@@ -58,36 +58,11 @@
                                             $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
                                             $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                             $sql->execute();
+                                            $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                                            $sql->bindparam(":IDORG", $_SESSION['id_org']);
+                                            $sql->execute();
                                             while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
-                                                if($result['ESTADO'] == 1){
-                                                    $estado = 'Se ha solicitado';
-                                                    $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");
-                                                    $query->execute();
-                                                    $data = $query->fetch(PDO::FETCH_ASSOC);
-                                                    $mindate = $data['FECHA_INICIO'];
-                                                    $maxdate = $data['FECHA_TERMINO'];
-                                                    /*
-                                                     * 
-                                                     * OBTENER TODAS LAS HORAS DE SOLICITUD SEGÚN DÍA SELECCIONADO
-                                                    if(in_array($i,[9,10,11])){
-                                                        echo "<option value=".$hora.">";
-                                                    }
-                                                    if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
-                                                        echo "<option value=".$hora.">";
-                                                    }
-                                                    */
-                                                    echo "<datalist id='hourlist'>";
-                                                        for ($i = 9; $i <= 22; $i++) {
-                                                            $hora = ''.strval($i).':00';
-                                                            if($i == 9){
-                                                                $hora = '0'.strval($i).':00';
-                                                            }
-                                                            if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
-                                                                echo "<option value=".$hora.">";
-                                                            }
-                                                        }
-                                                    echo "</datalist>";
-                                                    $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
+                                                $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
                                                                 <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
                                                                 <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
                                                                 <!-- Modal -->
@@ -105,7 +80,7 @@
                                                                                         <label>Desde:</label>
                                                                                     </div>
                                                                                     <div class='col-sm-3'>
-                                                                                        <input type='time' class='form-control' id='from_time' name='from_time' min='09:00:00' max='22:00:00' onmouseover='focus();' list='hourlist' required>
+                                                                                        <input type='time' class='form-control' id='from_time' name='from_time' min='09:00:00' max='22:00:00' onmouseover='focus();' oninput='form.to_time.min=form.from_time.value' list='hourlist' required>
                                                                                     </div>
                                                                                     <div class='col-sm-4'>
                                                                                         <input type='date' class='form-control' id='from_date' name='from_date' oninput='form.to_date.min=form.from_date.value, form.to_date.max=form.from_date.value, form.to_date.value=form.from_date.value, form.rd_to_date.value=form.from_date.value' min='".$adate."' required><br>
@@ -128,6 +103,29 @@
                                                                     </div>
                                                                 </div>
                                                                </form>";
+                                                if($result['ESTADO'] == 1){
+                                                    $estado = 'Se ha solicitado';
+                                                    $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");
+                                                    $query->execute();
+                                                    $mindate = array(); $maxdate = array(); 
+                                                    while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+                                                        array_push($mindate, intval(mb_substr($data['FECHA_INICIO'], 11,2)));
+                                                        array_push($maxdate, intval(mb_substr($data['FECHA_TERMINO'], 11,2)));
+                                                    }
+                                                   
+                                                    echo "<datalist id='hourlist'>";
+                                                        for ($i = 9; $i <= 22; $i++) {
+                                                            $hora = ''.strval($i).':00';
+                                                            if($i == 9){
+                                                                $hora = '0'.strval($i).':00';
+                                                            }
+                                                            if(!in_array($i, $mindate) && !in_array($i, $maxdate)){
+                                                                echo "<option value=".$hora.">";
+                                                            }
+                                                        }
+                                                    echo "</datalist>";
+                                                    #if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
+                                                    
                                                 }else{
                                                     $estado = 'Disponible';
                                                     echo "<datalist id='hourlist'>";
@@ -139,47 +137,7 @@
                                                             }
                                                         }
                                                     echo "</datalist>";
-                                                    $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
-                                                                <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
-                                                                <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
-                                                                <!-- Modal -->
-                                                                <div id='".$result['ID_RECURSO']."' class='modal fade' role='dialog'>
-                                                                    <div class='modal-dialog'>
-                                                                        <!-- Modal content-->
-                                                                        <div class='modal-content'>
-                                                                            <div class='modal-header'>
-                                                                                <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                                                <h4 class='modal-title'>Solicitar recurso</h4>
-                                                                            </div>
-                                                                            <div class='modal-body'>
-                                                                                <div class='row'>
-                                                                                    <div class='col-sm-2'>
-                                                                                        <label>Desde:</label>
-                                                                                    </div>
-                                                                                    <div class='col-sm-3'>
-                                                                                        <input type='time' class='form-control' id='from_time' name='from_time' min='09:00:00' max='22:00:00' onmouseover='focus();' list='hourlist' required>
-                                                                                    </div>
-                                                                                    <div class='col-sm-4'>
-                                                                                        <input type='date' class='form-control' id='from_date' name='from_date' oninput='form.to_date.min=form.from_date.value, form.to_date.max=form.from_date.value, form.to_date.value=form.from_date.value, form.rd_to_date.value=form.from_date.value' min='".$adate."' required><br>
-                                                                                    </div> 
-                                                                                </div>
-                                                                                <div class='row'>
-                                                                                    <div class='col-sm-2'>
-                                                                                        <label>Hasta:</label>
-                                                                                    </div>
-                                                                                    <div class='col-sm-3'>
-                                                                                        <input type='time' class='form-control' id='to_time' name='to_time' min='09:00:00' max='22:00:00' list='hourlist' required>
-                                                                                    </div>
-                                                                                    <div class='col-sm-4'>
-                                                                                        <input type='date' class='form-control' id='to_date' name='to_date' readonly><br>
-                                                                                    </div> 
-                                                                                </div>
-                                                                                <input type='submit' class='btn btn-success' id='submit-request' name='submit-request' value='Solicitar'>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                               </form>";
+
                                                 }
                                                 echo "<tr>                                       
                                                         <td class='text-center'>".$result['NOMBRE']."</td>

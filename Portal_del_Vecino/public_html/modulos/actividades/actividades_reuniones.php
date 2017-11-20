@@ -53,7 +53,7 @@
 				    <tbody>
                                         <?php
                                             try {
-                                                $sql = $conn->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION = :IDORG");
+                                                $sql = $conn->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION = :IDORG ORDER BY FECHA_REUNION ASC");
                                                 $sql->bindparam(":IDORG", $_SESSION['id_org']);
                                                 $sql->execute();
                                                 while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
@@ -62,11 +62,30 @@
                                                                 <td>".$result['DESCRIPCION']."</td>
                                                                 <td class='text-center'>".$result['FECHA_REUNION']."</td>";
                                                         if($result['ESTADO'] == 'PENDIENTE'){
-                                                                echo "<td class='text-center'><a href='#' data-toggle='popover' data-trigger='focus' title='Acta de reunión' data-content='".$result['ACTA_REUNION']."'>".$result['ESTADO']."</a></td>";
-                                                            }
-                                                            if($result['ESTADO'] == 'REALIZADO'){
-                                                                echo "<td class='text-center'><a href='#' data-toggle='popover' data-trigger='focus' title='Acta de reunión' data-content='".$result['ACTA_REUNION']."'>".$result['ESTADO']."</a></td>";
-                                                            }
+                                                                echo "<td class='text-center'><a href='#' data-toggle='popover' data-trigger='focus' title='Acta de reunión' data-content='No existe acta disponible'>".$result['ESTADO']."</a></td>";
+                                                        }
+                                                        if($result['ESTADO'] == 'REALIZADO'){
+                                                            echo "<td class='text-center'><a href='#' data-toggle='modal' data-target='#ACTA".$result['ID_REUNION']."'>".$result['ESTADO']."</a></td>";
+                                                            echo "
+                                                                <!-- Modal -->
+                                                                <div id='ACTA".$result['ID_REUNION']."' class='modal fade' role='dialog'>
+                                                                    <div class='modal-dialog'>
+                                                                    <!-- Modal content-->
+                                                                        <div class='modal-content'>
+                                                                            <div class='modal-header'>
+                                                                                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                                                <h4 class='modal-title'>Acta de reunión</h4>
+                                                                            </div>
+                                                                            <div class='modal-body'>
+                                                                                <p>
+                                                                                    ".$result['ACTA_REUNION']."
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>";
+                                                        }
                                                         if($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){
                                                             if($result['ESTADO'] == 'PENDIENTE'){
                                                                 $options = "<option value='PENDIENTE' selected>Pendiente</option>

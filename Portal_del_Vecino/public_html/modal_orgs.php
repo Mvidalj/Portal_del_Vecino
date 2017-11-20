@@ -1,7 +1,7 @@
 <?php   
     if($_SESSION['id_org'] == "" || isset($_REQUEST['join-create-org'])){
 ?>
-        <!-- Modal -->
+        <!-- Modal para crear o solicitar unirse a una organización-->
         <div class="modal fade" id="news" role="dialog">
             <div class="modal-dialog">
         <!-- Modal content-->

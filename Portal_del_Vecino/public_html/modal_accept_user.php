@@ -1,5 +1,5 @@
 <?php
-    if(isset($_REQUEST['accept_user'])){
+    if(isset($_REQUEST['accept_user'])){ //Hace las modificaciones en bd para aceptar un usuario en una org
         $stmt = $conn->prepare("UPDATE usuarios set ID_ORGANIZACION = :id_org WHERE ID_USUARIO = :id_usr");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
@@ -13,13 +13,13 @@
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute();
     }
-    if(isset($_REQUEST['deny_user'])){
+    if(isset($_REQUEST['deny_user'])){ //Hace las modificaciones en bd para rechazar un usuario en una org
         $stmt = $conn->prepare("UPDATE solicitudes set ESTADO = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute();
     }
-    if(isset($_REQUEST['add_tesorero'])){
+    if(isset($_REQUEST['add_tesorero'])){ //Hace las modificaciones en bd para agregar un tesorero a una org
         $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
@@ -29,7 +29,7 @@
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute();
     }
-    if(isset($_REQUEST['add_activity'])){
+    if(isset($_REQUEST['add_activity'])){ //Hace las modificaciones en bd para agregar un adm de actividades
         $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
@@ -39,7 +39,7 @@
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute(); 
     }
-    if(isset($_REQUEST['add_proyect'])){
+    if(isset($_REQUEST['add_proyect'])){ //Hace las modificaciones en bd para agregar un adm de proyectos
         $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 5 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
@@ -49,7 +49,7 @@
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
         $stmt->execute(); 
     }
-    if(isset($_REQUEST['delete_privilege'])){
+    if(isset($_REQUEST['delete_privilege'])){ //Hace las modificaciones en bd para quitar privilegios (adm) a un usuario
         $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 2 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
         $stmt->bindparam(":id_usr", $_POST['id_usr']);
         $stmt->bindparam(":id_org", $_SESSION['id_org']);
@@ -109,7 +109,7 @@
                                             </td></tr>";
                                 }
                             } 
-                            catch (Exception $e) {
+                            catch (Exception $e) { // En caso de que algo salga mal, captura el error y lo indica
                                 echo "Error: " . $e->getMessage();
                             }
                             ?>
@@ -133,7 +133,7 @@
                         <tbody>
                             <?php
                             try {
-                                $haytes = "0"; $hayact="0"; $haypro="0";
+                                $haytes = "0"; $hayact="0"; $haypro="0"; // Comienza suponiendo que no hay admin's de ningún tipo
                                 $sql = $conn->prepare("SELECT * FROM usuarios WHERE ID_ORGANIZACION = :id_org AND ID_ROL > 2");
                                 $sql->bindParam(':id_org', $_SESSION['id_org']);
                                 $sql->execute();                                  #se ejecuta la consulta
@@ -143,9 +143,9 @@
                                     $mail  = $result['CORREO'];
                                     $phone = $result['TELEFONO'];
                                     $direc  = $result['DIRECCION'];
-                                    if($result['ID_ROL'] == '3'){$modulo = 'Tesorería'; $haytes="1";}
-                                    if($result['ID_ROL'] == '4'){$modulo = 'Actividades'; $hayact="1";}
-                                    if($result['ID_ROL'] == '5'){$modulo = 'Proyectos'; $haypro="1";}
+                                    if($result['ID_ROL'] == '3'){$modulo = 'Tesorería'; $haytes="1";}   // Verifica si hay algun
+                                    if($result['ID_ROL'] == '4'){$modulo = 'Actividades'; $hayact="1";} // usuario con rol de adm
+                                    if($result['ID_ROL'] == '5'){$modulo = 'Proyectos'; $haypro="1";}   // y lo asigna a su variable
                                             echo"<tr>
                                                 <form action='home.php' method='POST'>
                                             <td class='text-center'>".$fname."</td>
@@ -161,7 +161,7 @@
                                             </td></tr>";
                                 }
                             } 
-                            catch (Exception $e) {
+                            catch (Exception $e) { // En caso de que algo salga mal, captura el error y lo indica
                                 echo "Error: " . $e->getMessage();
                             }
                             ?>

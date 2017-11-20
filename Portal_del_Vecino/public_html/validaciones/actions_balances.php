@@ -9,15 +9,15 @@ if($user->Is_Loggedin() != true)
         }
         
         if (isset($_REQUEST['delete_actividad'])){
-            $querys->act_delete($_POST['id']);
+            $querys->balance_delete($_POST['id']);
         }
 
         if (isset($_REQUEST['submit-edit'])){
-            $querys->tesoreria_edit($_POST['edit_date'],$_POST['edit_caption'],$_POST['edit_ammount'],$_POST['edit_activity'],$_POST['id']);
+            $querys->balance_edit($_POST['edit_date'],$_POST['edit_caption'],$_POST['edit_ammount'],$_POST['edit_activity'],$_POST['id']);
         }
         
         if(isset($_REQUEST['submit-entrada'])){
-            $querys->tesoreria_insert($_POST['fecha_ingreso'],$_POST['concepto'],$_POST['select_actividad'],$_POST['monto']);
+            $querys->balance_insert($_POST['fecha_ingreso'],$_POST['concepto'],$_POST['select_actividad'],$_POST['monto']);
         }
     }
  ?>

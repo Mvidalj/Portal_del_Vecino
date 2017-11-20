@@ -100,7 +100,7 @@
             $stmt->execute();
             return $stmt;
         }
-        public function act_delete($id){
+        public function balance_delete($id){
             try {
                 $stmt = $this->db->prepare("UPDATE tesoreria SET ELIMINADO = 1 WHERE ID_TESORERIA = :id");
                 $stmt->bindParam(':id', $id);
@@ -109,7 +109,7 @@
                 echo "Error: " . $e->getMessage();
             }
         }
-        public function tesoreria_edit($date,$caption,$ammount,$activity,$id){
+        public function balance_edit($date,$caption,$ammount,$activity,$id){
             try {
                 $stmt = $this->db->prepare("UPDATE tesoreria SET FECHA = :EDITFECHA, CONCEPTO = :EDITCONCEPTO, MONTO = :EDITOMONTO, E_S = :EDITACTIVIDAD WHERE ID_TESORERIA = :ID");
                 $stmt->bindParam(':EDITFECHA', $date);
@@ -123,7 +123,7 @@
                 echo "Error: " . $e->getMessage();
             }
         }
-        public function tesoreria_insert($date,$concept,$activity,$ammount){
+        public function balance_insert($date,$concept,$activity,$ammount){
             try {
                 $stmt = $this->db->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO) VALUES(:IDORG, :FECHA, :CONCEPTO, :E_S, :MONTO)");
                 $stmt->bindParam(':IDORG', $_SESSION['id_org']);
@@ -135,6 +135,45 @@
             } 
             catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
+            }
+        }
+        public function historial_edit($nom,$desc,$datefrom,$dateto,$actividad){
+            try{   
+                $stmt = $this->db->prepare("UPDATE actividades SET NOMBRE = :NOMBRE, DESCRIPCION= :DESC, FECHA_INICIO = :FECHFROM, FECHA_TERMINO = :FECHTO WHERE ID_ACTIVIDAD = :ID");
+                $stmt->bindParam(':NOMBRE', $nom);
+                $stmt->bindParam(':DESC', $desc);
+                $stmt->bindParam(':FECHFROM', $datefrom);
+                $stmt->bindParam(':FECHTO', $dateto);
+                $stmt->bindParam(':ID', $actividad);
+                $stmt->execute();
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function historial_delete($id){
+            try{   
+                $stmt = $this->db->prepare("UPDATE actividades SET ELIMINADO = 1 WHERE ID_ACTIVIDAD= :ID");
+                $stmt->bindParam(':ID', $id);
+                $stmt->execute();
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
+            }
+        }
+        public function historial_add($date_in,$date_ter,$nombre,$desc){
+            try{
+                $stmt = $this->db->prepare("INSERT INTO actividades (ID_ORGANIZACION, NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_TERMINO, ELIMINADO)
+                VALUES(1, :NOMBRE, :DESCRIPCION,:FECHA_INICIO,:FECHA_TERMINO,0)");
+                $date_in = date('Y-m-d', strtotime($date_in));
+                $date_ter = date('Y-m-d', strtotime($date_ter));
+                $stmt->bindParam(':NOMBRE', $nombre);
+                $stmt->bindParam(':FECHA_INICIO', $date_in);
+                $stmt->bindParam(':FECHA_TERMINO', $date_ter); 
+                $stmt->bindParam(':DESCRIPCION', $desc);
+                if($stmt->execute()){
+                    header("Location: actividades_historial.php");
+                }  
+            }catch(PDOException $e){
+                echo 'Fallo la conexion:'.$e->GetMessage();
             }
         }
     }

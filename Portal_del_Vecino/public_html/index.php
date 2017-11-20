@@ -5,7 +5,7 @@
     {
         $user->Redirect('home.php');
     }
-    
+    $fname = '';$lname = '';$pass = '';$mail = '';$phone = '';$com = '';$dir = '';$umail='';
     if(isset($_REQUEST['login-submit']))
     {
         $umail = $_POST['login-user'];
@@ -82,7 +82,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <label for="login-user"><i class="fa fa-user-circle-o"></i> Usuario:</label>
-                                        <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus required>
+                                        <input type="text" id="login-user" class="form-control" name="login-user" placeholder="Correo" autofocus required value= <?php echo $umail; ?>>
                                     </div>
                                 </div>&nbsp;
                                 <div class="row">
@@ -111,15 +111,15 @@
                                             <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST">
+                                            <form action="index.php" method="POST">
                                                 <div class="row">
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="fname">Nombre:</label>
-                                                        <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')">
+                                                        <input type="text" class="form-control" name="register-fname" id="fname" placeholder="Nombre" required onchange="validateInputs('fname')" value=<?php echo $fname; ?>>
                                                     </div>
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="lname">Apellido:</label>
-                                                        <input type="text" class="form-control" name="register-lname" id="lname" placeholder="Apellido" required onchange="validateInputs('lname')">
+                                                        <input type="text" class="form-control" name="register-lname" id="lname" placeholder="Apellido" required onchange="validateInputs('lname')" value=<?php echo $lname; ?>>
                                                     </div>
                                                 </div><br><br>
                                                 <div class="row">
@@ -135,7 +135,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="com">Comuna:</label>
-                                                        <select class="form-control" id="com" name="register-com">
+                                                        <select class="form-control" id="com" name="register-com" value=<?php echo $com; ?>>
                                                             <option value="" selected disabled>Comuna</option>
                                                             <?php  $sql = $conn->prepare("SELECT * FROM COMUNA ORDER BY COMUNA ASC");
                                                                 $sql->execute();
@@ -147,17 +147,17 @@
                                                     </div>
                                                     <div class="col-sm-5 col-sm-push-1">
                                                             <label for="dir">Dirección:</label>
-                                                            <input type="text" class="form-control" name="register-dir" id="dir" placeholder="Dirección" required>
+                                                            <input type="text" class="form-control" name="register-dir" id="dir" placeholder="Dirección" required value=<?php echo $dir; ?>>
                                                     </div>
                                                 </div><br><br>
                                                 <div class="row">
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="cor">Correo:</label>
-                                                        <input type="email" class="form-control" name="register-mail" id="cor" placeholder="Correo" required>
+                                                        <input type="email" class="form-control" name="register-mail" id="cor" placeholder="Correo" required value=<?php echo $mail; ?>>
                                                     </div>
                                                     <div class="col-sm-5 col-sm-push-1">
                                                         <label for="tel">Teléfono:</label>
-                                                        <input type="tel" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" pattern="[0-9]{9}"required>
+                                                        <input type="tel" class="form-control" name="register-phone" id="tel" placeholder="Teléfono" pattern="[0-9]{9}"required value=<?php echo $phone; ?>>
                                                     </div>
                                                     
                                                 </div><br>

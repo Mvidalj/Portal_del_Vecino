@@ -69,8 +69,8 @@ $Configuration['Garden']['Embed']['ForceMobile'] = false;
 $Configuration['Garden']['TrustedDomains'] = '127.0.0.1';
 $Configuration['Garden']['SignIn']['Popup'] = false;
 $Configuration['Garden']['ThemeOptions']['Name'] = 'Bootstrap';
-$Configuration['Garden']['ThemeOptions']['Styles']['Key'] = 'Lumen';
-$Configuration['Garden']['ThemeOptions']['Styles']['Value'] = '%s_lumen';
+$Configuration['Garden']['ThemeOptions']['Styles']['Key'] = 'Simplex';
+$Configuration['Garden']['ThemeOptions']['Styles']['Value'] = '%s_simplex';
 
 // Plugins
 $Configuration['Plugins']['GettingStarted']['Dashboard'] = '1';
@@ -85,4 +85,4 @@ $Configuration['Routes']['DefaultController'] = 'discussions';
 // Vanilla
 $Configuration['Vanilla']['Version'] = '2.3.1';
 
-// Last edited by admin (127.0.0.1)2017-11-07 03:12:15
+// Last edited by admin (127.0.0.1)2017-11-20 19:25:01

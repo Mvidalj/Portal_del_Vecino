@@ -16,5 +16,7 @@
     }
 
     include_once 'class.validaciones.php';
+    include_once 'class.querys.php';
     $user = new USER($conn);
+    $querys = new QUERY($conn);
 ?>

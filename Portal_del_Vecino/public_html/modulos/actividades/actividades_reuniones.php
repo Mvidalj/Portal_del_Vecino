@@ -3,7 +3,7 @@
     require_once '../../validaciones/actions_reuniones.php';
     require_once '../../header.php';
 ?>
-
+<form>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -39,6 +39,7 @@
     </div>
   </div>
 </nav>
+</form>
                         <div class="page-header">
                             <h1>Reuniones <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){echo '<button type="button" class="btn pull-right btn-success" id="add_reunion" name="add_reunion" data-toggle="modal" data-target="#new_reunion">Agregar reunión <i class="fa fa-edit"></i></button>';}?></h1>
                         </div>

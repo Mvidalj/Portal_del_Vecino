@@ -35,7 +35,7 @@
             }
         }
     </script>
-
+    <form>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -71,6 +71,7 @@
         </div>
     </div>
 </nav>
+    </form>
     <div class="page-header">
         <h1>Libro caja <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){echo '<button type="button" class="btn pull-right btn-success" id="add_entry" name="add_entry" data-toggle="modal" data-target="#new_entry">Nueva entrada <i class="fa fa-edit"></i></button>';}?></h1>
     </div>

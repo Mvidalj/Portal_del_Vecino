@@ -5,20 +5,20 @@
         $user->Redirect('index.php');
     } else {
         if($_SESSION['id_org']!= ""){
-            $stmt = $conn->prepare("SELECT * FROM ACTIVIDADES WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
-            $stmt->execute();
+
+            $stmt = $querys->Actividades();
             $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
             if($stmt->rowCount() > 0){
                 $Titulo_act = $userRow['NOMBRE'];
                 $Finicio_act = $userRow['FECHA_INICIO'];
                 $Ftermino_act = $userRow['FECHA_TERMINO'];
-                $Feach_act = "Desde el".$Finicio_act."Hasta el".$Ftermino_act;
+                $Fecha_act = "Desde el".$Finicio_act."Hasta el".$Ftermino_act;
             }else{
             $Titulo_act = "Lo sentimos no hay información disponible";
             $Fecha_act = "";
             }
-            $stmt = $conn->prepare("SELECT * FROM PROYECTOS WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
-            $stmt->execute();
+
+            $stmt = $querys->Proyectos();
             $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
             if($stmt->rowCount() > 0){
                 $Titulo_pro = $userRow['NOMBRE'];
@@ -29,8 +29,8 @@
             $Titulo_pro = "Lo sentimos no hay información disponible";
             $Fecha_pro = "";
             }
-            $stmt = $conn->prepare("SELECT * FROM REUNIONES WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
-            $stmt->execute();
+
+            $stmt = $querys->Reuniones();
             $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
             if($stmt->rowCount() > 0){
                 $Titulo_reu = $userRow['DESCRIPCION'];
@@ -39,6 +39,7 @@
             $Titulo_reu = "Lo sentimos no hay información disponible";
             $Fecha_reu = "";
             }
+
         }else{
             $Titulo_act = "Lo sentimos no hay información disponible";
             $Fecha_act = "";
@@ -48,43 +49,21 @@
             $Fecha_reu = "";
         }
     }
-    if(isset($_REQUEST['submit-create'])){ 
-        $stmt =$conn->prepare('SELECT NOMBRE FROM organizaciones WHERE NOMBRE = :nom');
-        $stmt->bindParam(':nom', $_POST['nameorg']);
-        $stmt->execute();
-        if($stmt->rowCount() == 0){
-            $stmt = $conn->prepare('INSERT INTO organizaciones (id_comuna, nombre)
-            VALUES(:com,:nom)');
-            $stmt->bindParam(':com', $_POST['comorg']);
-            $stmt->bindParam(':nom', $_POST['nameorg']);
-            $stmt->execute();
-            $stmt =$conn->prepare('SELECT ID_ORGANIZACION FROM organizaciones WHERE NOMBRE = :nom');
-            $stmt->bindParam(':nom', $_POST['nameorg']);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $stmt = $conn->prepare('UPDATE usuarios SET ID_ORGANIZACION = :id_org, ID_ROL = 1 WHERE ID_USUARIO = :id_usr');
-            $stmt->bindParam(':id_org', $result['ID_ORGANIZACION']);
-            $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
-            $stmt->execute();
-            $_SESSION['id_org']=$result['ID_ORGANIZACION'];
-            $_SESSION['id_rol']=1;
-            $stmt = $conn->prepare("INSERT INTO asociados (ID_USUARIO, ID_ORGANIZACION, ID_ROL) values (:id_usr, :id_org, 1)");
-            $stmt->bindparam(":id_usr", $_SESSION['id_usuario']);
-            $stmt->bindparam(":id_org", $_SESSION['id_org']);
-            $stmt->execute();
-            echo "<script>alert('Organización creada correctamente.');window.location.href='home.php';</script>";
-        }
-        else{
-            echo "<script>alert('Nombre de organización ya en uso')</script>";
-        }
+    if(isset($_REQUEST['submit-create'])){
+        if($_POST['comorg'] != 'DISABLED'){
+            $querys->org_create($_POST['nameorg'],$_POST['comorg']);
+        }else{
+            echo "<script>alert('Seleccione una comuna')</script>";
+        } 
     }
     
     if(isset($_REQUEST['submit_join'])){
-        $stmt = $conn->prepare("INSERT INTO solicitudes(ID_USUARIO,ID_ORGANIZACION,ESTADO)
-                                VALUES (:id_usr,:id_org,2)");
-        $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
-        $stmt->bindParam(':id_org', $_POST['select_org']);
-        $stmt->execute();
+        if($_POST['select_org'] != 'DISABLED'){
+            $querys->org_join($_POST['select_org']);
+            if ($_SESSION['id_org'] == ''){$user->Logout();}
+        }else{
+            echo "<script>alert('Seleccione una organización')</script>"; 
+        }
     }
 ?>
 <html>
@@ -101,8 +80,7 @@
     <script>
         $(document).ready(function(){
             $("#news").modal();
-        });
-        $(document).ready(function(){
+
             $("#createorg").click(function(){
                 $("#form-createorg").show();
                 $("#form-uniteorg").hide();
@@ -143,38 +121,12 @@
                         <form name="form" action="home.php" method="POST">
                             <button type="submit" id="submit-buscar" name="submit-buscar" hidden></button>
                             <select class="form-control" id="morg" name="morg" onchange="reSend()">
-                                <?php  $stmt = $conn->prepare("SELECT * FROM ASOCIADOS, ORGANIZACIONES WHERE "
-                                        . "ASOCIADOS.ID_ORGANIZACION = ORGANIZACIONES.ID_ORGANIZACION and ID_USUARIO = :id_usr");
-                                    $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
-                                    $stmt->execute();
-                                    $data = array();$count = 0;
-                                    while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        array_push($data,$result['ID_USUARIO'],$result['ID_ORGANIZACION'],$result['ID_ROL']);
-                                        if ($result['ID_ORGANIZACION'] == $_SESSION['id_org']){
-                                            echo "<option value='".$count."' selected>".$result['NOMBRE']."</option>";
-                                        }else{
-                                            echo "<option value='".$count."'>".$result['NOMBRE']."</option>";
-                                        }
-                                        $count += 3;
-                                    }
+                                <?php   
+                                    $data = $querys->org_select();
                                     if(isset($_REQUEST['submit-buscar'])){
-                                        $cont = $_POST['morg'];
-                                        try{
-                                            $stmt = $conn->prepare("UPDATE usuarios SET ID_ORGANIZACION = :id_org, ID_ROL = :id_rol "
-                                                    . "WHERE usuarios.ID_USUARIO = :id_usr");
-                                            $stmt->bindParam(':id_usr', $data[$cont+0]);
-                                            $stmt->bindParam(':id_org', $data[$cont+1]);
-                                            $stmt->bindParam(':id_rol', $data[$cont+2]);
-                                            if($stmt->execute()){
-                                                $_SESSION['id_org'] = $data[$cont+1];
-                                                $_SESSION['id_rol'] = $data[$cont+2];
-                                                $user->Redirect('home.php');
-                                            }
-                                        }catch(PDOException $e){
-                                            echo "<script>alert('Hubo un error, intentelo nuevamentes')</script>";
-                                        }
+                                        $querys->org_update($data,$_POST['morg']);
                                     }
-                                 ?>
+                                ?>
                             </select>
                         </form>
                     </div>
@@ -258,16 +210,15 @@
                                 <fieldset>
                                     <legend>Registrar organización</legend>
                                     <label for="nameorg" >Nombre de organización: </label>
-                                    <input type="text" class="form-control" id="nameorg" name="nameorg"><br>
+                                    <input type="text" class="form-control" id="nameorg" name="nameorg" required><br>
                                     <label for="comorg" >Comuna: </label>
                                     <select class="form-control" id="comorg" name="comorg">
-                                        <option value="" disabled selected>Comuna</option>
-                                        <?php  $sql = $conn->prepare("SELECT * FROM COMUNA ORDER BY COMUNA ASC ");
-                                            $sql->execute();
-                                            while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                        <option value='DISABLED' hidden selected>Comuna</option>
+                                        <?php  $stmt = $querys->comunas();
+                                            while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                 echo "<option value=".$result['ID_COMUNA'].">".$result['COMUNA']."</option>";
                                             }
-                                         ?>
+                                        ?>
                                     </select><br>
                                     <input type="submit" id="submit-create" name="submit-create" class="btn btn-success" value="Registrar organización">
                                 </fieldset>
@@ -279,9 +230,9 @@
                                     <legend>Unirse a organización</legend>
                                     <label for="select-org" >Organizacion: </label>
                                     <select class="form-control" id="select-org" name="select_org">
-                                <?php  $sql = $conn->prepare("SELECT * FROM organizaciones ORDER BY NOMBRE ASC");
-                                       $sql->execute();
-                                       while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                                        <option value='DISABLED' hidden selected>Organización</option>
+                                <?php   $stmt = $querys->organizaciones();
+                                        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                            echo "<option value='".$result['ID_ORGANIZACION']."'>".$result['NOMBRE']."</option>";
                                        }
                                 ?>

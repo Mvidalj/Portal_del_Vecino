@@ -100,5 +100,42 @@
             $stmt->execute();
             return $stmt;
         }
+        public function act_delete($id){
+            try {
+                $stmt = $this->db->prepare("UPDATE tesoreria SET ELIMINADO = 1 WHERE ID_TESORERIA = :id");
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+        public function tesoreria_edit($date,$caption,$ammount,$activity,$id){
+            try {
+                $stmt = $this->db->prepare("UPDATE tesoreria SET FECHA = :EDITFECHA, CONCEPTO = :EDITCONCEPTO, MONTO = :EDITOMONTO, E_S = :EDITACTIVIDAD WHERE ID_TESORERIA = :ID");
+                $stmt->bindParam(':EDITFECHA', $date);
+                $stmt->bindParam(':EDITCONCEPTO', $caption);
+                $stmt->bindParam(':EDITOMONTO', $ammount);
+                $stmt->bindParam(':EDITACTIVIDAD', $activity);
+                $stmt->bindParam(':ID', $id);
+                $stmt->execute();
+            } 
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+        public function tesoreria_insert($date,$concept,$activity,$ammount){
+            try {
+                $stmt = $this->db->prepare("INSERT INTO tesoreria (ID_ORGANIZACION, FECHA, CONCEPTO, E_S, MONTO) VALUES(:IDORG, :FECHA, :CONCEPTO, :E_S, :MONTO)");
+                $stmt->bindParam(':IDORG', $_SESSION['id_org']);
+                $stmt->bindParam(':FECHA', $date);
+                $stmt->bindParam(':CONCEPTO', $concept);
+                $stmt->bindParam(':E_S', $activity);
+                $stmt->bindParam(':MONTO', $ammount);
+                $stmt->execute();
+            } 
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
     }
 ?>

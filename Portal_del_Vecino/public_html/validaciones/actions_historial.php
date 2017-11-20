@@ -1,4 +1,5 @@
-<?php    
+<?php
+require_once '../../validaciones/conexion_bd.php';
 if($user->Is_Loggedin() != true)
     {
         $user->Redirect('../../index.php');

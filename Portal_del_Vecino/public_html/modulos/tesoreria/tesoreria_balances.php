@@ -66,14 +66,15 @@
                 <li><a href="../../foro.php">Foro</a></li>
             </ul>
              <ul class="nav navbar-nav navbar-right">
-                <li><button type="submit" class="btn btn-primary navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
+                <li><button type="submit" class="btn btn-danger navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
             </ul>
         </div>
     </div>
 </nav>
-    </form>
+</form>
+<div class="jumbotron">
     <div class="page-header">
-        <h1>Libro caja <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){echo '<button type="button" class="btn pull-right btn-success" id="add_entry" name="add_entry" data-toggle="modal" data-target="#new_entry">Nueva entrada <i class="fa fa-edit"></i></button>';}?></h1>
+        <h2>Libro caja <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){echo '<button type="button" class="btn pull-right btn-success" id="add_entry" name="add_entry" data-toggle="modal" data-target="#new_entry">Nueva entrada <i class="fa fa-edit"></i></button>';}?></h2>
     </div>
     <form name="form" action="tesoreria_balances.php" method="POST">
         <div class="row">
@@ -356,6 +357,7 @@
             </tbody>
         </table>
     </div>
+</div>
     &nbsp;
     <!-- Modal -->
     <div id="new_entry" class='modal fade' role='dialog'>

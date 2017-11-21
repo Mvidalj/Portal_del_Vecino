@@ -8,17 +8,22 @@
         }
 
         public function Actividades(){
-            $stmt = $this->db->prepare("SELECT * FROM actividades WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
+            $stmt = $this->db->prepare("SELECT * FROM actividades WHERE ID_ORGANIZACION = :idorg AND FECHA_TERMINO >= :date AND ELIMINADO = 0 ORDER BY FECHA_INICIO ASC");
+            $stmt->bindParam(':idorg', $_SESSION['id_org']);
+            $stmt->bindParam(':date', date('Y-m-d'));
             $stmt -> execute();
             return $stmt;
         }
         public function Proyectos(){
-            $stmt = $this->db->prepare("SELECT * FROM proyectos WHERE ID_ORGANIZACION=".$_SESSION['id_org']."");
+            $stmt = $this->db->prepare("SELECT * FROM proyectos WHERE ID_ORGANIZACION = :idorg AND FECHA_TERMINO >= :date AND ELIMINADO = 0 ORDER BY FECHA_INICIO ASC");
+            $stmt->bindParam(':idorg', $_SESSION['id_org']);
+            $stmt->bindParam(':date', date('Y-m-d'));
             $stmt -> execute();
             return $stmt;
         }
         public function Reuniones(){
-            $stmt = $this->db->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION=".$_SESSION['id_org']." ORDER BY FECHA_REUNION ASC");
+            $stmt = $this->db->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION = :idorg AND ESTADO = 'PENDIENTE' ORDER BY FECHA_REUNION ASC");
+            $stmt->bindParam(':idorg', $_SESSION['id_org']);
             $stmt -> execute();
             return $stmt;
         }
@@ -84,7 +89,7 @@
                 if($stmt->execute()){
                     $_SESSION['id_org'] = $data[$cont+1];
                     $_SESSION['id_rol'] = $data[$cont+2];
-                    header("Location: home.php");
+                    header("Location: #");
                 }
             }catch(PDOException $e){
                 echo "<script>alert('Hubo un error, intentelo nuevamente')</script>";

@@ -6419,6 +6419,19 @@ button.close {
   margin: 0;
   background-color: #fff;
 }
+.carousel-caption-top {
+    top: 0;
+    bottom: auto;
+    position: absolute;
+    right: 15%;
+    left: 15%;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #000;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+}
 .carousel-caption {
   position: absolute;
   right: 15%;
@@ -6433,6 +6446,15 @@ button.close {
 }
 .carousel-caption .btn {
   text-shadow: none;
+}
+.carousel-caption-top h1{
+  display: inline;
+  background-color: #fff;
+}
+.carousel-caption h2, .carousel-caption h3{
+  display: table;
+  margin: auto;
+  background-color: rgba(0,0,0,0.5);
 }
 @media screen and (min-width: 768px) {
   .carousel-control .glyphicon-chevron-left,
@@ -6921,4 +6943,8 @@ textarea{
 .center-image{ 
   display: block;
   margin: auto;
+}
+body{
+    background: url('../imagenes/fondo.jpg');
+    background-size: cover;
 }

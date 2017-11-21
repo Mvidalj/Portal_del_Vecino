@@ -12,7 +12,7 @@
                 $Titulo_act = $userRow['NOMBRE'];
                 $Finicio_act = $userRow['FECHA_INICIO'];
                 $Ftermino_act = $userRow['FECHA_TERMINO'];
-                $Fecha_act = "Desde el".$Finicio_act."Hasta el".$Ftermino_act;
+                $Fecha_act = "Desde el ".$Finicio_act." Hasta el ".$Ftermino_act;
             }else{
             $Titulo_act = "Lo sentimos no hay información disponible";
             $Fecha_act = "";
@@ -34,7 +34,7 @@
             $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
             if($stmt->rowCount() > 0){
                 $Titulo_reu = $userRow['DESCRIPCION'];
-                $Fecha_reu = "Se realizara el dia".$userRow['FECHA_REUNION'];
+                $Fecha_reu = "Se realizara el dia ".$userRow['FECHA_REUNION'];
             }else{
             $Titulo_reu = "Lo sentimos no hay información disponible";
             $Fecha_reu = "";
@@ -74,7 +74,6 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="estilos/estilo.css">
     <script src="librerias/jquery-3.2.1.js"></script>
     <script src="librerias/bootstrap.js"></script>
     <script src="librerias/jquery.dataTables.min.js"></script>
@@ -203,26 +202,38 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
                 <div class="item active">
-                    <img class="center-image" src="imagenes/tesoreria.jpg" alt="Tesoreria">
+                    <img class="center-image" src="imagenes/actividad.jpg" alt="Actividad">
+                    <div class="carousel-caption-top">
+                        <h1>Actividad</h1>
+                    </div>
                     <div class="carousel-caption">
-                        <h3><?php echo $Titulo_act;?></h3>
-                        <p><?php echo $Fecha_act;?></p>
+                        <h2><?php echo $Titulo_act;?></h2>
+                        &nbsp;
+                        <h3><?php echo $Fecha_act;?></h3>
                     </div>
                 </div>
             
                 <div class="item">
-                    <img class="center-image" src="imagenes/proyectos.bmp" alt="Reuniones">
+                    <img class="center-image" src="imagenes/proyecto.jpg" alt="Proyecto">
+                    <div class="carousel-caption-top">
+                        <h1>Proyecto</h1>
+                    </div>
                     <div class="carousel-caption">
-                        <h3><?php echo $Titulo_pro;?></h3>
-                        <p><?php echo $Fecha_pro;?></p>
+                        <h2><?php echo $Titulo_pro;?></h2>
+                        &nbsp;
+                        <h3><?php echo $Fecha_pro;?></h3>
                     </div>
                 </div>
             
               <div class="item">
-                  <img class="center-image" src="imagenes/reuniones.bmp" alt="Reuniones">
+                  <img class="center-image" src="imagenes/reunion.jpg" alt="Reunion">
+                    <div class="carousel-caption-top">
+                        <h1>Reunion</h1>
+                    </div>
                 <div class="carousel-caption">
-                  <h3><?php echo $Titulo_reu;?></h3>
-                  <p><?php echo $Fecha_reu;?></p>
+                  <h2><?php echo $Titulo_reu;?></h2>
+                  &nbsp;
+                  <h3><?php echo $Fecha_reu;?></h3>
                 </div>
               </div>
             </div>

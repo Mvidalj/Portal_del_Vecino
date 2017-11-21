@@ -57,10 +57,6 @@
             <tbody>
                 <?php
                     try {
-
-                        $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
-                        $sql->bindparam(":IDORG", $_SESSION['id_org']);
-                        $sql->execute();
                         $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
                         $sql->bindparam(":IDORG", $_SESSION['id_org']);
                         $sql->execute();
@@ -73,8 +69,27 @@
                                     }
                                 }
                         echo "</datalist>";
-
                         while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                            $usuarios = array();
+                            $idusuerios = array();
+                            $solicitudes = "";
+                            $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = :IDREC");
+                            $query->bindparam(":IDREC", $result['ID_RECURSO']);
+                            $query->execute();
+                            while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+                                if(!in_array($data['ID_USUARIO'], $idusuerios)){
+                                    array_push($idusuerios, ($data['ID_USUARIO']));
+                                }
+                            }
+                            foreach ($idusuerios as &$user){
+                                $stmt = $conn->prepare("SELECT NOMBRE, APELLIDO FROM usuarios WHERE ID_USUARIO = :IDUSR");
+                                $stmt->bindparam(":IDUSR", $user);
+                                $stmt->execute();
+                                $res = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $solicitudes = $solicitudes."<li>".$res['NOMBRE']." ".$res['APELLIDO']."</li>";
+                            }
+                            if($solicitudes == ""){$solicitudes = "No hay usuarios que hayan solicitado este recurso aún";}
+                                 
                             $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
                                             <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
                                             <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
@@ -118,35 +133,36 @@
                                            </form>";
                             if($result['ESTADO'] == 1){
                                 $estado = 'Se ha solicitado';
-                                $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = ".$result['ID_RECURSO']."");
-                                $query->execute();
-                                $mindate = array(); $maxdate = array(); 
-                                while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
-                                    array_push($mindate, intval(mb_substr($data['FECHA_INICIO'], 11,2)));
-                                    array_push($maxdate, intval(mb_substr($data['FECHA_TERMINO'], 11,2)));
-                                }
-                                /*
-                                echo "<datalist id='hourlist'>";
-                                    for ($i = 9; $i <= 22; $i++) {
-                                        $hora = ''.strval($i).':00';
-                                        if($i == 9){
-                                            $hora = '0'.strval($i).':00';
-                                        }
-                                        if(!in_array($i, $mindate) && !in_array($i, $maxdate)){
-                                            echo "<option value=".$hora.">";
-                                        }
-                                    }
-                                echo "</datalist>";
-                                if($i < intval(mb_substr($mindate, 11,2)) || $i > intval(mb_substr($maxdate, 11,2))){
-                                */
-
                             }else{
                                 $estado = 'Disponible';
                             }
-                            echo "<tr>                                       
+                            echo "<tr>
                                     <td class='text-center'>".$result['NOMBRE']."</td>
-                                    <td>".$result['DESCRIPCION']."</td>
-                                    <td>".$estado."</td>
+                                    <td>".$result['DESCRIPCION']."</td>";
+                                   if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
+                                       echo "<td><a href='#' data-toggle='modal' data-target='#ADMIN".$result['ID_RECURSO']."'>".$estado."</a></td>";
+                                       echo "
+                                            <!-- Modal -->
+                                            <div id='ADMIN".$result['ID_RECURSO']."' class='modal fade' role='dialog'>
+                                                <div class='modal-dialog'>
+                                                <!-- Modal content-->
+                                                    <div class='modal-content'>
+                                                        <div class='modal-header'>
+                                                            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                                            <h4 class='modal-title'>Usuarios que han solicitado este recurso</h4>
+                                                        </div>
+                                                        <div class='modal-body'>
+                                                            <ul>
+                                                                ".$solicitudes."
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>";
+                                   }else{
+                                       echo "<td>".$estado."</td>";
+                                   }
+                                   echo "
                                     <td>".$solicitar."</td>
                                 "; if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "3"){
                                     echo "<td class='text-center'>

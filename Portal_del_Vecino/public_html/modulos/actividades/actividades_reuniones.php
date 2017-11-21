@@ -69,7 +69,7 @@
                                         }
                                         if($result['ESTADO'] == 'REALIZADO'){
                                             if (file_exists("../../files/".$result['ACTA_REUNION']."")){
-                                                $acta = "<a download='".$result['ACTA_REUNION']."' href='../../files'".$result['ACTA_REUNION']." title='Acta'>".$result['ACTA_REUNION']."</a>";
+                                                $acta = "<a download='".$result['ACTA_REUNION']."' href='../../files/".$result['ACTA_REUNION']."' title='Acta'>".$result['ACTA_REUNION']."</a>";
                                             }else{$acta = "<p> ".$result['ACTA_REUNION']."</p>";}
                                             echo "<td class='text-center'><a href='#' data-toggle='modal' data-target='#ACTA".$result['ID_REUNION']."'>".$result['ESTADO']."</a></td>";
                                             echo "

@@ -73,7 +73,7 @@
                                                 <div class='modal-content'>
                                                     <div class='modal-header'>
                                                         <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                        <h4 class='modal-title'>Descripción de actividad</h4>
+                                                        <h4 class='modal-title'>Descripción de proyecto</h4>
                                                     </div>
                                                     <div class='modal-body'>
                                                         <p>

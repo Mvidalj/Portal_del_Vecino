@@ -8,6 +8,13 @@ if($user->Is_Loggedin() != true)
         }
         
         if(isset($_REQUEST['submit-edit'])){
+            $destino = '../../files' ; // Carpeta donde se guardata 
+            $tipo = $_FILES["file"]["name"]; 
+            if($_FILES['file']['size']<1500000){ //Solo sube la imagen si su tamaño en bytes es pequeña(para no ralentizar el server)
+                move_uploaded_file ( $_FILES [ 'file' ][ 'tmp_name' ], $destino . '/' .$_SESSION['id_org'].'-'.$_POST['id_reunion'].' '.$tipo."");  // Subimos el archivo
+            }
+            else echo "<script>alert('Imagen muy grande')</script>";
+
             $querys->reuniones_edit($_POST['edit_date'],$_POST['edit_state'],$_POST['edit_desc'],$_POST['acta'],$_POST['id_reunion']);
         }
 

@@ -22,7 +22,7 @@
             return $stmt;
         }
         public function Reuniones(){
-            $stmt = $this->db->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION = :idorg AND ESTADO = 'PENDIENTE' ORDER BY FECHA_REUNION ASC");
+            $stmt = $this->db->prepare("SELECT * FROM reuniones WHERE ID_ORGANIZACION = :idorg AND ESTADO != 'CANCELADO' ORDER BY FECHA_REUNION ASC");
             $stmt->bindParam(':idorg', $_SESSION['id_org']);
             $stmt -> execute();
             return $stmt;

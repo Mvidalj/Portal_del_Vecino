@@ -1,6 +1,6 @@
 <?php 
     require_once '../../validaciones/conexion_bd.php';
-    require_once '../../validaciones/actions_reuniones.php';
+    include ('../../validaciones/actions_reuniones.php');
     require_once '../../header.php';
 ?>
 <form>
@@ -45,7 +45,7 @@
             <h2>Reuniones <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "4"){echo '<button type="button" class="btn pull-right btn-success" id="add_reunion" name="add_reunion" data-toggle="modal" data-target="#new_reunion">Agregar reunión <i class="fa fa-edit"></i></button>';}?></h2>
         </div>
         <div class="table-responsive">
-            <form action="actividades_reuniones.php" method='POST'>
+            <form action="actividades_reuniones.php" method='POST' enctype='multipart/form-data'>
                 <table id="example" class="table table-bordered">
                     <thead>
                         <tr>
@@ -101,7 +101,7 @@
                                             }
                                             echo
                                             "<td class='text-center'>
-                                                <form action='actividades_reuniones.php' method='POST'>
+                                                <form action='actividades_reuniones.php' method='POST' enctype='multipart/form-data'>
                                                     <input type='hidden' id='id_reunion' name='id_reunion' value='".$result['ID_REUNION']."'>
                                                     <button type='button' class='btn btn-info' id='edit_reunion' name='edit_reunion' data-toggle='modal' data-target='#".$result['ID_REUNION']."' onclick=\"DisplayActa('".$result['ID_REUNION']."')\"><i class='fa fa-edit'></i></button>
                                                     <!-- Modal -->
@@ -125,7 +125,9 @@
                                                                     <div id='dacta".$result['ID_REUNION']."'>
                                                                         <label>Acta de reunión: </label>
                                                                         <textarea class='form-control' id='acta".$result['ID_REUNION']."' rows='5' name='acta' >".$result['ACTA_REUNION']."</textarea><br>
+                                                                        <label class='btn btn-info btn-file'>Subir Acta <input name='file' type='file' style='display: none;' accept='*'></label>
                                                                     </div>
+                                                                    <br>
                                                                     <button type='submit' class='btn btn-primary' id='submit-edit' name='submit-edit' onclick=\"return confirm('¿Está seguro de que desea editar este dato?')\">Editar <span class='fa fa-save'></span></button>
                                                                 </div>
                                                             </div>

@@ -77,10 +77,12 @@
                                 array_push($idusuerios, ($data['ID_USUARIO']));
                                 array_push($usuarios, (" Desde ".$data['FECHA_INICIO']." Hasta ".$data['FECHA_TERMINO']));
                             }
+                            $count = 0;
                             foreach ($idusuerios as &$user){
                                 $stmt3 = $querys->nombre_usr($user);
                                 $res = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                $solicitudes = $solicitudes."<li>".$res['NOMBRE']." ".$res['APELLIDO'].$usuarios[$user]."</li>";
+                                $solicitudes = $solicitudes."<li>".$res['NOMBRE']." ".$res['APELLIDO'].$usuarios[$count]."</li>";
+                                $count += 1;
                             }
                             if($solicitudes == ""){$solicitudes = "No hay usuarios que hayan solicitado este recurso aún";}
                                  

@@ -1,8 +1,7 @@
 <?php
     require_once 'validaciones/conexion_bd.php';
     
-    $stmt = $conn->prepare("SELECT * FROM USUARIOS WHERE ID_USUARIO=".$_SESSION['id_usuario']."");
-    $stmt->execute();
+    $stmt = $querys->usuario($_SESSION['id_usuario']);
     $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
         if($stmt->rowCount() > 0){
             $fname = $userRow['NOMBRE'];

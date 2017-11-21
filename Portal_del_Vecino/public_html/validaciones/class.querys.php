@@ -400,5 +400,55 @@
             $stmt->execute();
             return $stmt;   
         }
+        public function recursos(){
+            $stmt = $this->db->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+            $stmt->bindparam(":IDORG", $_SESSION['id_org']);
+            $stmt->execute();
+            return $stmt;
+        }
+        public function prestamos($recurso){
+            $stmt = $this->db->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = :IDREC");
+            $stmt->bindparam(":IDREC", $recurso);
+            $stmt->execute();
+            return $stmt;
+        }
+        public function nombre_usr($user){
+            $stmt = $this->db->prepare("SELECT NOMBRE, APELLIDO FROM usuarios WHERE ID_USUARIO = :IDUSR");
+            $stmt->bindparam(":IDUSR", $user);
+            $stmt->execute();
+            return $stmt;
+        }
+        public function balance(){
+            $stmt = $this->db->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+            $stmt->bindparam(":IDORG", $_SESSION['id_org']);
+            $stmt->execute();
+            return $stmt;
+        }
+        public function search_balances($fecha_desde,$fecha_hasta,$actividad){
+            if($fecha_desde != "" && $fecha_hasta != ""){
+                if(isset($actividad)){
+                    $stmt = $this->db->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad  AND ID_ORGANIZACION = :IDORG");
+                    $stmt->bindparam(":IDORG", $_SESSION['id_org']);
+                    $stmt->bindparam(":fecha_desde",  date('Y-m-d', strtotime($fecha_desde)));
+                    $stmt->bindparam(":fecha_hasta",  date('Y-m-d', strtotime($fecha_hasta)));
+                    $stmt->bindparam(":actividad", $actividad);
+                }else{
+                    $stmt = $this->db->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND FECHA BETWEEN :fecha_desde AND :fecha_hasta AND ID_ORGANIZACION = :IDORG");
+                    $stmt->bindparam(":IDORG", $_SESSION['id_org']);
+                    $stmt->bindparam(':fecha_desde',  date('Y-m-d', strtotime($fecha_desde)));
+                    $stmt->bindparam(':fecha_hasta',  date('Y-m-d', strtotime($fecha_hasta)));
+                }
+            }else{
+                if(isset($actividad)){
+                    $stmt = $this->db->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND E_S in (:actividad, '3') AND ID_ORGANIZACION = :IDORG");
+                    $stmt->bindparam(":IDORG", $_SESSION['id_org']);
+                    $stmt->bindparam(":actividad", $actividad);
+                }else{
+                    $stmt = $this->db->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
+                    $stmt->bindparam(":IDORG", $_SESSION['id_org']);
+                }
+            }
+            return $stmt;
+        }
     }
 ?>

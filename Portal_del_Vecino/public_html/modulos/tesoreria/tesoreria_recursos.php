@@ -57,9 +57,7 @@
             <tbody>
                 <?php
                     try {
-                        $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
-                        $sql->bindparam(":IDORG", $_SESSION['id_org']);
-                        $sql->execute();
+                        $stmt = $querys->recursos();
                         echo "<datalist id='hourlist'>";
                                 for ($i = 9; $i <= 22; $i++) {
                                     if($i == 9){
@@ -69,22 +67,18 @@
                                     }
                                 }
                         echo "</datalist>";
-                        while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             $usuarios = array();
                             $idusuerios = array();
                             $solicitudes = "";
-                            $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = :IDREC");
-                            $query->bindparam(":IDREC", $result['ID_RECURSO']);
-                            $query->execute();
-                            while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+                            $stmt = $querys->prestamos($result['ID_RECURSO']);
+                            while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 if(!in_array($data['ID_USUARIO'], $idusuerios)){
                                     array_push($idusuerios, ($data['ID_USUARIO']));
                                 }
                             }
                             foreach ($idusuerios as &$user){
-                                $stmt = $conn->prepare("SELECT NOMBRE, APELLIDO FROM usuarios WHERE ID_USUARIO = :IDUSR");
-                                $stmt->bindparam(":IDUSR", $user);
-                                $stmt->execute();
+                                $stmt = $querys->nombre_usr($user);
                                 $res = $stmt->fetch(PDO::FETCH_ASSOC);
                                 $solicitudes = $solicitudes."<li>".$res['NOMBRE']." ".$res['APELLIDO']."</li>";
                             }

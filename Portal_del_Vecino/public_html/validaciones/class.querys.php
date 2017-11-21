@@ -426,7 +426,7 @@
         }
         public function search_balances($fecha_desde,$fecha_hasta,$actividad){
             if($fecha_desde != "" && $fecha_hasta != ""){
-                if(isset($actividad)){
+                if($actividad < 2){
                     $stmt = $this->db->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND FECHA BETWEEN :fecha_desde AND :fecha_hasta AND E_S = :actividad  AND ID_ORGANIZACION = :IDORG");
                     $stmt->bindparam(":IDORG", $_SESSION['id_org']);
                     $stmt->bindparam(":fecha_desde",  date('Y-m-d', strtotime($fecha_desde)));
@@ -439,7 +439,7 @@
                     $stmt->bindparam(':fecha_hasta',  date('Y-m-d', strtotime($fecha_hasta)));
                 }
             }else{
-                if(isset($actividad)){
+                if($actividad < 2){
                     $stmt = $this->db->prepare("SELECT * FROM tesoreria WHERE ELIMINADO = 0 AND E_S in (:actividad, '3') AND ID_ORGANIZACION = :IDORG");
                     $stmt->bindparam(":IDORG", $_SESSION['id_org']);
                     $stmt->bindparam(":actividad", $actividad);
@@ -448,6 +448,7 @@
                     $stmt->bindparam(":IDORG", $_SESSION['id_org']);
                 }
             }
+            $stmt->execute();
             return $stmt;
         }
     }

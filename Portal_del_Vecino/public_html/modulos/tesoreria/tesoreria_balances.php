@@ -87,8 +87,8 @@
                 <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta">
             </div>
             <div class="col-sm-2">
-                <select class="form-control" id="select_actividad" name="select_actividad" onchange="reSendSearch()">
-                    <option value="" disabled selected>Ingresos/Egresos</option>
+                <select class="form-control" id="select_actividad" name="select_actividad"">
+                    <option value="2" selected>Ingresos/Egresos</option>
                     <option value="1">Ingresos</option>
                     <option value="0">Egresos</option>
                 </select> 
@@ -249,7 +249,6 @@
                                                 <option value='0'>Egreso</option>
                                                 ";
                                     }
-
                                     echo "<tr>                                       
                                         <td>".$result['FECHA']."</td>
                                         <td>".$result['CONCEPTO']."</td>
@@ -341,7 +340,6 @@
                                         echo "</tr>";
                                 }
                             }
-
                             echo "<tr class='info'>
                                     <td><strong>".date('Y-m-d', time())."</strong></td>
                                     <td><strong>SUB-TOTAL</strong></td>
@@ -349,7 +347,6 @@
                                     <td class='text-right'></td>
                                     <td class='text-right'></td>
                                   </tr>";
-
                         }
                         catch (Exception $e) {
                             echo "Error: " . $e->getMessage();
@@ -377,7 +374,7 @@
                         <input type="text" class="form-control" id="concepto" name="concepto" required><br>
                         <label>Actividad:</label>
                         <select class="form-control" id="select_actividad" name="select_actividad" required>
-                            <option value="" disabled selected>Ingreso/Egreso</option>
+                            <option value="" selected>Ingreso/Egreso</option>
                             <option value="3">Registro de saldo</option>
                             <option value="1">Ingreso</option>
                             <option value="0">Egreso</option>
@@ -393,7 +390,7 @@
     <div>
         <?php include("../../modal_accept_user.php");
               include ('../../config.php');
-              include("../../modal_orgs.php");?>		
+              include("../../modal_orgs.php");?>        
     </div>
     </body>
     <script>
@@ -402,10 +399,6 @@
         GetBalance();// Obtiene el saldo actual
         function PrintPage() {
             window.print();
-        }
-        // Función para que al seleccionar una actividad se reenvíe el formulario y recargue la página con nuevos datos
-        function reSendSearch() {
-            document.querySelectorAll("button[type=submit]")[1].click();
         }
     </script>
 </html>

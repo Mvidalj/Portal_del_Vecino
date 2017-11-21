@@ -186,7 +186,7 @@
         <li><a href="foro.php">Foro</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-          <li><button type="submit" class="btn btn-primary navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
+          <li><button type="submit" class="btn btn-danger navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
       </ul>
     </div>
   </div>
@@ -202,24 +202,24 @@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
-              <div class="item active">
-                <img class="center-image" src="imagenes/prueba.png" alt="Fiestas patrias">
-                <div class="carousel-caption">
-                    <h3><?php echo $Titulo_act;?></h3>
-                  <p><?php echo $Fecha_act;?></p>
+                <div class="item active">
+                    <img class="center-image" src="imagenes/tesoreria.jpg" alt="Tesoreria">
+                    <div class="carousel-caption">
+                        <h3><?php echo $Titulo_act;?></h3>
+                        <p><?php echo $Fecha_act;?></p>
+                    </div>
                 </div>
-              </div>
+            
+                <div class="item">
+                    <img class="center-image" src="imagenes/proyectos.bmp" alt="Reuniones">
+                    <div class="carousel-caption">
+                        <h3><?php echo $Titulo_pro;?></h3>
+                        <p><?php echo $Fecha_pro;?></p>
+                    </div>
+                </div>
             
               <div class="item">
-                <img class="center-image" src="imagenes/prueba.png" alt="Fiestas patrias">
-                <div class="carousel-caption">
-                  <h3><?php echo $Titulo_pro;?></h3>
-                  <p><?php echo $Fecha_pro;?></p>
-                </div>
-              </div>
-            
-              <div class="item">
-                <img class="center-image" src="imagenes/prueba.png" alt="Fiestas patrias">
+                  <img class="center-image" src="imagenes/reuniones.bmp" alt="Reuniones">
                 <div class="carousel-caption">
                   <h3><?php echo $Titulo_reu;?></h3>
                   <p><?php echo $Fecha_reu;?></p>
@@ -238,6 +238,7 @@
             </a>
           </div>
     </div>
+    &nbsp;
     <div>	
 	<?php include("modal_accept_user.php");
               include("config.php");

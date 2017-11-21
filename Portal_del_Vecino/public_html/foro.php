@@ -142,7 +142,7 @@
         <li class="active" ><a href="foro.php">Foro</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-          <li><button type="submit" class="btn btn-primary navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
+          <li><button type="submit" class="btn btn-danger navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
       </ul>
     </div>
   </div>

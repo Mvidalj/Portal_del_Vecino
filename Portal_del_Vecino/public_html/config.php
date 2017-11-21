@@ -21,8 +21,7 @@
         $tipo=$sep[1]; // Optenemos el tipo de imagen que es 
         if($tipo == "jpeg" || $tipo == "jpg" || $tipo == "bmp" || $tipo == "png"){
             if($_FILES['file']['size']<1500000){ //Solo sube la imagen si su tamaño en bytes es pequeña(para no ralentizar el server)
-                move_uploaded_file ( $_FILES [ 'file' ][ 'tmp_name' ], $destino . '/' .$_SESSION['id_usuario'].'.'."$tipo");  // Subimos el archivo
-                $_SESSION['extensionimage'] = $tipo;
+                move_uploaded_file ( $_FILES [ 'file' ][ 'tmp_name' ], $destino . '/' .$_SESSION['id_usuario'].'.jpg');  // Subimos el archivo
             }
             else echo "<script>alert('Imagen muy grande')</script>";
         }

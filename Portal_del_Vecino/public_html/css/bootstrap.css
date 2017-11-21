@@ -1411,7 +1411,7 @@ a.bg-danger:focus {
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #000;
 }
 ul,
 ol {
@@ -4960,7 +4960,7 @@ a.badge:focus {
   margin-top: 15px;
   margin-bottom: 15px;
   color: inherit;
-  background-color: #eee;
+  background-color: #f8f8f8;
 }
 .jumbotron h1,
 .jumbotron .h1 {

@@ -35,14 +35,15 @@
         <li><a href="../../foro.php">Foro</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><button type="submit" class="btn btn-primary navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
+        <li><button type="submit" class="btn btn-danger navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
       </ul>
     </div>
   </div>
 </nav>
 </form>
+<div class="jumbotron">
     <div class="page-header">
-        <h1>Proyectos<small> (Vigentes)</small> <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "5"){echo '<button type="button" class="btn pull-right btn-success" id="add_proyectos" name="add_proyectos" data-toggle="modal" data-target="#new_proyecto">Agregar proyectos <i class="fa fa-edit"></i></button>';}?></h1>
+        <h2>Proyectos<small> (Vigentes)</small> <?php if ($_SESSION['id_rol'] == "1" || $_SESSION['id_rol'] == "5"){echo '<button type="button" class="btn pull-right btn-success" id="add_proyectos" name="add_proyectos" data-toggle="modal" data-target="#new_proyecto">Agregar proyectos <i class="fa fa-edit"></i></button>';}?></h2>
     </div>
     <div class="table-responsive">
     <table id="example" class="table table-bordered">
@@ -125,7 +126,8 @@
             </tbody>
         </table>
     </div>
-<br><br><br>
+</div>
+
 <!-- Modal -->
     <div id="new_proyecto" class='modal fade' role='dialog'>
         <div class='modal-dialog'>

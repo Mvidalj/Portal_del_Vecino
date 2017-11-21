@@ -87,7 +87,7 @@
                     header("Location: home.php");
                 }
             }catch(PDOException $e){
-                echo "<script>alert('Hubo un error, intentelo nuevamentes')</script>";
+                echo "<script>alert('Hubo un error, intentelo nuevamente')</script>";
             }
         }
         public function comunas(){
@@ -315,6 +315,90 @@
             }catch(PDOException $e){
                 echo 'Fallo la conexion:'.$e->GetMessage();
             }
+        }
+        public function accept_user($id){
+            $stmt = $this->db->prepare("UPDATE usuarios set ID_ORGANIZACION = :id_org WHERE ID_USUARIO = :id_usr");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute();
+            $stmt = $this->db->prepare("UPDATE solicitudes set ESTADO = 1 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute();
+            $stmt = $this->db->prepare("INSERT INTO asociados (ID_USUARIO, ID_ORGANIZACION, ID_ROL) values (:id_usr, :id_org, 2)");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute();    
+        }
+        public function deny_user($id){
+            $stmt = $this->db->prepare("UPDATE solicitudes set ESTADO = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute();
+        }
+        public function add_tesorero($id){
+            $stmt = $this->db->prepare("UPDATE usuarios set ID_ROL = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute();
+            $stmt = $this->db->prepare("UPDATE asociados set ID_ROL = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute();
+        }
+        public function add_admin_actividades($id){
+            $stmt = $this->db->prepare("UPDATE usuarios set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute(); 
+            $stmt = $this->db->prepare("UPDATE asociados set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute(); 
+        }
+        public function add_admin_proyectos($id){
+            $stmt = $this->db->prepare("UPDATE usuarios set ID_ROL = 5 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute(); 
+            $stmt = $this->db->prepare("UPDATE asociados set ID_ROL = 5 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute(); 
+        }
+        public function delete_privileges($id){
+            $stmt = $this->db->prepare("UPDATE usuarios set ID_ROL = 2 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $_POST['id_usr']);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute(); 
+            $stmt = $this->db->prepare("UPDATE asociados set ID_ROL = 2 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
+            $stmt->bindparam(":id_usr", $id);
+            $stmt->bindparam(":id_org", $_SESSION['id_org']);
+            $stmt->execute(); 
+        }
+        public function pendientes(){
+            $stmt = $this->db->prepare("SELECT * FROM solicitudes WHERE ID_ORGANIZACION = :id_org AND ESTADO = 2");
+            $stmt->bindParam(':id_org', $_SESSION['id_org']);
+            $stmt->execute(); 
+            return $stmt;  
+        }
+        public function usuario($id){
+            $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE ID_USUARIO = :id_usr");
+            $stmt->bindParam(':id_usr', $id);
+            $stmt->execute(); 
+            return $stmt; 
+        }
+        public function moderadores($id){
+            $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE ID_ORGANIZACION = :id_org AND ID_ROL > 2");
+            $stmt->bindParam(':id_org', $id);
+            $stmt->execute();
+            return $stmt; 
+        }
+        public function usr_normal($id){
+            $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE ID_ORGANIZACION = :id_org AND ID_ROL = 2");
+            $stmt->bindParam(':id_org', $id);
+            $stmt->execute();
+            return $stmt;   
         }
     }
 ?>

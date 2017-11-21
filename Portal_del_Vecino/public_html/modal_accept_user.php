@@ -1,59 +1,21 @@
 <?php
     if(isset($_REQUEST['accept_user'])){ //Hace las modificaciones en bd para aceptar un usuario en una org
-        $stmt = $conn->prepare("UPDATE usuarios set ID_ORGANIZACION = :id_org WHERE ID_USUARIO = :id_usr");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute();
-        $stmt = $conn->prepare("UPDATE solicitudes set ESTADO = 1 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute();
-        $stmt = $conn->prepare("INSERT INTO asociados (ID_USUARIO, ID_ORGANIZACION, ID_ROL) values (:id_usr, :id_org, 2)");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute();
+        $querys->accept_user($_POST['id_usr']);
     }
     if(isset($_REQUEST['deny_user'])){ //Hace las modificaciones en bd para rechazar un usuario en una org
-        $stmt = $conn->prepare("UPDATE solicitudes set ESTADO = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute();
+        $querys->deny_user($_POST['id_usr']);
     }
     if(isset($_REQUEST['add_tesorero'])){ //Hace las modificaciones en bd para agregar un tesorero a una org
-        $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute();
-        $stmt = $conn->prepare("UPDATE asociados set ID_ROL = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute();
+        $querys->tesorero_add($_POST['id_usr']);
     }
     if(isset($_REQUEST['add_activity'])){ //Hace las modificaciones en bd para agregar un adm de actividades
-        $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute(); 
-        $stmt = $conn->prepare("UPDATE asociados set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute(); 
+        $querys->add_admin_actividades($_POST['id_usr']);
     }
     if(isset($_REQUEST['add_proyect'])){ //Hace las modificaciones en bd para agregar un adm de proyectos
-        $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 5 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute(); 
-        $stmt = $conn->prepare("UPDATE asociados set ID_ROL = 5 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute(); 
+        $querys->add_admin_proyectos($_POST['id_usr']);
     }
     if(isset($_REQUEST['delete_privilege'])){ //Hace las modificaciones en bd para quitar privilegios (adm) a un usuario
-        $stmt = $conn->prepare("UPDATE usuarios set ID_ROL = 2 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
-        $stmt->bindparam(":id_usr", $_POST['id_usr']);
-        $stmt->bindparam(":id_org", $_SESSION['id_org']);
-        $stmt->execute(); 
+        $querys->delete_privileges($_POST['id_usr']);
     }
 ?>
 <!-- Modal -->
@@ -81,14 +43,10 @@
                         <tbody>
                             <?php
                             try {
-                                $sql = $conn->prepare("SELECT * FROM solicitudes WHERE ID_ORGANIZACION = :id_org AND ESTADO = 2");
-                                $sql->bindParam(':id_org', $_SESSION['id_org']);
-                                $sql->execute();                                  #se ejecuta la consulta
-                                while($result = $sql->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta
-                                    $sql = $conn->prepare("SELECT * FROM usuarios WHERE ID_USUARIO = :id_usr");
-                                    $sql->bindParam(':id_usr', $result['ID_USUARIO']);
-                                    $sql->execute();  
-                                    $result2 = $sql->fetch(PDO::FETCH_ASSOC);
+                                $stmt = $querys->pendientes();                               #se ejecuta la consulta
+                                while($result = $stmt->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta
+                                    $stmt = $querys->usuario($result['ID_USUARIO']);
+                                    $result2 = $stmt->fetch(PDO::FETCH_ASSOC);
                                     $fname = $result2['NOMBRE'];
                                     $lname = $result2['APELLIDO'];
                                     $mail  = $result2['CORREO'];
@@ -134,10 +92,8 @@
                             <?php
                             try {
                                 $haytes = "0"; $hayact="0"; $haypro="0"; // Comienza suponiendo que no hay admin's de ningún tipo
-                                $sql = $conn->prepare("SELECT * FROM usuarios WHERE ID_ORGANIZACION = :id_org AND ID_ROL > 2");
-                                $sql->bindParam(':id_org', $_SESSION['id_org']);
-                                $sql->execute();                                  #se ejecuta la consulta
-                                while($result = $sql->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta
+                                $stmt = $querys->moderadores($_SESSION['id_org']);                                  #se ejecuta la consulta
+                                while($result = $stmt->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta
                                     $fname = $result['NOMBRE'];
                                     $lname = $result['APELLIDO'];
                                     $mail  = $result['CORREO'];
@@ -204,10 +160,8 @@
                         <tbody>
                             <?php
                             try {
-                                $sql = $conn->prepare("SELECT * FROM usuarios WHERE ID_ORGANIZACION = :id_org AND ID_ROL = 2");
-                                $sql->bindParam(':id_org', $_SESSION['id_org']);
-                                $sql->execute();                                  #se ejecuta la consulta
-                                while($result = $sql->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta 
+                                $stmt = $querys->usr_normal($_SESSION['id_org']);                                   #se ejecuta la consulta
+                                while($result = $stmt->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta 
                                     $fname = $result['NOMBRE'];
                                     $lname = $result['APELLIDO'];
                                     $mail  = $result['CORREO'];
@@ -262,10 +216,8 @@
                         <tbody>
                             <?php
                             try {
-                                $sql = $conn->prepare("SELECT * FROM usuarios WHERE ID_ORGANIZACION = :id_org AND ID_ROL = 2");
-                                $sql->bindParam(':id_org', $_SESSION['id_org']);
-                                $sql->execute();                                  #se ejecuta la consulta
-                                while($result = $sql->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta 
+                                $stmt = $querys->usr_normal($_SESSION['id_org']);                        #se ejecuta la consulta
+                                while($result = $stmt->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta 
                                     $fname = $result['NOMBRE'];
                                     $lname = $result['APELLIDO'];
                                     $mail  = $result['CORREO'];
@@ -320,10 +272,8 @@
                         <tbody>
                             <?php
                             try {
-                                $sql = $conn->prepare("SELECT * FROM usuarios WHERE ID_ORGANIZACION = :id_org AND ID_ROL = 2");
-                                $sql->bindParam(':id_org', $_SESSION['id_org']);
-                                $sql->execute();                                  #se ejecuta la consulta
-                                while($result = $sql->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta 
+                                $stmt = $querys->usr_normal($_SESSION['id_org']);                               #se ejecuta la consulta
+                                while($result = $stmt->fetch(PDO::FETCH_ASSOC)){   #obtiene los datos de la consulta 
                                     $fname = $result['NOMBRE'];
                                     $lname = $result['APELLIDO'];
                                     $mail  = $result['CORREO'];

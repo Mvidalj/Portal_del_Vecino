@@ -54,36 +54,10 @@
                         <form name="form" action="" method="POST">
                             <button type="submit" id="submit-select" name="submit-select" hidden></button>
                             <select class="form-control" id="morg" name="morg" onchange="reSend()">
-                                <?php  $stmt = $conn->prepare("SELECT * FROM ASOCIADOS, ORGANIZACIONES WHERE "
-                                        . "ASOCIADOS.ID_ORGANIZACION = ORGANIZACIONES.ID_ORGANIZACION and ID_USUARIO = :id_usr");
-                                    $stmt->bindParam(':id_usr', $_SESSION['id_usuario']);
-                                    $stmt->execute();
-                                    $data = array();$count = 0;
-                                    while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        array_push($data,$result['ID_USUARIO'],$result['ID_ORGANIZACION'],$result['ID_ROL']);
-                                        if ($result['ID_ORGANIZACION'] == $_SESSION['id_org']){
-                                            echo "<option value='".$count."' selected>".$result['NOMBRE']."</option>";
-                                        }else{
-                                            echo "<option value='".$count."'>".$result['NOMBRE']."</option>";
-                                        }
-                                        $count += 3;
-                                    }
+                                <?php  
+                                    $data = $querys->org_select();
                                     if(isset($_REQUEST['submit-select'])){
-                                        $cont = $_POST['morg'];
-                                        try{
-                                            $stmt = $conn->prepare("UPDATE usuarios SET ID_ORGANIZACION = :id_org, ID_ROL = :id_rol "
-                                                    . "WHERE usuarios.ID_USUARIO = :id_usr");
-                                            $stmt->bindParam(':id_usr', $data[$cont+0]);
-                                            $stmt->bindParam(':id_org', $data[$cont+1]);
-                                            $stmt->bindParam(':id_rol', $data[$cont+2]);
-                                            if($stmt->execute()){
-                                                $_SESSION['id_org'] = $data[$cont+1];
-                                                $_SESSION['id_rol'] = $data[$cont+2];
-                                                echo '<script> window.location.replace(location);</script>';
-                                            }
-                                        }catch(PDOException $e){
-                                            echo "<script>alert('Hubo un error, intentelo nuevamentes')</script>";
-                                        }
+                                        $querys->org_update($data,$_POST['morg']);
                                     }
                                  ?>
                             </select>

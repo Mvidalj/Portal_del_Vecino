@@ -72,16 +72,15 @@
                             $usuarios = array();
                             $idusuerios = array();
                             $solicitudes = "";
-                            $stmt = $querys->prestamos($result['ID_RECURSO']);
-                            while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                if(!in_array($data['ID_USUARIO'], $idusuerios)){
-                                    array_push($idusuerios, ($data['ID_USUARIO']));
-                                }
+                            $stmt2 = $querys->prestamos($result['ID_RECURSO']);
+                            while ($data = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                                array_push($idusuerios, ($data['ID_USUARIO']));
+                                array_push($usuarios, (" Desde ".$data['FECHA_INICIO']." Hasta ".$data['FECHA_TERMINO']));
                             }
                             foreach ($idusuerios as &$user){
-                                $stmt = $querys->nombre_usr($user);
-                                $res = $stmt->fetch(PDO::FETCH_ASSOC);
-                                $solicitudes = $solicitudes."<li>".$res['NOMBRE']." ".$res['APELLIDO']."</li>";
+                                $stmt3 = $querys->nombre_usr($user);
+                                $res = $stmt3->fetch(PDO::FETCH_ASSOC);
+                                $solicitudes = $solicitudes."<li>".$res['NOMBRE']." ".$res['APELLIDO'].$usuarios[$user]."</li>";
                             }
                             if($solicitudes == ""){$solicitudes = "No hay usuarios que hayan solicitado este recurso aún";}
                                  

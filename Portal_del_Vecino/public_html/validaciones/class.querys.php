@@ -2,9 +2,20 @@
     class QUERY {
 
         private $db;
-
+        
         function __construct($DB_con){
             $this->db = $DB_con;
+        }
+        public function insert_log($accion){
+            $adate = date('d-m-Y');
+            $time = date('H:i');
+            $stmt = $this->db->prepare("INSERT INTO  log (ID_USUARIO, ID_ORGANIZACION, ACCION, FECHA, HORA) VALUES (:ID,:ORG,:ACCION,:FECHA,:HORA)");
+            $stmt->bindParam(':ID', $_SESSION['id_usuario']);
+            $stmt->bindParam(':ORG', $_SESSION['id_org']);
+            $stmt->bindParam(':ACCION', $accion);
+            $stmt->bindParam(':FECHA', $adate);
+            $stmt->bindParam(':HORA', $time);
+            $stmt -> execute();
         }
 
         public function Actividades(){
@@ -50,7 +61,9 @@
                 $stmt->bindparam(":id_usr", $_SESSION['id_usuario']);
                 $stmt->bindparam(":id_org", $_SESSION['id_org']);
                 $stmt->execute();
-                echo "<script>alert('Organización creada correctamente.');window.location.href='home.php';</script>";
+                echo "<script>alert('Organización creada correctamente.');</script>";
+                $this->insert_log("Creo organizacion");
+
             }
             else{
                 echo "<script>alert('Nombre de organización ya en uso')</script>";
@@ -62,6 +75,7 @@
             $stmt->bindParam(':id_org', $org);
             $stmt->execute();
             echo "<script>alert('Petición de unión enviada');window.location.href='index.php';</script>";
+            $this->insert_log("Solicito organizacion");
         }
         public function org_select(){
             $stmt = $this->db->prepare("SELECT * FROM asociados, organizaciones WHERE "."asociados.ID_ORGANIZACION = organizaciones.ID_ORGANIZACION and ID_USUARIO = :id_usr");
@@ -110,6 +124,7 @@
                 $stmt = $this->db->prepare("UPDATE tesoreria SET ELIMINADO = 1 WHERE ID_TESORERIA = :id");
                 $stmt->bindParam(':id', $id);
                 $stmt->execute();
+                $this->insert_log("Elimino balance");
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -123,6 +138,7 @@
                 $stmt->bindParam(':EDITACTIVIDAD', $activity);
                 $stmt->bindParam(':ID', $id);
                 $stmt->execute();
+                $this->insert_log("Edito balance");
             } 
             catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
@@ -137,6 +153,7 @@
                 $stmt->bindParam(':E_S', $activity);
                 $stmt->bindParam(':MONTO', $ammount);
                 $stmt->execute();
+                $this->insert_log("Agrego balance");
             } 
             catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
@@ -151,6 +168,7 @@
                 $stmt->bindParam(':FECHTO', $dateto);
                 $stmt->bindParam(':ID', $actividad);
                 $stmt->execute();
+                $this->insert_log("Edito historial");
             }catch(PDOException $e){
                 echo 'Fallo la conexion:'.$e->GetMessage();
             }
@@ -160,6 +178,7 @@
                 $stmt = $this->db->prepare("UPDATE actividades SET ELIMINADO = 1 WHERE ID_ACTIVIDAD= :ID");
                 $stmt->bindParam(':ID', $id);
                 $stmt->execute();
+                $this->insert_log("Elimino historial");
             }catch(PDOException $e){
                 echo 'Fallo la conexion:'.$e->GetMessage();
             }
@@ -176,6 +195,7 @@
                 $stmt->bindParam(':DESCRIPCION', $desc);
                 if($stmt->execute()){
                     header("Location: actividades_historial.php");
+                    $this->insert_log("Agrego historial");
                 }  
             }catch(PDOException $e){
                 echo 'Fallo la conexion:'.$e->GetMessage();
@@ -185,7 +205,10 @@
             try{
                 $stmt = $this->db->prepare("UPDATE proyectos SET ELIMINADO = 1 WHERE ID_PROYECTO= :ID");
                 $stmt->bindParam(':ID', $id,PDO::PARAM_INT);
-                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+                if($stmt->execute()){
+                    header("Location: proyectos_proyecto.php");
+                    $this->insert_log("Elimino proyecto");
+                }  
                 }catch(PDOException $e){
                     echo 'Fallo la conexion:'.$e->GetMessage();
             }
@@ -200,7 +223,10 @@
                 $stmt->bindParam(':FECHTER', $date_ter); 
                 $stmt->bindParam(':DESC',$desc,PDO::PARAM_STR);
                 $stmt->bindParam(':ID',$id,PDO::PARAM_INT);
-                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+                if($stmt->execute()){
+                    header("Location: proyectos_proyecto.php");
+                    $this->insert_log("Edito proyecto");
+                }  
             }catch(PDOException $e){
                     echo 'Fallo la conexion:'.$e->GetMessage();
             }
@@ -216,30 +242,43 @@
                 $stmt->bindParam(':FECHA_INICIO', $date_in);
                 $stmt->bindParam(':FECHA_TERMINO', $date_ter); 
                 $stmt->bindParam(':DESCRIPCION', $desc,PDO::PARAM_STR);
-                if($stmt->execute()){header("Location: proyectos_proyecto.php");}  
+                if($stmt->execute()){
+                    header("Location: proyectos_proyecto.php");
+                    $this->insert_log("Agrego proyecto");
+                }  
             }catch(PDOException $e){
                 echo 'Fallo la conexion:'.$e->GetMessage();
             }
         }
         public function recursos_peticion($date_from,$time_from,$date_to,$time_to,$id_resource){
-            $fecha_desde = $date_from." ".$time_from;
-            $fecha_hasta = $date_to." ".$time_to;
-            try{
-                $stmt = $this->db->prepare("UPDATE recursos SET ESTADO = 1 WHERE ID_RECURSO = :id");
-                $stmt->bindparam(":id", $id_resource);
-                if($stmt->execute()){
-                    $stmt = $this->db->prepare("INSERT INTO prestamos (ID_RECURSO, ID_USUARIO, FECHA_INICIO, FECHA_TERMINO, ELIMINADO) VALUES(:ID, :USER, :FROM, :TO, 0)");
-                    $stmt->bindparam(":ID", $id_resource);
-                    $stmt->bindparam(":USER", $_SESSION['id_usuario']);
-                    $stmt->bindparam(":FROM", date('Y-m-d H:i:s', strtotime($fecha_desde)));
-                    $stmt->bindparam(":TO", date('Y-m-d H:i:s', strtotime($fecha_hasta)));
-                    if($stmt->execute()){
-                        echo "<script>alert('Su solicitud se ha realizado correctamente')</script>";
+                $fecha_desde = $date_from." ".$time_from;
+                $fecha_hasta = $date_to." ".$time_to;
+                
+                $stmt = $this->db->prepare("SELECT * FROM prestamos WHERE FECHA_INICIO BETWEEN :FEC_IN AND :FEC_TER");
+                $stmt->bindparam(":FEC_IN", $fecha_desde);
+                $stmt->bindparam(":FEC_TER", $fecha_hasta);
+                $stmt->execute();
+                if($stmt->rowCount() > 0){
+                    echo "<script>alert('Lo sentimos, el recurso se encuentra solicitado en esos horarios')</script>";
+                }else{
+                    try{
+                        $stmt = $this->db->prepare("UPDATE recursos SET ESTADO = 1 WHERE ID_RECURSO = :id");
+                        $stmt->bindparam(":id", $id_resource);
+                        if($stmt->execute()){
+                            $stmt = $this->db->prepare("INSERT INTO prestamos (ID_RECURSO, ID_USUARIO, FECHA_INICIO, FECHA_TERMINO, ELIMINADO) VALUES(:ID, :USER, :FROM, :TO, 0)");
+                            $stmt->bindparam(":ID", $id_resource);
+                            $stmt->bindparam(":USER", $_SESSION['id_usuario']);
+                            $stmt->bindparam(":FROM", date('Y-m-d H:i:s', strtotime($fecha_desde)));
+                            $stmt->bindparam(":TO", date('Y-m-d H:i:s', strtotime($fecha_hasta)));
+                            if($stmt->execute()){
+                                echo "<script>alert('Su solicitud se ha realizado correctamente')</script>";
+                                $this->insert_log("Pidio recurso");
+                            }
+                        }
+                    } catch (Exception $e) {
+                        echo "Error: " . $e->getMessage();
                     }
-                }
-            } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
-            } 
+                } 
         }
         public function recursos_add($nombre,$desc){
             try {
@@ -250,6 +289,7 @@
                 $stmt->bindParam(':DESCRIPCION', $desc);  
                 if($stmt->execute()){
                     echo "<script>alert('El recurso se ha agregado correctamente')</script>";
+                    $this->insert_log("Agrego recurso");
                 }
             } 
             catch (Exception $e) {
@@ -264,6 +304,7 @@
                 $stmt->bindParam(':ID', $id);
                 if($stmt->execute()){
                     echo "<script>alert('El recurso se ha editado correctamente')</script>";
+                    $this->insert_log("Edito recurso");
                 }
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
@@ -275,6 +316,7 @@
                 $stmt->bindParam(':ID', $_POST['id_recurso']);  
                 if($stmt->execute()){
                     echo "<script>alert('El recurso se ha eliminado correctamente')</script>";
+                    $this->insert_log("Elimino recurso");
                 }
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
@@ -290,6 +332,7 @@
                 $stmt->bindParam(':ID', $id);
                 if($stmt->execute()){
                     echo "<script>alert('La reunion se ha editado correctamente')</script>";
+                    $this->insert_log("Edito reunion");
                 }
             }catch(PDOException $e){
                 echo 'Fallo la conexion:'.$e->GetMessage();
@@ -301,6 +344,7 @@
                 $stmt->bindParam(':ID', $id);
                 if($stmt->execute()){
                     echo "<script>alert('La reunion se ha eliminado correctamente')</script>";
+                    $this->insert_log("Elimino reunion");
                 }
             }catch(PDOException $e){
                 echo 'Fallo la conexion:'.$e->GetMessage();
@@ -316,6 +360,7 @@
                 $stmt->bindParam(':DESCRIPCION',$desc);
                 if($stmt->execute()){
                     header("Location: actividades_reuniones.php");
+                    $this->insert_log("Agrego reunion");
                 }
             }catch(PDOException $e){
                 echo 'Fallo la conexion:'.$e->GetMessage();
@@ -333,13 +378,15 @@
             $stmt = $this->db->prepare("INSERT INTO asociados (ID_USUARIO, ID_ORGANIZACION, ID_ROL) values (:id_usr, :id_org, 2)");
             $stmt->bindparam(":id_usr", $id);
             $stmt->bindparam(":id_org", $_SESSION['id_org']);
-            $stmt->execute();    
+            $stmt->execute();
+            $this->insert_log("Acepto usuario");    
         }
         public function deny_user($id){
             $stmt = $this->db->prepare("UPDATE solicitudes set ESTADO = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
             $stmt->bindparam(":id_usr", $id);
             $stmt->bindparam(":id_org", $_SESSION['id_org']);
             $stmt->execute();
+            $this->insert_log("Rechazo usuario");
         }
         public function add_tesorero($id){
             $stmt = $this->db->prepare("UPDATE usuarios set ID_ROL = 3 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
@@ -350,6 +397,7 @@
             $stmt->bindparam(":id_usr", $id);
             $stmt->bindparam(":id_org", $_SESSION['id_org']);
             $stmt->execute();
+            $this->insert_log("Agrego tesorero");
         }
         public function add_admin_actividades($id){
             $stmt = $this->db->prepare("UPDATE usuarios set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
@@ -359,7 +407,8 @@
             $stmt = $this->db->prepare("UPDATE asociados set ID_ROL = 4 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
             $stmt->bindparam(":id_usr", $id);
             $stmt->bindparam(":id_org", $_SESSION['id_org']);
-            $stmt->execute(); 
+            $stmt->execute();
+            $this->insert_log("Agrego admin Actividades"); 
         }
         public function add_admin_proyectos($id){
             $stmt = $this->db->prepare("UPDATE usuarios set ID_ROL = 5 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
@@ -370,6 +419,7 @@
             $stmt->bindparam(":id_usr", $id);
             $stmt->bindparam(":id_org", $_SESSION['id_org']);
             $stmt->execute(); 
+            $this->insert_log("Agrego admin Proyectos");
         }
         public function delete_privileges($id){
             $stmt = $this->db->prepare("UPDATE usuarios set ID_ROL = 2 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
@@ -379,7 +429,8 @@
             $stmt = $this->db->prepare("UPDATE asociados set ID_ROL = 2 WHERE ID_USUARIO = :id_usr AND ID_ORGANIZACION = :id_org");
             $stmt->bindparam(":id_usr", $id);
             $stmt->bindparam(":id_org", $_SESSION['id_org']);
-            $stmt->execute(); 
+            $stmt->execute();
+            $this->insert_log("Elimino privilegios"); 
         }
         public function pendientes(){
             $stmt = $this->db->prepare("SELECT * FROM solicitudes WHERE ID_ORGANIZACION = :id_org AND ESTADO = 2");
@@ -475,6 +526,18 @@
             if($stmt->execute()){
                 echo "<script>alert('Datos Guardados Exitosamente')</script>";
                 echo 'location.reload();';
+                $this->insert_log("Edito su usuario");
+            }
+        }
+         public function Active(){
+            $stmt = $this->db->prepare("SELECT * FROM login WHERE ID_USUARIO = :id LIMIT 1");
+            $stmt->bindparam(":id", $_SESSION["id_usuario"]);
+            $stmt->execute();
+            if ($userRow = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $active= $userRow['ACTIVO'];
+                if ($active == '0'){
+                    echo '<script>alert("por favor verifique su correo para acceder al portal");window.location.href="home.php";</script>';
+                }
             }
         }
     }

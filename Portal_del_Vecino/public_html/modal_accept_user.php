@@ -6,7 +6,7 @@
         $querys->deny_user($_POST['id_usr']);
     }
     if(isset($_REQUEST['add_tesorero'])){ //Hace las modificaciones en bd para agregar un tesorero a una org
-        $querys->tesorero_add($_POST['id_usr']);
+        $querys->add_tesorero($_POST['id_usr']);
     }
     if(isset($_REQUEST['add_activity'])){ //Hace las modificaciones en bd para agregar un adm de actividades
         $querys->add_admin_actividades($_POST['id_usr']);

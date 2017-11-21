@@ -57,7 +57,6 @@
             <tbody>
                 <?php
                     try {
-                        $usuarios = array();
                         $sql = $conn->prepare("SELECT * FROM recursos WHERE ELIMINADO = 0 AND ID_ORGANIZACION = :IDORG");
                         $sql->bindparam(":IDORG", $_SESSION['id_org']);
                         $sql->execute();
@@ -71,19 +70,26 @@
                                 }
                         echo "</datalist>";
                         while ($result = $sql->fetch(PDO::FETCH_ASSOC)) {
+                            $usuarios = array();
+                            $idusuerios = array();
+                            $solicitudes = "";
                             $query = $conn->prepare("SELECT * FROM prestamos WHERE ID_RECURSO = :IDREC");
                             $query->bindparam(":IDREC", $result['ID_RECURSO']);
                             $query->execute();
                             while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
-                                $stmt = $conn->prepare("SELECT NOMBRE, APELLIDO FROM usuarios WHERE ID_USUARIO = :IDUSR");
-                                $stmt->bindparam(":IDUSR", $data['ID_USUARIO']);
-                                $stmt->execute();
-                                while ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    if(!in_array(($res['NOMBRE']." ".$res['APELLIDO']), $usuarios)){
-                                        array_push($usuarios, ($res['NOMBRE']." ".$res['APELLIDO']));
-                                    }
+                                if(!in_array($data['ID_USUARIO'], $idusuerios)){
+                                    array_push($idusuerios, ($data['ID_USUARIO']));
                                 }
                             }
+                            foreach ($idusuerios as &$user){
+                                $stmt = $conn->prepare("SELECT NOMBRE, APELLIDO FROM usuarios WHERE ID_USUARIO = :IDUSR");
+                                $stmt->bindparam(":IDUSR", $user);
+                                $stmt->execute();
+                                $res = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $solicitudes = $solicitudes."<li>".$res['NOMBRE']." ".$res['APELLIDO']."</li>";
+                            }
+                            if($solicitudes == ""){$solicitudes = "No hay usuarios que hayan solicitado este recurso aún";}
+                                 
                             $solicitar = "<form name='form' action='tesoreria_recursos.php' method='POST'>
                                             <input type='hidden' id='id_recurso' name='id_recurso' value=".$result['ID_RECURSO']."'>
                                             <button type='button' class='btn btn-primary' id='solicitar' name='solicitar' data-toggle='modal' data-target='#".$result['ID_RECURSO']."'>Solicitar</button>
@@ -143,10 +149,12 @@
                                                     <div class='modal-content'>
                                                         <div class='modal-header'>
                                                             <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                                            <h4 class='modal-title'>Administrar recurso</h4>
+                                                            <h4 class='modal-title'>Usuarios que han solicitado este recurso</h4>
                                                         </div>
                                                         <div class='modal-body'>
-                                                            <p>".$usuarios[0]."</p>
+                                                            <ul>
+                                                                ".$solicitudes."
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2017 a las 14:45:26
+-- Tiempo de generación: 21-11-2017 a las 08:31:59
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `vecino`
 --
+CREATE DATABASE IF NOT EXISTS `vecino` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `vecino`;
 
 -- --------------------------------------------------------
 
@@ -60,9 +62,9 @@ INSERT INTO `asociados` (`ID_USUARIO`, `ID_ORGANIZACION`, `ID_ROL`) VALUES
 (1, 3, 1),
 (1, 4, 1),
 (5, 1, 2),
-(2, 1, 3),
+(3, 1, 3),
 (5, 2, 3),
-(3, 1, 4),
+(2, 1, 4),
 (4, 1, 5);
 
 -- --------------------------------------------------------
@@ -432,6 +434,21 @@ INSERT INTO `comuna` (`ID_COMUNA`, `COMUNA`, `ID_PROVINCIA`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `log`
+--
+
+CREATE TABLE `log` (
+  `ID` int(3) NOT NULL,
+  `ID_USUARIO` int(3) NOT NULL,
+  `ID_ORGANIZACION` int(3) NOT NULL,
+  `ACCION` varchar(50) NOT NULL,
+  `FECHA` varchar(10) NOT NULL,
+  `HORA` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `login`
 --
 
@@ -447,7 +464,7 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`ID`, `ID_USUARIO`, `PASSWORD`, `ACTIVO`) VALUES
-(1, 1, '$2y$10$2snzZF44qP6x1Xy.GrojHOtAYfl7TVdC7f2Y5jJ6PsfqcGDiYjR22', 0),
+(1, 1, '$2y$10$HUcxCXv6ABPMtD5QkFSsZ.WHSp3tm7Glj7ih3osRyzXzqmQbsnfcK', 0),
 (2, 2, '$2y$10$iWfCH91IIv8s78CA.gi8zOTUkjEHyG0K6qHxXvPcQoxwNpT62i9mG', 0),
 (3, 3, '$2y$10$Xq1ZtmjK9/LVvnQR0XoXteB66BreUgkLm3saX//ZswbyTnxrr3ZkK', 0),
 (4, 4, '$2y$10$SnR3bzE9xPHyTdFreeMOP.RZKcHyyPnvUq52OQ6r8AUpQCk33eKky', 0),
@@ -489,13 +506,6 @@ CREATE TABLE `prestamos` (
   `FECHA_TERMINO` date NOT NULL,
   `ELIMINADO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `prestamos`
---
-
-INSERT INTO `prestamos` (`ID_PRESTAMO`, `ID_RECURSO`, `ID_USUARIO`, `FECHA_INICIO`, `FECHA_TERMINO`, `ELIMINADO`) VALUES
-(1, 1, 1, '2017-10-01', '2017-10-01', 0);
 
 -- --------------------------------------------------------
 
@@ -605,7 +615,7 @@ CREATE TABLE `recursos` (
 --
 
 INSERT INTO `recursos` (`ID_RECURSO`, `ID_ORGANIZACION`, `NOMBRE`, `DESCRIPCION`, `ESTADO`, `ELIMINADO`) VALUES
-(1, 1, 'Set de loza', '12 platos, 12 vasos, 12 tenedores, 12 cuchillos, 12 cucharas.', 1, 0);
+(1, 1, 'Set de loza', '12 platos, 12 vasos, 12 tenedores, 12 cuchillos, 12 cucharas..', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -747,9 +757,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `ID_ORGANIZACION`, `NOMBRE`, `APELLIDO`, `CORREO`, `TELEFONO`, `ID_ROL`, `ID_COMUNA`, `DIRECCION`, `ELIMINADO`) VALUES
-(1, 2, 'admin', 'admin', 'admin@admin.com', '987654321', 1, 9101, 'UCT', 0),
-(2, 1, 'Matias', 'Bahamonde', 'mbahamonde2016@alu.uct.cl', '976203559', 3, 9101, 'UCT', 0),
-(3, 1, 'Matias', 'Mellado', 'mmellado2016@alu.uct.cl', '987654321', 4, 9101, 'UCT', 0),
+(1, 1, 'admin', 'admin', 'admin@admin.com', '987654322', 1, 9101, 'UCT', 0),
+(2, 1, 'Matias', 'Bahamonde', 'mbahamonde2016@alu.uct.cl', '976203559', 4, 9101, 'UCT', 0),
+(3, 1, 'Matias', 'Mellado', 'mmellado2016@alu.uct.cl', '987654321', 3, 9101, 'UCT', 0),
 (4, 1, 'Mathias', 'Muñoz', 'mathias.munoz2016@alu.uct.cl', '961666539', 5, 9101, 'UCT', 0),
 (5, 2, 'Alonso', 'Salazar', 'asalazar2016@alu.uct.cl', '986281260', 3, 9101, 'UCT', 0);
 
@@ -778,6 +788,14 @@ ALTER TABLE `asociados`
 ALTER TABLE `comuna`
   ADD PRIMARY KEY (`ID_COMUNA`),
   ADD KEY `ID_REGION` (`ID_PROVINCIA`);
+
+--
+-- Indices de la tabla `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `ID_ORGANIZACION` (`ID_ORGANIZACION`),
+  ADD KEY `ID_USUARIO` (`ID_USUARIO`);
 
 --
 -- Indices de la tabla `login`
@@ -880,20 +898,25 @@ ALTER TABLE `actividades`
 ALTER TABLE `comuna`
   MODIFY `ID_COMUNA` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15203;
 --
+-- AUTO_INCREMENT de la tabla `log`
+--
+ALTER TABLE `log`
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
-  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `organizaciones`
 --
 ALTER TABLE `organizaciones`
-  MODIFY `ID_ORGANIZACION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_ORGANIZACION` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
-  MODIFY `ID_PRESTAMO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_PRESTAMO` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `provincia`
 --
@@ -938,7 +961,7 @@ ALTER TABLE `tesoreria`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_USUARIO` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- Restricciones para tablas volcadas
 --
@@ -962,6 +985,13 @@ ALTER TABLE `asociados`
 --
 ALTER TABLE `comuna`
   ADD CONSTRAINT `comuna_ibfk_1` FOREIGN KEY (`ID_PROVINCIA`) REFERENCES `provincia` (`ID_PROVINCIA`);
+
+--
+-- Filtros para la tabla `log`
+--
+ALTER TABLE `log`
+  ADD CONSTRAINT `log_ibfk_1` FOREIGN KEY (`ID_ORGANIZACION`) REFERENCES `organizaciones` (`ID_ORGANIZACION`),
+  ADD CONSTRAINT `log_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`ID_USUARIO`);
 
 --
 -- Filtros para la tabla `login`

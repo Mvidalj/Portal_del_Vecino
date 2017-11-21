@@ -15,11 +15,13 @@
                     if($_GET['hash'] == $userRow['PASSWORD']){
                         $stmt = $conn->prepare("UPDATE login SET ACTIVO = 1 WHERE ID_USUARIO = :uid");
                         $stmt->bindparam(":uid", $iduser);
-                        $stmt->execute();
+                        if ($stmt->execute()){
+                        echo "<script>alert('Tu cuenta ha sido verificada correctamente');window.location.href='../index.php';</script>";                   
+                        }
                     }
                 }
             }
-            echo "<script>alert('Tu cuenta ha sido verificada correctamente');window.location.href='../index.php';</script>";
+            
         }catch(PDOException $e){
             echo $e->getMessage();
         }

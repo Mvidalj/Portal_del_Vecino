@@ -4,6 +4,12 @@
     {
         $user->Redirect('index.php');
     } else {
+           $stmt = $conn->prepare("SELECT * FROM login WHERE ID_USUARIO = :id LIMIT 1");
+           $stmt->bindparam(":id", $_SESSION["id_usuario"]);
+           $stmt->execute();
+           if ($userRow = $stmt->fetch(PDO::FETCH_ASSOC)) {
+               $active= $userRow['ACTIVO'];
+           }
         if($_SESSION['id_org']!= ""){
 
             $stmt = $querys->Actividades();
@@ -138,13 +144,16 @@
                         <br><a type="button" class="btn btn-danger conf" href="cerrar_sesion.php" rel>Cerrar sesión <span class="fa fa-sign-out"></span></a>
                     </div>
                 </div>
+                <?php
+                if ($active == '1'){echo'
                 <div class="row">
                     <div class="col-sm-10 col-sm-push-2">
                         <br><a type="button" class="btn btn-primary conf" data-toggle="modal" data-target="#config" rel>Configuración <span class="fa fa-cog"></span></a>
                     </div>
-                </div>
+                </div>';}
+                ?>
                 <?php
-                if($_SESSION['id_rol'] == "1"){
+                if($_SESSION['id_rol'] == "1" && $active == '1'){
                     echo '
                 <div class="row">
                 <div class="col-sm-10 col-sm-push-2">
@@ -184,9 +193,12 @@
         <li><a href="modulos/proyectos/proyectos_proyecto.php">Proyectos</a></li>
         <li><a href="foro.php">Foro</a></li>
       </ul>
+        <?php
+        if($active == '1'){ echo'
       <ul class="nav navbar-nav navbar-right">
           <li><button type="submit" class="btn btn-danger navbar-btn" name="join-create-org" data-toggle="modal" data-target="#news">+</button></li>
-      </ul>
+        </ul>';}
+        else    echo '<p class="navbar-text">No tendrá acceso a ninguna funcionalidad hasta haber verificado el correo</p>';?>
     </div>
   </div>
 </nav>

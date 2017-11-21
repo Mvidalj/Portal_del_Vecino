@@ -68,6 +68,9 @@
                                                 echo "<td class='text-center'><a href='#' data-toggle='popover' data-trigger='focus' title='Acta de reunión' data-content='No existe acta disponible'>".$result['ESTADO']."</a></td>";
                                         }
                                         if($result['ESTADO'] == 'REALIZADO'){
+                                            if (file_exists("../../files/".$result['ACTA_REUNION']."")){
+                                                $acta = "<a download='".$result['ACTA_REUNION']."' href='../../files'".$result['ACTA_REUNION']." title='Acta'>".$result['ACTA_REUNION']."</a>";
+                                            }else{$acta = "<p> ".$result['ACTA_REUNION']."</p>";}
                                             echo "<td class='text-center'><a href='#' data-toggle='modal' data-target='#ACTA".$result['ID_REUNION']."'>".$result['ESTADO']."</a></td>";
                                             echo "
                                                 <!-- Modal -->
@@ -80,9 +83,7 @@
                                                                 <h4 class='modal-title'>Acta de reunión</h4>
                                                             </div>
                                                             <div class='modal-body'>
-                                                                <p>
-                                                                    ".$result['ACTA_REUNION']."
-                                                                </p>
+                                                                ".$acta."
                                                             </div>
                                                         </div>
                                                     </div>
@@ -122,9 +123,17 @@
                                                                     <select class='form-control' id='edit_state".$result['ID_REUNION']."' name='edit_state' required onchange=\"DisplayActa('".$result['ID_REUNION']."')\">
                                                                         ".$options."
                                                                     </select><br>
+                                                                    <div id='slc".$result['ID_REUNION']."'>
+                                                                        <select class='form-control' id='edit_acta".$result['ID_REUNION']."' name='edit_acta' required onchange=\"DisplayActa2('".$result['ID_REUNION']."')\">
+                                                                            <option value='ESCRIBIR' selected>Escribir Acta</option>
+                                                                            <option value='SUBIR'>Subir Acta</option>
+                                                                        </select><br>
+                                                                    </div>
                                                                     <div id='dacta".$result['ID_REUNION']."'>
                                                                         <label>Acta de reunión: </label>
-                                                                        <textarea class='form-control' id='acta".$result['ID_REUNION']."' rows='5' name='acta' >".$result['ACTA_REUNION']."</textarea><br>
+                                                                        <textarea class='form-control' id='acta".$result['ID_REUNION']."' rows='5' name='acta' >".$result['ACTA_REUNION']."</textarea><br>             
+                                                                    </div>
+                                                                    <div id='upacta".$result['ID_REUNION']."'>
                                                                         <label class='btn btn-info btn-file'>Subir Acta <input name='file' type='file' style='display: none;' accept='*'></label>
                                                                     </div>
                                                                     <br>
@@ -203,10 +212,23 @@
 
                 function DisplayActa(aid){
                     if(document.getElementById('edit_state'.concat(aid)).value == 'REALIZADO'){
-                        document.getElementById('dacta'.concat(aid)).style.display = "block";
+                        document.getElementById('slc'.concat(aid)).style.display = "block";
+                        
+                        document.getElementById('upacta'.concat(aid)).style.display = "none";
                     } else {
+                        document.getElementById('slc'.concat(aid)).style.display = "none";
                         document.getElementById('dacta'.concat(aid)).style.display = "none";
-                        document.getElementById('acta'.concat(aid)).value = "";
+                        document.getElementById('upacta'.concat(aid)).style.display = "none";
+                    }
+                }
+                function DisplayActa2(aid){
+                    if(document.getElementById('edit_acta'.concat(aid)).value == 'ESCRIBIR'){
+                        document.getElementById('dacta'.concat(aid)).style.display = "block";
+                        document.getElementById('upacta'.concat(aid)).style.display = "none";
+                    } 
+                    else{
+                        document.getElementById('upacta'.concat(aid)).style.display = "block";
+                        document.getElementById('dacta'.concat(aid)).style.display = "none";
                     }
                 }
             </script>

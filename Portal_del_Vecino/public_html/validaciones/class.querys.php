@@ -38,6 +38,13 @@
             $stmt -> execute();
             return $stmt;
         }
+        public function add_acta($id,$nacta){
+            $stmt = $this->db->prepare('UPDATE reuniones SET ACTA_REUNION = :file WHERE ID_REUNION = :id');
+            $stmt->bindParam(':file', $nacta);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $this->insert_log("Agrego Acta");
+        }
         public function org_create($nameorg,$comorg){
             $stmt = $this->db->prepare('SELECT NOMBRE FROM organizaciones WHERE NOMBRE = :nom');
             $stmt->bindParam(':nom', $nameorg);

@@ -451,5 +451,26 @@
             $stmt->execute();
             return $stmt;
         }
+        public function pass(){
+            $stmt = $this->db->prepare("SELECT PASSWORD FROM LOGIN WHERE ID_USUARIO=".$_SESSION['id_usuario']."");
+            $stmt->execute();
+            return $stmt;
+        }
+        public function newpass($nepass){
+            $stmt = $this->db->prepare("UPDATE LOGIN SET PASSWORD= :nepass WHERE ID_USUARIO =".$_SESSION['id_usuario']."");
+            $stmt->bindparam(":nepass", $nepass);
+            $stmt->execute();
+        }
+        public function user_edit($fname,$lname,$mail,$phone){
+            $stmt = $this->db->prepare("UPDATE USUARIOS SET NOMBRE=:fname, APELLIDO=:lname,CORREO=:mail,TELEFONO=:phone WHERE ID_USUARIO =".$_SESSION['id_usuario']."");
+            $stmt->bindparam(":fname", $fname);
+            $stmt->bindparam(":lname", $lname);
+            $stmt->bindparam(":mail", $mail);
+            $stmt->bindparam(":phone", $phone);
+            if($stmt->execute()){
+                echo "<script>alert('Datos Guardados Exitosamente')</script>";
+                echo 'location.reload();';
+            }
+        }
     }
 ?>

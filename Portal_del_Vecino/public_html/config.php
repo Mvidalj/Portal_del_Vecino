@@ -26,26 +26,15 @@
             else echo "<script>alert('Imagen muy grande')</script>";
         }
         try{
-            $stmt = $conn->prepare("SELECT PASSWORD FROM LOGIN WHERE ID_USUARIO=".$_SESSION['id_usuario']."");
-            $stmt->execute();
+            $stmt = $querys->pass();
             $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
                 if($stmt->rowCount() > 0){
                     $epass = $userRow['PASSWORD'];
                 }
             if(password_verify($pass, $epass)){
                 $nepass = password_hash($npass,PASSWORD_DEFAULT);
-                $stmt = $conn->prepare("UPDATE LOGIN SET PASSWORD= :nepass WHERE ID_USUARIO =".$_SESSION['id_usuario']."");
-                $stmt->bindparam(":nepass", $nepass);
-                $stmt->execute();
-                $stmt = $conn->prepare("UPDATE USUARIOS SET NOMBRE=:fname, APELLIDO=:lname,CORREO=:mail,TELEFONO=:phone WHERE ID_USUARIO =".$_SESSION['id_usuario']."");
-                $stmt->bindparam(":fname", $fname);
-                $stmt->bindparam(":lname", $lname);
-                $stmt->bindparam(":mail", $mail);
-                $stmt->bindparam(":phone", $phone);
-                if($stmt->execute()){
-                    echo "<script>alert('Datos Guardados Exitosamente')</script>";
-                    echo 'location.reload();';
-                }
+                $querys->newpass($nepass);
+                $querys->user_edit($fname,$lname,$mail,$phone);
             }else echo "<script>alert('Contraseña Incorrecta')</script>";
         } catch (Exception $e) {
             echo "<script>alert('Error')</script>";

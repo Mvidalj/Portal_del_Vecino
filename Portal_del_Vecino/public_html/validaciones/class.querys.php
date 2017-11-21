@@ -536,7 +536,7 @@
             if ($userRow = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $active= $userRow['ACTIVO'];
                 if ($active == '0'){
-                    echo '<script>alert("por favor verifique su correo para acceder al portal");window.location.href="home.php";</script>';
+                    echo '<script>alert("por favor verifique su correo para acceder al portal");window.location.href="../../home.php";</script>';
                 }
             }
         }

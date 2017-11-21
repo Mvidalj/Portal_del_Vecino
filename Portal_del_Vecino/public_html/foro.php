@@ -5,15 +5,7 @@
     {
         $user->Redirect('index.php');
     }
-    $stmt = $conn->prepare("SELECT * FROM login WHERE ID_USUARIO = :id LIMIT 1");
-    $stmt->bindparam(":id", $_SESSION["id_usuario"]);
-    $stmt->execute();
-    if ($userRow = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $active= $userRow['ACTIVO'];
-        if ($active == '0'){
-        echo '<script>alert("por favor verifique su correo para acceder al portal");window.location.href="home.php";</script>';
-        }
-    }
+    $querys->Active();
 ?>
 <html>
 <head>
